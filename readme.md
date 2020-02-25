@@ -56,7 +56,7 @@ These are the instructions to follow to set up the project on your local environ
 
 # Accessing services
 
-- **Web**: http://localhost:8083
+- **Web**: http://localhost:8743
 
 - **DB**: enter in the container of mongo and run:
 
