@@ -17,7 +17,8 @@ services:
       context: ./
       dockerfile: app-dev.dockerfile
       args:
-        - USER=$USER
+        - USER=${USER}
+        - UID=${UID}
     volumes:
       - ./:/var/www
       - ./custom.d:/usr/local/etc/php/custom.d

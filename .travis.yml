@@ -1,0 +1,23 @@
+language: php
+
+php:
+  - 7.4
+
+services:
+  - docker
+
+before_script:
+  - cp .env.example .env
+  - export UID
+  - docker-compose -f docker-compose.dev.yml up --build -d
+  - docker exec -it sendy_app id # check container user id
+  - docker exec -it sendy_app composer install
+  - docker exec -it sendy_app php artisan key:generate
+  - docker exec -it sendy_app bash -c "php artisan migrate --seed --no-interaction"
+  - docker exec -it sendy_app bash -c "php artisan passport:install"
+
+script:
+  - docker exec -it sendy_app bash -c "vendor/bin/phpunit --coverage-clover=coverage.xml"
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -t 2f85684f-dd57-4e0e-8956-e04988f9259e
