@@ -1,0 +1,5 @@
+---
+
+- include: checkout-local-project.yml
+
+- include: deploy.yml

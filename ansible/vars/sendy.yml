@@ -1,0 +1,10 @@
+db_name: "sendy"
+db_username: "{{lookup('env','MONGO_INITDB_ROOT_USERNAME')}}"
+db_password: "{{lookup('env','MONGO_INITDB_ROOT_PASSWORD')}}"
+
+project_url: sendy.zanichelli.it
+
+deploy_path: "/home/{{ remote_user }}/sendy"
+
+app_docker: "sendy_app"
+db_host: "mongodb"
