@@ -1,0 +1,59 @@
+version: '2'
+services:
+    web:
+        build:
+            context: ./
+            dockerfile: web-prod.dockerfile
+        container_name: sendy_web
+        volumes:
+            - app:/var/www
+        ports:
+            - "8743:443"
+        links:
+            - app
+        restart: always
+        networks:
+          - default
+    app:
+        build:
+            context: ./
+            dockerfile: app-prod.dockerfile
+        container_name: sendy_app
+        volumes:
+            - app:/var/www
+            - appStorage:/var/www/storage
+            - appVendor:/var/www/vendor
+        environment:
+            - "DB_HOST=mongodb"
+            - "DB_PORT=27017"
+        restart: always
+        networks:
+          - default
+        depends_on:
+          - mongodb
+    mongodb:
+        image: mongo:latest
+        container_name: sendy_mongo
+        environment:
+            - "MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}"
+            - "MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}"
+            - "MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}"
+        volumes:
+            - appMongo:/data/db
+        ports:
+            - "27017:27017"
+        networks:
+          - default
+volumes:
+    app:
+    appStorage:
+    appVendor:
+    appMongo:
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
+

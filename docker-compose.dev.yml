@@ -1,0 +1,42 @@
+version: '2'
+services:
+    web:
+        container_name: sendy_web
+        build:
+            context: ./
+            dockerfile: web.dockerfile
+        volumes:
+            - ./:/var/www
+        ports:
+            - "8083:80"
+        links:
+            - app
+    app:
+        container_name: sendy_app
+        build:
+           context: ./
+           dockerfile: app-dev.dockerfile
+           args:
+               - USER=$USER
+        volumes:
+            - ./:/var/www
+            - ./custom.d:/usr/local/etc/php/custom.d
+        environment:
+            - "DB_HOST=mongodb"
+            - "DB_PORT=27017"
+            - "PHP_INI_SCAN_DIR=/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
+        links:
+            - mongodb
+        depends_on:
+            - mongodb
+    mongodb:
+        image: mongo:latest
+        container_name: sendy_mongo
+        environment:
+            - "MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}"
+            - "MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}"
+            - "MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}"
+        volumes:
+            - ./data/db:/data/db
+        ports:
+            - "27017:27017"
