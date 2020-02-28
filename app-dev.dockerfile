@@ -2,9 +2,8 @@ FROM php:7-fpm
 
 ARG USER
 
-RUN apt-get update && apt-get install -y procps libmcrypt-dev openssl zip unzip git libpng-dev libjpeg62-turbo-dev libgd-dev apt-utils libcurl4-openssl-dev pkg-config libssl-dev vim \
-    && docker-php-ext-configure gd \
-    && docker-php-ext-install gd \
+RUN apt-get update && apt-get install -y procps libmcrypt-dev openssl zip unzip git libfreetype6-dev libjpeg62-turbo-dev libgd-dev libpng-dev apt-utils libcurl4-openssl-dev pkg-config libssl-dev vim \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && pecl install xdebug\
     && docker-php-ext-enable xdebug \
     && pecl install mongodb \
