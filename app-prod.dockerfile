@@ -1,7 +1,7 @@
-FROM php:7.3-fpm
+FROM php:7-fpm
 
 RUN apt-get update && apt-get install -y procps libmcrypt-dev openssl zip unzip git libpng-dev libjpeg62-turbo-dev libgd-dev apt-utils libcurl4-openssl-dev pkg-config libssl-dev vim \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd \
     && docker-php-ext-install gd \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb
