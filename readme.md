@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/ZanichelliEditore/sendy.svg?branch=master)](https://travis-ci.org/ZanichelliEditore/sendy)
+[![codecov](https://codecov.io/gh/ZanichelliEditore/sendy/branch/master/graph/badge.svg)](https://codecov.io/gh/ZanichelliEditore/sendy)
+
 # About the project
 
 This service is used to send emails.
