@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Email;
 use App\Jobs\EmailSender;
 use App\Mail\CustomEmail;
-use App\Models\Email;
+use Illuminate\Support\Str;
 use App\Http\Requests\EmailRequest;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class EmailController extends Controller
 {
