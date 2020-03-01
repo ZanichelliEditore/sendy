@@ -57,7 +57,7 @@ class EmailController extends Controller
         $body = $request->input('body');
         $attachments = $request->file('attachments');
         $attachmentsDirectory = null;
-        if ($attachments) {
+        if (!empty($attachments)) {
             $attachmentsDirectory = $this->saveAttachments($attachments);
             if (!$attachmentsDirectory) {
                 return response([
@@ -87,22 +87,19 @@ class EmailController extends Controller
      */
     private function saveAttachments($data)
     {
-        if (empty($data)) {
-            return null;
-        }
-
-        $filesToSave = is_array($data) ? $data : [$data];
 
         $size = 0;
-        foreach ($filesToSave as $file) {
+
+        foreach ($data as $file) {
             $size += $file->getSize();
         }
+
         if ($size > 26214400) {
             return false;
         }
 
         $directoryName = Str::random(20);
-        foreach ($filesToSave as $file) {
+        foreach ($data as $file) {
             Storage::putFileAs('attachments/' . $directoryName, $file, $file->getClientOriginalName());
         }
 

@@ -21,7 +21,8 @@ class EmailRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             'to' => 'required|array|min:1',
             'to.*' => 'required|email',
@@ -32,6 +33,7 @@ class EmailRequest extends FormRequest
             'from' => 'required|email',
             'subject' => 'sometimes|string|max:100|nullable',
             'body' => 'sometimes|string|nullable',
+            "attachments" => 'sometimes|array',
             'attachments.*' => 'required|file|max:25600'
         ];
     }
