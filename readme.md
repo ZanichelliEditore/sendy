@@ -81,9 +81,9 @@ or if you want to see the tests coverage:
 
 ## Appendix
 
-- **Web**: the application server will run in http://localhost:8083
+- **Web:** the application server will run in http://localhost:8083
 
-- **Database**: sendy uses MongoDB as database to store both credentials and jobs for the email.
+- **Database:** sendy uses MongoDB as database to store both credentials and jobs for the email.
 
   You can query the database using the container of mongo and enter as verified user:
 
@@ -107,3 +107,13 @@ or if you want to see the tests coverage:
         show collections # show db collections
         db.emails.find() # select all documents in email collection
   ```
+
+- **Docker:** the project provides useful shortcut commands to interact with docker.
+  All the commands are created inside the `Makefile`.
+  List all command using helper:
+
+        make help
+
+  By default the make command will launch development environment; anyway you can overwrite the env setting using production:
+
+        make build ENV=prod
