@@ -45,21 +45,6 @@ abstract class BaseEmail extends Mailable
     }
 
     /**
-     * Set the subject for the message.
-     *
-     * @param  \Illuminate\Mail\Message  $message
-     * @return $this
-     */
-    protected function buildSubject($message)
-    {
-        if ($this->subject) {
-            $message->subject($this->subject);
-        }
-
-        return $this;
-    }
-
-    /**
      * Get email to send
      *
      * @return Email
@@ -75,5 +60,4 @@ abstract class BaseEmail extends Mailable
      * @return string
      */
     protected abstract function useView();
-
 }
