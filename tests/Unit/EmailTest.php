@@ -25,19 +25,6 @@ class EmailTest extends TestCase
     }
 
     /**
-     * Return field from array
-     *
-     * @param array $emailField
-     * @return array
-     */
-    private function mapEmailObject($emailField)
-    {
-        return array_map(function ($m) {
-            return $m['address'];
-        }, $emailField);
-    }
-
-    /**
      * @test
      * @return void
      */
@@ -55,10 +42,13 @@ class EmailTest extends TestCase
             $email->build();
             $mailArray = $objectMail->getEmail();
 
-            return $this->mapEmailObject($email->to) === $mailArray->getTo() &&
-                $this->mapEmailObject($email->cc) === $mailArray->getCc() &&
-                $this->mapEmailObject($email->bcc) === $mailArray->getBcc() &&
-                $this->mapEmailObject($email->from) === [$mailArray->getFrom()];
+            return
+                $email->hasTo($mailArray->getTo()) &&
+                $email->hasCc($mailArray->getCc()) &&
+                $email->hasBcc($mailArray->getBcc()) &&
+                $email->hasFrom($mailArray->getFrom()) &&
+                $email->subject == $mailArray->getSubject() &&
+                $email->viewData['body'] == $mailArray->getBody();
         });
     }
 
@@ -69,21 +59,19 @@ class EmailTest extends TestCase
     public function sendEmailWithAttachment()
     {
         Mail::fake();
-        Storage::fake('local');
 
-        Storage::put('attachments/Fake_directory/test.txt', 'hello');
-        // dd(Storage::allFiles());
+        $fakeFile = 'attachments/Fake_directory/file.txt';
+        Storage::shouldReceive('files')->andReturn([$fakeFile]);
+        Storage::shouldReceive('deleteDirectory');
+
         $mail = $this->createEmail(true);
         $objectMail = new CustomEmail($mail);
         EmailSender::dispatch($objectMail);
-        Mail::assertSent(CustomEmail::class, function ($email) use ($objectMail) {
+        Mail::assertSent(CustomEmail::class, function ($email) use ($objectMail, $fakeFile) {
             $email->build();
-            $mailArray = $objectMail->getEmail();
 
-            return $this->mapEmailObject($email->to) === $mailArray->getTo() &&
-                $this->mapEmailObject($email->cc) === $mailArray->getCc() &&
-                $this->mapEmailObject($email->bcc) === $mailArray->getBcc() &&
-                $this->mapEmailObject($email->from) === [$mailArray->getFrom()];
+            return $email->diskAttachments[0]['path'] == $fakeFile &&
+                $email->diskAttachments[0]['name'] == basename($fakeFile);
         });
     }
 }
