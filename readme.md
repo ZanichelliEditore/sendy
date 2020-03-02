@@ -16,6 +16,7 @@ See deployment for notes on how to deploy the project on a live system.
 - [Installing](#installing)
 - [Testing](#testing)
 - [Deployment](#deployment)
+- [Usage](#usage)
 - [Appendix](#appendix)
 
 ## Prerequisites
@@ -79,9 +80,103 @@ or if you want to see the tests coverage:
 
         vendor/bin/phpunit --coverage-html tmp/coverage
 
+## Deployment
+
+## Usage
+
+After the application has been deployed in one server and it became reachable through an endpoint, you can call the sendy api passin your data and authenticating through OAuth2 system.
+Below there are some example in different languages:
+
+### PHP
+
+---
+
+We will use [GuzzleHttp](http://docs.guzzlephp.org/en/stable/) to make easier http requests.
+
+Retrieve the token for Oauth2 authentication:
+
+```php
+
+$client = new GuzzleHttp\Client();
+$response = $client->post('https://sendyurl.com/oauth/token', [
+            'form_params' => [
+                'grant_type' => 'client_credentials',
+                'client_id' => env('CLIENT_ID'),
+                'client_secret' => env('CLIENT_SECRET'),
+                'scope' => '',
+            ],
+        ]);
+
+$token = json_decode((string) $response->getBody(), true)['access_token'];
+```
+
+then call the api using the Bearer token:
+
+```php
+$res = $client->request('POST', 'https://sendyurl.com/api/v1/emails',
+            [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $token,
+                ],
+                'body' => json_encode(
+                    [
+                        'to' => [
+                            'email@example.com'
+                        ],
+                        'from' => 'origin@example.com',
+                        'subject' => 'Test',
+                        'body' => $body
+
+                    ]
+                )
+            ]);
+return json_decode((string) $response->getBody(), true)['message'];
+```
+
+### Python
+
+---
+
+The most used library to call api is [`requests`](https://pypi.org/project/requests/).
+About oauth2 authentication there are several libraries, the most used are [`requests_oauthlib`](https://pypi.org/project/requests-oauthlib/) and [`oauthlib`](https://pypi.org/project/oauthlib/).
+
+```python
+import requests
+from requests_oauthlib import OAuth2
+
+auth = OAuth2(
+    <client_id>,
+    token={
+        'access_token': <access_token>,
+        'token_type': 'Bearer'
+    }
+)
+
+params = {
+    'to': [
+        'email@example.com'
+    ],
+    'from': 'origin@example.com',
+    'subject': 'Test',
+    'body': body
+}
+res = requests.post("https://sendyurl.com/api/v1/emails", params=params auth=auth)
+if res.status_code != 200:
+    # Failure status
+
+data = res.json # get data as object using attribute .json
+```
+
+---
+
 ## Appendix
 
-- **Web:** the application server will run in http://localhost:8083
+- **Web:**
+
+  - the application server will run in http://localhost:8083
+  - the documentation will be automatically generated in http://localhost:8083/documentation
 
 - **Database:** sendy uses MongoDB as database to store both credentials and jobs for the email.
 
@@ -100,12 +195,11 @@ or if you want to see the tests coverage:
   Other mongo utils commands:
 
   ```php
-        show dbs # show existing databases
+  show dbs # show existing databases
+  use DBNAME # select database
 
-        use DBNAME # select database
-
-        show collections # show db collections
-        db.emails.find() # select all documents in email collection
+  show collections # show db collections
+  db.emails.find() # select all documents in email collection
   ```
 
 - **Docker:** the project provides useful shortcut commands to interact with docker.
