@@ -6,7 +6,7 @@ dc-php7-prod ansible_user=root ansible_ssh_private_key_file=/var/jenkins_home/.s
 
 
 #this makes ansible use the group vars defines in the group_vars/local.yml file
-[staging:children]
+[production:children]
 webservers
 sendy
 

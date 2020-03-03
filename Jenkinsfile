@@ -10,7 +10,7 @@ pipeline {
             environment {
 
                 ANSIBLE_PLAYBOOK_PATH = "$WORKSPACE/ansible/playbook.yml"
-                ANSIBLE_INVENTORY_PATH = "$WORKSPACE/ansible/inventory/staging.inv"
+                ANSIBLE_INVENTORY_PATH = "$WORKSPACE/ansible/inventory/production.inv"
                 BRANCH_NAME = "master"
 
                 MONGO_INITDB_DATABASE = "sendy"
