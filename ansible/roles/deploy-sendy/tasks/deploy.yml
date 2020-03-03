@@ -33,29 +33,25 @@
     delete: no
     recursive: yes
     rsync_opts:
-     - '-v'
-     - '--exclude=*.git'
-     - '--exclude=.git*'
-     - '--include=*'
+      - "-v"
+      - "--exclude=*.git"
+      - "--exclude=.git*"
+      - "--include=*"
 
 - name: Copy across new env file for the laravel app
-  template:
-    src=.env.j2
+  template: src=.env.j2
     dest={{ deploy_path }}/.env
 
 - name: Copy across new cert file 1
-  template:
-    src=star_zanichelli_it.crt
-    dest={{ deploy_path }}/certs/star_zanichelli_it.crt
+  template: src=star_certificate.crt
+    dest={{ deploy_path }}/certs/star_certificate.crt
 
 - name: Copy across new cert file 2
-  template:
-    src=star_zanichelli_it.key
-    dest={{ deploy_path }}/certs/star_zanichelli_it.key
+  template: src=star_certificate.key
+    dest={{ deploy_path }}/certs/star_certificate.key
 
 - name: Copy across new auth file for composer
-  template:
-    src=auth.json
+  template: src=auth.json
     dest={{ deploy_path }}/auth.json
 
 - name: adding existing user 'root' to group docker
@@ -88,11 +84,10 @@
 - name: Run composer install
   command: "docker exec sendy_app composer install"
   notify:
-     - remove auth.json
+    - remove auth.json
 
 - name: Test images
   command: "docker ps"
 
 - name: Run migrations
   command: "docker exec sendy_app php artisan migrate --force"
-

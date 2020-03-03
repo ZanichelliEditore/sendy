@@ -26,8 +26,8 @@ pipeline {
                     file(credentialsId: 'certificate_zanichelli', variable: 'certificate'),
                     file(credentialsId: 'key_zanichelli', variable: 'key')
                 ]) {
-                    sh "cp -n \$certificate $WORKSPACE/ansible/roles/deploy-sendy/templates/star_zanichelli_it.crt"
-                    sh "cp -n \$key $WORKSPACE/ansible/roles/deploy-sendy/templates/star_zanichelli_it.key"
+                    sh "cp -n \$certificate $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.crt"
+                    sh "cp -n \$key $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.key"
                 }
 
                 ansiColor('xterm') {
