@@ -48,39 +48,69 @@ All the installation steps have to be executed inside docker app container since
 
 1.  Git clone the repository into your folder.
 
-        git clone https://github.com/ZanichelliEditore/sendy.git
+    git clone https://github.com/ZanichelliEditore/sendy.git
 
 2)  Copy env.example to .env
 
 3)  Start the containers and enter into the container app:
 
-        docker-compose --file docker-compose.dev.yml up -d
-        docker exec -it sendy_app bash
+    docker-compose --file docker-compose.dev.yml up -d
+    docker exec -it sendy_app bash
 
 4)  Install the required dependencies with composer
 
-        composer install
+    composer install
 
 5)  Generate a random application key
 
-        php artisan key:generate
+    php artisan key:generate
 
 6)  Generate passport credentials
 
-        php artisan passport:install
+    php artisan passport:install
 
 ## Testing
 
 The project provides phpunit tests that can be launched using inside the container.
 Verify project integrity launching tests (inside the container):
 
-        vendor/bin/phpunit tests
+    vendor/bin/phpunit tests
 
 or if you want to see the tests coverage:
 
-        vendor/bin/phpunit --coverage-html tmp/coverage
+    vendor/bin/phpunit --coverage-html tmp/coverage
 
 ## Deployment
+
+In order to define a production environment, we provide specific docker files and Ansible with Jenkins to define a process of a Continuous Deployment.
+
+In production environment has to be set ssl certificates and the environment your project will use; edit the following files defining the right setup for your application:
+
+- [ngnix-prod-conf](vhost.prod.conf), edit lines 8-9:
+
+```
+    ssl_certificate <your-certificate-file>;
+    ssl_certificate_key <your-certificate-key-file>;
+```
+
+- [jenkinsfile](Jenkinsfile), set environment credentials; edit lines 16-19 and 26-28:
+
+```php
+    MONGO_INITDB_DATABASE = "sendy"
+    MONGO_INITDB_ROOT_USERNAME = <username>
+    MONGO_INITDB_ROOT_PASSWORD = credentials(<mongo_pwd>)
+    ...
+    ..credentialsId: <certificate>..
+    ..credentialsId: <certificate_key>..
+```
+
+- [inventory](ansible/inventory/production.inv), create a ~/.ssh/config file (into the server) and define the host as named in the inventory, `dc-php-prod`, e.g.:
+
+```
+Host dc-php7-prod
+    HostName <ip-host>
+    User <user>
+```
 
 ## Usage
 
