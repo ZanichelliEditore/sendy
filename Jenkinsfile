@@ -23,13 +23,11 @@ pipeline {
                 echo 'deploy with ansible...'
 
                 withCredentials([
-                    file(credentialsId: 'auth_json', variable: 'auth'),
                     file(credentialsId: 'certificate_zanichelli', variable: 'certificate'),
                     file(credentialsId: 'key_zanichelli', variable: 'key')
                 ]) {
                     sh "cp -n \$certificate $WORKSPACE/ansible/roles/deploy-sendy/templates/star_zanichelli_it.crt"
                     sh "cp -n \$key $WORKSPACE/ansible/roles/deploy-sendy/templates/star_zanichelli_it.key"
-                    sh "cp -n \$auth $WORKSPACE/ansible/roles/deploy-sendy/templates/auth.json"
                 }
 
                 ansiColor('xterm') {
