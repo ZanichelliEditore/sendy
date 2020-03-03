@@ -174,13 +174,25 @@ About oauth2 authentication there are several libraries, the most used are [`req
 
 ```python
 import requests
-from requests_oauthlib import OAuth2
+from requests_oauthlib import OAuth2, OAuth2Session
+from oauthlib.oauth2 import BackendApplicationClient
+
+
+client_id = <client_id>
+client_secret = <client_secret>
+authorization_base_url = "https://sendyurl/oauth/auth"
+token_url = 'https://sendyurl/oauth/token'
+
+client = BackendApplicationClient(client_id=client_id)
+oauth = OAuth2Session(client=client)
+token = oauth.fetch_token(token_url=token_url, client_id=client_id,
+        client_secret=client_secret)
 
 auth = OAuth2(
-    <client_id>,
+    client_id,
     token={
-        'access_token': <access_token>,
-        'token_type': 'Bearer'
+        'access_token': token['access_token'],
+        'token_type': token['token_type'] # Bearer
     }
 )
 
@@ -192,11 +204,12 @@ params = {
     'subject': 'Test',
     'body': body
 }
-res = requests.post("https://sendyurl.com/api/v1/emails", params=params auth=auth)
+headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
+res = requests.post("https://sendyurl.com/api/v1/emails", headers=headers, json=params, auth=auth)
 if res.status_code != 200:
     # Failure status
 
-data = res.json # get data as object using attribute .json
+data = res.json # get data as object using attribute .json, or use r.content
 ```
 
 ---
