@@ -12,8 +12,9 @@ The project uses Docker systems to setup the environment and are provided docker
 See deployment for notes on how to deploy the project on a live system.
 
 - [Prerequisites](#prerequisites)
-- [Application Setup](#application-setup)
 - [Installing](#installing)
+- [Configure](#Configure)
+- [Application Setup](#application-setup)
 - [Testing](#testing)
 - [Deployment](#deployment)
 - [Usage](#usage)
@@ -25,6 +26,41 @@ See deployment for notes on how to deploy the project on a live system.
 - [Docker Compose](https://docs.docker.com/compose/)
 
 # Application Setup
+
+# Installing
+
+Steps from 4 to 6 have to be executed inside docker app container since it represents our project environment.
+
+1.  Git clone the repository into your folder.
+
+    git clone https://github.com/ZanichelliEditore/sendy.git
+
+2.  Copy env.example to .env
+
+3.  Start the containers and enter into the container app:
+
+    docker-compose --file docker-compose.dev.yml up -d
+    docker exec -it sendy_app bash
+
+4.  Install the required dependencies with composer
+
+    composer install
+
+5.  Generate a random application key
+
+    php artisan key:generate
+
+6.  Generate passport credentials
+
+    php artisan passport:install
+
+7.  Activate queue worker
+
+    php artisan queue:work
+
+## Configure
+
+By default email are logged into /storage/logs/laravel-day.log. To configure your SMTP server follow this guide https://laravel.com/docs/7.x/mail
 
 ## Docker: Starting and stopping containers
 
@@ -41,33 +77,6 @@ To **stop** the containers, use instead:
 **_Notes:_** _In this case the `--file` parameter is mandatory because the default docker-compose filename has been changed._
 
 _Launch `--file docker-compose.prod.yml` to run in production mode._
-
-# Installing
-
-All the installation steps have to be executed inside docker app container since it represents our project environment.
-
-1.  Git clone the repository into your folder.
-
-    git clone https://github.com/ZanichelliEditore/sendy.git
-
-2)  Copy env.example to .env
-
-3)  Start the containers and enter into the container app:
-
-    docker-compose --file docker-compose.dev.yml up -d
-    docker exec -it sendy_app bash
-
-4)  Install the required dependencies with composer
-
-    composer install
-
-5)  Generate a random application key
-
-    php artisan key:generate
-
-6)  Generate passport credentials
-
-    php artisan passport:install
 
 ## Testing
 
@@ -180,8 +189,7 @@ from oauthlib.oauth2 import BackendApplicationClient
 
 client_id = <client_id>
 client_secret = <client_secret>
-authorization_base_url = "https://sendyurl/oauth/auth"
-token_url = 'https://sendyurl/oauth/token'
+token_url = 'https://sendyurl.com/oauth/token'
 
 client = BackendApplicationClient(client_id=client_id)
 oauth = OAuth2Session(client=client)
