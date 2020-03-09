@@ -1,0 +1,93 @@
+---
+# Deployment of the opzioni application
+- name: create base deploy path folder
+  become: yes
+  file: >
+    path={{ deploy_path }}
+    state=directory
+    group={{ remote_user }}
+    owner={{ remote_user }}
+
+- name: create certs folder
+  become: yes
+  file: >
+    path="{{ deploy_path }}/certs"
+    state=directory
+    group={{ remote_user }}
+    owner={{ remote_user }}
+
+- name: create .composer folder
+  become: no
+  file: >
+    path="~/.composer"
+    state=directory
+    group={{ remote_user }}
+    owner={{ remote_user }}
+
+- name: synchronize files to Zanichelli application folder
+  synchronize:
+    src: src/
+    dest: "{{ deploy_path }}"
+    checksum: yes
+    archive: no
+    delete: no
+    recursive: yes
+    rsync_opts:
+      - "-v"
+      - "--exclude=*.git"
+      - "--exclude=.git*"
+      - "--include=*"
+
+- name: Copy across new env file for the laravel app
+  template: src=.env.j2
+    dest={{ deploy_path }}/.env
+
+- name: Copy across new cert file 1
+  template: src=star_certificate.crt
+    dest={{ deploy_path }}/certs/star_certificate.crt
+
+- name: Copy across new cert file 2
+  template: src=star_certificate.key
+    dest={{ deploy_path }}/certs/star_certificate.key
+
+- name: Copy across new auth file for composer
+  template: src=auth.json
+    dest={{ deploy_path }}/auth.json
+
+- name: adding existing user 'root' to group docker
+  become: yes
+  user:
+    name: "{{ remote_user }}"
+    groups: docker
+    append: yes
+
+- name: reset connection for user ubuntu
+  meta: reset_connection
+
+- name: Remove the containers
+  args:
+    chdir: "{{ deploy_path }}"
+  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml down"
+  ignore_errors: yes
+
+- name: Remove app volume
+  args:
+    chdir: "{{ deploy_path }}"
+  command: "/usr/bin/docker volume rm sendy_app"
+  ignore_errors: yes
+
+- name: Start and rebuild the containers
+  args:
+    chdir: "{{ deploy_path }}"
+  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
+
+- name: Run composer install
+  command: "docker exec sendy_app composer install"
+  notify:
+    - remove auth.json
+
+- name: Test images
+  command: "docker ps"
+
+- name: Run migrations
+  command: "docker exec sendy_app php artisan migrate --force"

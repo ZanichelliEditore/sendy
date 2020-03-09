@@ -43,7 +43,7 @@ class EmailTest extends TestCase
             'from'      => 'test@email.it',
             'subject'   => 'oggetto',
             'body'      => 'corpo del messaggio',
-            'attachments' => UploadedFile::fake()->image('photo1.jpg'),
+            'attachments' => [UploadedFile::fake()->image('photo1.jpg')],
         ];
     }
 
@@ -51,7 +51,7 @@ class EmailTest extends TestCase
      * @test
      * @return void
      */
-    public function testSendEmailSuccessfully()
+    public function sendEmailSuccessfully()
     {
         Bus::fake();
         Storage::fake('local');
@@ -368,8 +368,9 @@ class EmailTest extends TestCase
     {
         Bus::fake();
         Storage::fake('local');
+        // Array attachments
         $email = $this->getEmail();
-        $email['attachments'] = UploadedFile::fake()->create('test.jpg', '30600');
+        $email['attachments'] = UploadedFile::fake()->create('test.jpg', '10600');
 
         $response = $this->json('POST', '/api/v1/emails', $email);
         $this->assertEquals(422, $response->status());
@@ -381,6 +382,7 @@ class EmailTest extends TestCase
 
         Bus::assertNotDispatched(EmailSender::class);
 
+        // File too big
         $email = $this->getEmail();
         $email['attachments'] = [UploadedFile::fake()->create('test.jpg', '30600')];
 
@@ -393,6 +395,7 @@ class EmailTest extends TestCase
         ]);
         Bus::assertNotDispatched(EmailSender::class);
 
+        // File has to be an attachment
         $email = $this->getEmail();
         $email['attachments'] = ['test'];
 
@@ -406,6 +409,7 @@ class EmailTest extends TestCase
 
         Bus::assertNotDispatched(EmailSender::class);
 
+        // More files too big
         $email = $this->getEmail();
         $email['attachments'] = [UploadedFile::fake()->create('test.jpg', '15600'), UploadedFile::fake()->create('test.jpg', '15600')];
 
@@ -428,7 +432,7 @@ class EmailTest extends TestCase
         Bus::fake();
         Storage::fake('local');
         $email = $this->getEmail();
-        $email['attachments'] = UploadedFile::fake()->create('test.jpg', '15600');
+        $email['attachments'] = [UploadedFile::fake()->create('test.jpg', '15600')];
 
         $response = $this->json('POST', '/api/v1/emails', $email);
         $this->assertEquals(200, $response->status());
@@ -444,7 +448,7 @@ class EmailTest extends TestCase
         });
 
         $email = $this->getEmail();
-        $email['attachments'] = [UploadedFile::fake()->create('test.jpg', '12600')];
+        $email['attachments'] = [UploadedFile::fake()->create('test.jpg', '0')];
 
         $response = $this->json('POST', '/api/v1/emails', $email);
         $this->assertEquals(200, $response->status());

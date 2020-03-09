@@ -17,13 +17,15 @@ rebuild:                          ## Rebuild and turn on container services
 	docker-compose --file docker-compose.$(ENV).yml up -d --build
 shell:                            ## Open a shell con container app
 	docker exec -it $(PROJECT)_app bash
-shell_mongo:                            ## Open a shell con container app
+shell_mongo:                      ## Open a shell con container app
 	docker exec -it $(PROJECT)_mongo bash
-composer_install:                  ## Execute composer install
+composer_install:                 ## Execute composer install
 	docker exec -it $(PROJECT)_app composer install
 composer_update:                  ## Execute composer update
 	docker exec -it $(PROJECT)_app composer update
 run_tests:                        ## Execute phpunit
 	docker exec -it $(PROJECT)_app vendor/bin/phpunit
+run_tests_coverage:               ## Execute coverage phpunit
+	docker exec $(PROJECT)_app vendor/bin/phpunit --coverage-html tmp/coverage
 
 .DEFAULT_GOAL := help
