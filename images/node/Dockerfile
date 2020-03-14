@@ -1,5 +1,6 @@
 FROM node:10.16-alpine
 
+RUN npm config set unsafe-perm true
 RUN npm install -g yarn
 RUN npm install -g nodemon
 RUN npm install -g lodash-cli
