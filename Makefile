@@ -15,6 +15,12 @@ build:                            ## Build container images
 	docker-compose --file docker-compose.$(ENV).yml build
 rebuild:                          ## Rebuild and turn on container services
 	docker-compose --file docker-compose.$(ENV).yml up -d --build
+npm_watch:                        ## Execute npm run watch
+	docker-compose --file docker-compose.$(ENV).yml run --rm nodejs npm run watch
+npm_run:                          ## Execute npm run (prod or dev based on ENV param)
+	docker-compose --file docker-compose.$(ENV).yml run --rm nodejs npm run $(ENV)
+npm_install:                      ## Execute npm install package [use PACKAGE=<packageName>]
+	docker-compose --file docker-compose.$(ENV).yml run --rm nodejs npm install $(PACKAGE)
 shell:                            ## Open a shell con container app
 	docker exec -it $(PROJECT)_app bash
 shell_mongo:                      ## Open a shell con container app

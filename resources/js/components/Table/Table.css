@@ -1,0 +1,33 @@
+.pointer {
+    cursor: pointer;
+}
+.cell {
+    cursor: cell;
+}
+table {
+    table-layout: fixed;
+}
+th {
+    word-wrap: break-word;
+}
+.small_column {
+    width: 46px;
+    max-width: 46px;
+}
+.medium_column {
+    width: 125px;
+    max-width: 125px;
+    min-width: 90px;
+}
+.large_column {
+    width: 350px;
+    max-width: 600px;
+}
+.italic {
+    font-style: italic;
+    color: grey;
+}
+
+td, th {
+    vertical-align: middle !important;
+}

@@ -30,6 +30,14 @@ services:
       - mongodb
     depends_on:
       - mongodb
+  nodejs:
+    build:
+      context: images/node
+      args:
+        - USER=${USER}
+    container_name: sendy_nodejs
+    volumes:
+      - ./:/var/www/
   mongodb:
     image: mongo:latest
     container_name: sendy_mongo
