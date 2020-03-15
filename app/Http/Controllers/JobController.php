@@ -32,9 +32,7 @@ class JobController extends Controller
         // (Otherwise the result would be wrong if file doesn't end with a blank line)
         if (fread($f, 1) != "\n") $lines -= 1;
 
-        // Start reading
-        $output = '';
-        $chunk = '';
+        $output = $chunk = '';
 
         // // While we would like more
         while (ftell($f) > 0 && $lines >= 0) {
@@ -54,7 +52,6 @@ class JobController extends Controller
             $lines -= substr_count($chunk, "\n");
         }
 
-        // $output = str_replace("\n", "<br/>", $output);
         $output = explode("\n", $output);
 
         // Close file and return

@@ -18,6 +18,7 @@
     <body class="bg-white">
 
         <div id="app">
+            <header-nav></header-nav>
             @yield('body')
         </div>
 
