@@ -19,6 +19,7 @@
 
         <div id="app">
             <header-nav></header-nav>
+            <notification></notification>
             @yield('body')
         </div>
 

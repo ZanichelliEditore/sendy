@@ -11,5 +11,6 @@ Route::get('/failedJobs', function () {
     return view('failedJobs');
 })->name('failedJobs');
 
-
-Route::get('/jobs','JobController@getFile')->name('jobs');
+Route::get('/jobs', function () {
+    return view('jobs');
+})->name('jobs');

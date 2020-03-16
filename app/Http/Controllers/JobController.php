@@ -2,25 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Repositories\OAuthAccessTokenRepository;
 
 class JobController extends Controller
 {
-    public function __construct()
+
+    private $oauthAccessTokenRepository;
+
+    public function __construct(OAuthAccessTokenRepository $oauthAccessTokenRepository)
     {
+        $this->oauthAccessTokenRepository = $oauthAccessTokenRepository;
     }
 
+    /**
+     * @return Respone
+     */
     public function getFile()
     {
         $contentFile = $this->tail(storage_path('logs/scheduler.log'));
-        return view('Jobs', ['contentFile' => $contentFile]);
+        if (empty($contentFile)) {
+            return response()->json([], 204);
+        }
+        return response()->json(['contentFile' => $contentFile]);
     }
-    function tail($filename, $lines = 10, $buffer = 4096)
+
+    public function deleteLogs()
+    {
+        $resultCommand = Artisan::call('clear:log');
+        if ($resultCommand == 0) {
+            return response()->json();
+        } else {
+            return response()->error500(__('messages.DeleteLogError'));
+        }
+    }
+
+    public function deleteTokens()
+    {
+        $result = $this->oauthAccessTokenRepository->deleteOlder(Carbon::now()->format('Y-m-d\TH:i:s.u'));
+        if ($result >= 0) {
+            return response()->json(['cancelled' => $result]);
+        }
+        return response()->error500(__('messages.DeleteAccessTokenError'));
+    }
+
+    /**
+     * @param string $filename
+     * @param int $lines
+     * @param int $buffer
+     * @return array
+     */
+    private function tail($filename, $lines = 10, $buffer = 4096)
     {
         // Open the file
         $f = fopen($filename, "rb");
@@ -35,7 +68,7 @@ class JobController extends Controller
         $output = $chunk = '';
 
         // // While we would like more
-        while (ftell($f) > 0 && $lines >= 0) {
+        while (ftell($f) > 1 && $lines >= 0) {
             // Figure out how far back we should jump
             $seek = min(ftell($f), $buffer);
 
@@ -51,8 +84,9 @@ class JobController extends Controller
             // Decrease our line counter
             $lines -= substr_count($chunk, "\n");
         }
-
-        $output = explode("\n", $output);
+        if (!empty($output)){
+            $output = explode("\n", $output);
+        }
 
         // Close file and return
         fclose($f);
