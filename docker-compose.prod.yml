@@ -28,7 +28,6 @@ services:
       - app:/var/www
       - appStorage:/var/www/storage
       - appVendor:/var/www/vendor
-      - appNode:/var/www/node_modules
     environment:
       - "DB_HOST=mongodb"
       - "DB_PORT=27017"
@@ -60,25 +59,24 @@ services:
       options:
         max-size: 5m
         max-file: "3"
-  nodejs:
-    build:
-      context: images/node
-    container_name: sendy_nodejs
-    volumes:
-      - app:/var/www/
-    networks:
-      - default
-    logging:
-      driver: "json-file"
-      options:
-        max-size: 5m
-        max-file: "3"
+  # nodejs:
+  #   build:
+  #     context: images/node
+  #   container_name: sendy_nodejs
+  #   volumes:
+  #     - app:/var/www/
+  #   networks:
+  #     - default
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: 5m
+  #       max-file: "3"
 volumes:
   app:
   appStorage:
   appVendor:
   appMongo:
-  appNode:
 
 networks:
   default:
