@@ -50,10 +50,6 @@
   template: src=star_certificate.key
     dest={{ deploy_path }}/certs/star_certificate.key
 
-- name: Copy across new auth file for composer
-  template: src=auth.json
-    dest={{ deploy_path }}/auth.json
-
 - name: adding existing user 'root' to group docker
   become: yes
   user:
