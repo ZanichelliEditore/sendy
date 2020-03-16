@@ -72,9 +72,11 @@ export default {
         });
     },
     cleanLog() {
+        const vm = this;
         axios
-        .get(this.url + "/clean/log")
+        .get(vm.url + "/clean/log")
         .then(res => {
+            vm.fetchData();
             EventBus.$emit('newNotification', {
                     message: 'File di log cancellato correttamente',
                     type: 'SUCCESS'
