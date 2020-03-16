@@ -1,4 +1,4 @@
 - name: a git checkout that runs on local host
-  local_action: git repo=ssh://git@github.com:ZanichelliEditore/sendy.git dest=src version={{ checkout_branch }} accept_hostkey=yes
+  local_action: git repo=git@github.com:ZanichelliEditore/sendy.git dest=src version={{ checkout_branch }} accept_hostkey=yes
   become: false
   notify: remove local checkout
