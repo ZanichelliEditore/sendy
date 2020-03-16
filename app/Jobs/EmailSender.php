@@ -17,6 +17,20 @@ class EmailSender implements ShouldQueue
 
     private const QUEUE_NAME = 'emails';
 
+    /**
+     * The number of seconds to wait before retrying the job.
+     *
+     * @var int
+     */
+    public $retryAfter = 60;
+
+    /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 5;
+
     private $mailable;
     /**
      * Create a new job instance.
@@ -51,5 +65,4 @@ class EmailSender implements ShouldQueue
     {
         return $this->mailable;
     }
-
 }

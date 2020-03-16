@@ -5,7 +5,7 @@ namespace App\Models;
 /**
  * Class Email represents the email to send.
  * @package App\Models
- *
+ * 
  */
 class Email
 {
