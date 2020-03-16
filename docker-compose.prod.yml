@@ -14,6 +14,11 @@ services:
     restart: always
     networks:
       - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 5m
+        max-file: "3"
   app:
     build:
       context: ./
@@ -32,6 +37,11 @@ services:
       - default
     depends_on:
       - mongodb
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 5m
+        max-file: "3"
   mongodb:
     image: mongo:latest
     container_name: sendy_mongo
@@ -45,12 +55,22 @@ services:
       - "27017:27017"
     networks:
       - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 5m
+        max-file: "3"
   nodejs:
     build:
       context: images/node
     container_name: sendy_nodejs
     volumes:
       - app:/var/www/
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 5m
+        max-file: "3"
 volumes:
   app:
   appStorage:
