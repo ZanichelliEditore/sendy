@@ -34,7 +34,7 @@ pipeline {
                     ansiblePlaybook(
                         playbook: "${ANSIBLE_PLAYBOOK_PATH}",
                         inventory: "${ANSIBLE_INVENTORY_PATH}",
-                        extras: '--tags "deploy-sendy"',
+                        extras: '--tags "deploy-sendy" -vvv',
                         colorized: true)
                 }
             }
