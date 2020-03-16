@@ -28,6 +28,8 @@ class Kernel extends ConsoleKernel
                 ->everyMinute()
                 ->appendOutputTo(storage_path() . '/logs/scheduler.log');
         }
+        $schedule->command('clear:accessToken')->everyThirtyMinutes();
+        $schedule->command('clear:log')->everyThirtyMinutes();
     }
 
     /**
