@@ -46,9 +46,9 @@ services:
     image: mongo:latest
     container_name: sendy_mongo
     environment:
-      - "MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}"
-      - "MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}"
-      - "MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}"
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - appMongo:/data/db
     ports:
