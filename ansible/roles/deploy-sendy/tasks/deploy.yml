@@ -81,11 +81,11 @@
     chdir: "{{ deploy_path }}"
   command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
 
-- name: Install npm
-  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm install"
+# - name: Install npm
+#   command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm install"
 
-- name: Run npm
-  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm run prod"
+# - name: Run npm
+#   command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm run prod"
 
 - name: Run composer install
   command: "docker exec sendy_app composer install"

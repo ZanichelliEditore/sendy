@@ -59,12 +59,12 @@ services:
       options:
         max-size: 5m
         max-file: "3"
-  nodejs:
-    build:
-      context: images/node
-    container_name: sendy_nodejs
-    volumes:
-      - app:/var/www/
+  # nodejs:
+  #   build:
+  #     context: images/node
+  #   container_name: sendy_nodejs
+  #   volumes:
+  #     - app:/var/www/
 volumes:
   app:
   appStorage:
