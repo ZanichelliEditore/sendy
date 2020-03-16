@@ -23,9 +23,15 @@ Vue.use(BootstrapVue);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component("zani-table", require("./components/Table/Table.vue").default);
+Vue.component("base-modal", require("./components/BaseModal/BaseModal.vue").default);
+Vue.component("header-nav", require("./components/HeaderNav/HeaderNav.vue").default);
 Vue.component(
-  "base-modal",
-  require("./components/BaseModal/BaseModal.vue").default
+  "notification",
+  require("./components/Notification/Notification.vue").default
+);
+Vue.component(
+  "handle-jobs",
+  require("./components/HandleJobs/HandleJobs.vue").default
 );
 
 /**

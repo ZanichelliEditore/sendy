@@ -13,3 +13,9 @@ Route::prefix('failedJobs')->group(function () {
     Route::get('retry/{id}', 'FailedJobController@retryJob');
     Route::get('retry/all', 'FailedJobController@retryAll');
 });
+
+Route::prefix('jobs')->group(function () {
+    Route::get('/', 'JobController@getFile');
+    Route::get('clean/log', 'JobController@deleteLogs');
+    Route::get('clean/access-token', 'JobController@deleteTokens');
+});

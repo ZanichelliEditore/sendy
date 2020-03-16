@@ -10,3 +10,7 @@ Route::get('/', function () {
 Route::get('/failedJobs', function () {
     return view('failedJobs');
 })->name('failedJobs');
+
+Route::get('/jobs', function () {
+    return view('jobs');
+})->name('jobs');

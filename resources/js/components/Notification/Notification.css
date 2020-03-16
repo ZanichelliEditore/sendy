@@ -1,0 +1,46 @@
+#notification-container {
+    left: 0;
+    right: 0;
+    z-index: 100;
+    border-radius: .35rem;
+    opacity: 0;
+}
+
+.animation-success {
+    animation-name: fade-notification;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+}
+
+.animation-error {
+    animation-name: fade-notification-error;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fade-notification-error {
+    0% {
+        bottom: 0;
+        opacity: 0;
+    }
+    10%, 100% {
+        bottom: 20px;
+        opacity: 1;
+    }
+}
+
+@keyframes fade-notification {
+    0%, 100% {
+        bottom: 0;
+        opacity: 0;
+    }
+    10% {
+        bottom: 20px;
+        opacity: 1;
+    }
+    90% {
+        bottom: 20px;
+        opacity: 1;
+    }
+}
