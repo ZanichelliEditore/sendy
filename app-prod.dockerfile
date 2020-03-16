@@ -13,6 +13,7 @@ COPY ./custom.d /usr/local/etc/php/conf.d
 
 ADD ./ /var/www
 RUN mkdir -p /var/www/vendor
+RUN mkdir -p /var/www/node_modules
 RUN chown -R www-data:www-data /var/www
 RUN chmod 777 -R /var/www/storage
 RUN chmod 777 -R /var/www/vendor

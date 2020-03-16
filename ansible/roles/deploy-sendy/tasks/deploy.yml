@@ -73,7 +73,7 @@
   ignore_errors: yes
 
 - name: Remove node volume
-  command: "/usr/bin/docker volume rm opzioni_appNode"
+  command: "/usr/bin/docker volume rm sendy_appNode"
   ignore_errors: yes
 
 - name: Start and rebuild the containers
@@ -82,10 +82,10 @@
   command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
 
 - name: Install npm
-  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm install"
+  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm install"
 
 - name: Run npm
-  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm run prod"
+  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm run prod"
 
 - name: Run composer install
   command: "docker exec sendy_app composer install"
