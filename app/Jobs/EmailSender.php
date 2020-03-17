@@ -2,14 +2,16 @@
 
 namespace App\Jobs;
 
+use Exception;
 use App\Mail\BaseEmail;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 
 class EmailSender implements ShouldQueue
 {
@@ -59,6 +61,17 @@ class EmailSender implements ShouldQueue
         if ($attachmentsDirectory = $emailInfo->getAttachmentsDirectory()) {
             Storage::deleteDirectory('attachments/' . $attachmentsDirectory);
         }
+    }
+
+    /**
+     * The job failed to process.
+     *
+     * @param  Exception  $exception
+     * @return void
+     */
+    public function failed(Exception $exception)
+    {
+        Log::error("CUSTOM-ERROR: Error on processing job " . $exception->getMessage());
     }
 
     public function getMailable()

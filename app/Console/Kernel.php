@@ -12,8 +12,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-    ];
+    protected $commands = [];
 
     /**
      * Define the application's command schedule.
@@ -28,8 +27,8 @@ class Kernel extends ConsoleKernel
                 ->everyMinute()
                 ->appendOutputTo(storage_path() . '/logs/scheduler.log');
         }
-        $schedule->command('clear:accessToken')->everyThirtyMinutes();
-        $schedule->command('clear:log')->everyThirtyMinutes();
+        $schedule->command('clear:accessToken')->hourly();
+        $schedule->command('clear:log')->hourly();
     }
 
     /**
@@ -39,7 +38,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
