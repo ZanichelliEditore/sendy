@@ -25,7 +25,7 @@ class EmailRequest extends FormRequest
     {
         return [
             'to' => 'required|array|min:1',
-            'to.*' => 'required|email|not_regex:/\?/',
+            'to.*' => 'required|email',
             'cc' => 'sometimes|array|nullable',
             'cc.*' => 'email',
             'bcc' => 'sometimes|array|nullable',
