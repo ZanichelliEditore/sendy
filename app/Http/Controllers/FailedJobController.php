@@ -88,7 +88,7 @@ class FailedJobController extends Controller
             return response()->error422(null, $validator->errors());
         }
         $query = $request->input('q');
-        $limit = (int)$request->input('limit', self::PAGINATION);
+        $limit = (int) $request->input('limit', self::PAGINATION);
         $order = $request->input('order', 'ASC');
         $orderBy = $request->input('orderBy', 'id');
         $retriviedFailedJobs = $this->failedJobRepository->all($query, $orderBy, $order, $limit);

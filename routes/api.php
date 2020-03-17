@@ -8,10 +8,10 @@ Route::group(['middleware' => ['client_credentials']], function () {
 
 Route::prefix('failedJobs')->group(function () {
     Route::get('/', 'FailedJobController@getList');
-    Route::delete('{id}', 'FailedJobController@destroy');
     Route::delete('all', 'FailedJobController@destroyAll');
-    Route::get('retry/{id}', 'FailedJobController@retryJob');
+    Route::delete('{id}', 'FailedJobController@destroy');
     Route::get('retry/all', 'FailedJobController@retryAll');
+    Route::get('retry/{id}', 'FailedJobController@retryJob');
 });
 
 Route::prefix('jobs')->group(function () {
