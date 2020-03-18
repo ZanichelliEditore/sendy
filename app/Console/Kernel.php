@@ -22,11 +22,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        if (stripos((string) shell_exec('ps xf | grep \'[q]ueue:work\''), 'artisan queue:work') === false) {
-            $schedule->command('queue:work')
-                ->everyMinute()
-                ->appendOutputTo(storage_path() . '/logs/scheduler.log');
-        }
         $schedule->command('clear:accessToken')->hourly();
         $schedule->command('clear:log')->hourly();
     }
