@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Repositories;
 
 use App\Models\FailedJob;
@@ -7,24 +8,25 @@ class FailedJobRepository
 {
 
     /**
-    * Find all the failed jobs
-    *
-    * @param  String  $query
-    * @param  String  $orderBy
-    * @param  String  $order
-    * @param  int  $limit
-    * @return App\Models\FailedJob
-    *
-    */
+     * Find all the failed jobs
+     *
+     * @param  String  $query
+     * @param  String  $orderBy
+     * @param  String  $order
+     * @param  int  $limit
+     * @return App\Models\FailedJob
+     *
+     */
     public function all($query, $orderBy, $order, $limit)
     {
         if (!$query) {
             return FailedJob::orderBy($orderBy, $order)
-            ->paginate($limit);
+                ->paginate($limit);
         }
-        return FailedJob::where('payload', 'LIKE', '%' . $query . '%' )
-                    ->orderBy($orderBy, $order)
-                    ->paginate($limit);
+        return FailedJob::where('payload', 'LIKE', '%' . $query . '%')
+            ->orWhere('exception', 'LIKE', '%' . $query . '%')
+            ->orderBy($orderBy, $order)
+            ->paginate($limit);
     }
     /**
      * Find a failed job by id

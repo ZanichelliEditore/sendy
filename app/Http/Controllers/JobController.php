@@ -86,8 +86,8 @@ class JobController extends Controller
         }
         if (!empty($output)) {
             $output = explode("\n", $output);
+            array_pop($output);
         }
-
         // Close file and return
         fclose($f);
         return $output;
