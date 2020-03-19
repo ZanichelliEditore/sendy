@@ -58,6 +58,8 @@ Steps from 4 to 6 have to be executed inside docker app container since it repre
 
     php artisan queue:work
 
+    **Note:** In production environment there is supervisord service and the queue is already activated when docker is up.
+
 ## Configure
 
 By default email are logged into /storage/logs/laravel-day.log. To configure your SMTP server follow this guide https://laravel.com/docs/7.x/mail

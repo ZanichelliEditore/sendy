@@ -21,7 +21,7 @@ class JobController extends Controller
      */
     public function getFile()
     {
-        $contentFile = $this->tail(storage_path('logs/scheduler.log'));
+        $contentFile = $this->tail(storage_path('logs/worker.log'));
         if (empty($contentFile)) {
             return response()->json([], 204);
         }
@@ -84,10 +84,10 @@ class JobController extends Controller
             // Decrease our line counter
             $lines -= substr_count($chunk, "\n");
         }
-        if (!empty($output)){
+        if (!empty($output)) {
             $output = explode("\n", $output);
+            array_pop($output);
         }
-
         // Close file and return
         fclose($f);
         return $output;
