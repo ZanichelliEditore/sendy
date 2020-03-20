@@ -23,13 +23,14 @@ class EmailRequest extends FormRequest
      */
     public function rules()
     {
+        $formatEmail = 'regex:/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
         return [
             'to' => 'required|array|min:1',
-            'to.*' => 'required|email',
+            'to.*' => ['required', 'email', $formatEmail],
             'cc' => 'sometimes|array|nullable',
-            'cc.*' => 'email',
+            'cc.*' => ['email', $formatEmail],
             'bcc' => 'sometimes|array|nullable',
-            'bcc.*' => 'email',
+            'bcc.*' => ['email', $formatEmail],
             'from' => 'required|email',
             'subject' => 'sometimes|string|max:100|nullable',
             'body' => 'sometimes|string|nullable',

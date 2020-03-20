@@ -178,6 +178,26 @@ class EmailTest extends TestCase
             ]
         ]);
 
+        $email['to'] = ['just"not"right@example.com'];
+        $response = $this->json('POST', '/api/v1/emails', $email);
+        $this->assertEquals(422, $response->status());
+        $response->assertJsonStructure([
+            "message",
+            "errors" => [
+                "to.0"
+            ]
+        ]);
+
+        $email['to'] = ['test@email.com?'];
+        $response = $this->json('POST', '/api/v1/emails', $email);
+        $this->assertEquals(422, $response->status());
+        $response->assertJsonStructure([
+            "message",
+            "errors" => [
+                "to.0"
+            ]
+        ]);
+
         Bus::assertNotDispatched(EmailSender::class);
     }
 
