@@ -2,14 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Jobs\EmailSender;
-use App\Mail\CustomEmail;
+use Tests\TestCase;
 use App\Models\Email;
+use App\Jobs\EmailSender;
+use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class EmailTest extends TestCase
@@ -175,6 +174,36 @@ class EmailTest extends TestCase
             "message",
             "errors" => [
                 "to.0"
+            ]
+        ]);
+
+        $email['to'] = ['just"not"right@example.com'];
+        $response = $this->json('POST', '/api/v1/emails', $email);
+        $this->assertEquals(422, $response->status());
+        $response->assertJsonStructure([
+            "message",
+            "errors" => [
+                "to.0"
+            ]
+        ]);
+
+        $email['to'] = ['test@email.com?'];
+        $response = $this->json('POST', '/api/v1/emails', $email);
+        $this->assertEquals(422, $response->status());
+        $response->assertJsonStructure([
+            "message",
+            "errors" => [
+                "to.0"
+            ]
+        ]);
+
+        $email['to'] = ['test@email.com', Str::random(309) . "@example.com"];
+        $response = $this->json('POST', '/api/v1/emails', $email);
+        $this->assertEquals(422, $response->status());
+        $response->assertJsonStructure([
+            "message",
+            "errors" => [
+                "to.1"
             ]
         ]);
 

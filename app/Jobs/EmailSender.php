@@ -20,18 +20,14 @@ class EmailSender implements ShouldQueue
     private const QUEUE_NAME = 'emails';
 
     /**
-     * The number of seconds to wait before retrying the job.
+     * Determine the time at which the job should timeout.
      *
-     * @var int
+     * @return \DateTime
      */
-    public $retryAfter = 60;
-
-    /**
-     * The number of times the job may be attempted.
-     *
-     * @var int
-     */
-    public $tries = 5;
+    public function retryUntil()
+    {
+        return now()->addSeconds(120);
+    }
 
     private $mailable;
     /**
