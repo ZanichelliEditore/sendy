@@ -43,12 +43,6 @@ pipeline {
         stage("Cleanup") {
 
             steps {
-                // echo "Cleaning up workspace..."
-                // echo "Delete project images and volumes unused"
-                // sh '''
-                //     docker rmi -f $(docker images |grep '^<none>\\|^sendy_' |awk '{print \$3}')
-                //     docker volume prune -f
-                // '''
                 cleanWs()
                 sh 'pwd'
                 sh 'ls'

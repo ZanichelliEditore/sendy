@@ -1,9 +1,8 @@
 ---
-
-- hosts: sendy
-  remote_user: root
+- hosts: localhost
+  remote_user: { { remote_user } }
   vars_files:
     - vars/sendy.yml
   vars:
   roles:
-  - { role: deploy-sendy, tags: [ 'deploy-sendy' ] }
+    - { role: deploy-sendy, tags: ["deploy-sendy"] }
