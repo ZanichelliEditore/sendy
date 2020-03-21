@@ -5,4 +5,5 @@ ADD ./vhost.prod.conf /etc/nginx/conf.d/default.conf
 ADD ./certs/star_certificate.crt /etc/nginx/star_certificate.crt
 ADD ./certs/star_certificate.key /etc/nginx/star_certificate.key
 
+ADD ./ /var/www
 WORKDIR /var/www
