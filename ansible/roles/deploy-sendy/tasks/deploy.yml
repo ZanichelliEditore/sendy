@@ -65,13 +65,13 @@
     name: set-deploy-type
 
 - name: Start and rebuild the containers
-  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
+  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
   args:
     chdir: "{{ deploy_path }}"
   when: count_sendy_images.stdout|int == 0 or count_sendy_images.stdout|int == 1
 
 - name: Remove the containers
-  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml down"
+  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml down"
   args:
     chdir: "{{ deploy_path }}"
   ignore_errors: yes
@@ -92,17 +92,17 @@
   command: "/usr/bin/docker tag sendy_app:v1 sendy_app:latest"
 
 - name: Recreate containers using new latest image
-  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d"
+  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d"
   args:
     chdir: "{{ deploy_path }}"
 
 - name: Install npm
-  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm install"
+  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm install"
   args:
     chdir: "{{ deploy_path }}"
 
 - name: Run npm
-  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm run prod"
+  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm run prod"
   args:
     chdir: "{{ deploy_path }}"
 
