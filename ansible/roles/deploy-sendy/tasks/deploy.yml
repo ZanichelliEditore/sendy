@@ -1,5 +1,5 @@
 ---
-# Deployment of the opzioni application
+## Application deployment
 - name: create base deploy path folder
   become: yes
   file: >
@@ -60,38 +60,57 @@
 - name: reset connection for user ubuntu
   meta: reset_connection
 
-- name: Remove the containers
-  args:
-    chdir: "{{ deploy_path }}"
-  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml down"
-  ignore_errors: yes
-
-- name: Remove app volume
-  args:
-    chdir: "{{ deploy_path }}"
-  command: "/usr/bin/docker volume rm sendy_app"
-  ignore_errors: yes
-
-- name: Remove node volume
-  command: "/usr/bin/docker volume rm sendy_appNode"
-  ignore_errors: yes
+- name: Evaluate deploy type
+  include_role:
+    name: set-deploy-type
 
 - name: Start and rebuild the containers
+  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
   args:
     chdir: "{{ deploy_path }}"
-  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
+  when: count_sendy_images.stdout|int == 0 or count_sendy_images.stdout|int == 1
+
+- name: Remove the containers
+  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml down"
+  args:
+    chdir: "{{ deploy_path }}"
+  ignore_errors: yes
+  when: deploy_type|string == 'fix_build_tag'
+
+- name: Remove app volume
+  command: "/usr/bin/docker volume rm sendy_app"
+  ignore_errors: yes
+  when: deploy_type|string == 'fix_build_tag'
+
+- name: Backup latest image
+  command: "/usr/bin/docker tag sendy_app:latest sendy_app:previous"
+
+# TODO: handle different tag versions
+- name: Build sendy app image
+  command: "/usr/bin/docker build -t sendy_app:v1 -f app-prod.dockerfile ."
+  args:
+    chdir: "{{ deploy_path }}"
+
+- name: Update latest image
+  command: "/usr/bin/docker tag sendy_app:v1 sendy_app:latest"
+
+- name: Recreate containers using new latest image
+  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d"
+  args:
+    chdir: "{{ deploy_path }}"
 
 - name: Install npm
   command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm install"
+  args:
+    chdir: "{{ deploy_path }}"
 
 - name: Run npm
   command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm run prod"
+  args:
+    chdir: "{{ deploy_path }}"
 
 - name: Run composer install
-  command: "docker exec sendy_app composer install"
-
-- name: Test images
-  command: "docker ps"
+  command: "/usr/bin/docker exec sendy_app composer install"
 
 - name: Run migrations
-  command: "docker exec sendy_app php artisan migrate --force"
+  command: "/usr/bin/docker exec sendy_app php artisan migrate --force"

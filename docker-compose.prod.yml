@@ -5,8 +5,6 @@ services:
       context: ./
       dockerfile: web-prod.dockerfile
     container_name: sendy_web
-    volumes:
-      - app:/var/www
     ports:
       - "8743:443"
     links:
@@ -24,14 +22,13 @@ services:
       context: ./
       dockerfile: app-prod.dockerfile
     container_name: sendy_app
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=27017
+    restart: always
     volumes:
-      - app:/var/www
       - appStorage:/var/www/storage
       - appVendor:/var/www/vendor
-    environment:
-      - "DB_HOST=mongodb"
-      - "DB_PORT=27017"
-    restart: always
     networks:
       - default
     depends_on:
@@ -64,9 +61,8 @@ services:
       context: images/node
     container_name: sendy_nodejs
     volumes:
-      - app:/var/www/
+      - ./:/var/www/
 volumes:
-  app:
   appStorage:
   appVendor:
   appMongo:

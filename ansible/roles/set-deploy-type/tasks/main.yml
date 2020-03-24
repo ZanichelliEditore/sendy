@@ -1,0 +1,20 @@
+---
+- name: "Check sendy images"
+  shell: "/usr/bin/docker images --format {% raw %}'{{.Repository}}: {{.Tag}}'{%endraw%} | grep '^sendy_app:' | wc -l"
+  register: count_sendy_images
+
+- debug:
+    msg: "Ansible exited with condition {{count_sendy_images.failed}} and result = {{count_sendy_images.stdout}}"
+
+- name: "Build with image tag"
+  set_fact:
+    deploy_type: "build_tag"
+  when: count_sendy_images.stdout|int != 1
+
+- name: "Substitute deploy with volume using image tag"
+  set_fact:
+    deploy_type: "fix_build_tag"
+  when: count_sendy_images.stdout|int == 1
+
+- debug:
+    msg: "Deploy type set: {{deploy_type}}"
