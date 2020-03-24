@@ -9,7 +9,7 @@
 - name: "Build with image tag"
   set_fact:
     deploy_type: "build_tag"
-  when: count_sendy_images.stdout|int == 0 or count_sendy_images.stdout|int == 2
+  when: count_sendy_images.stdout|int != 1
 
 - name: "Substitute deploy with volume using image tag"
   set_fact:

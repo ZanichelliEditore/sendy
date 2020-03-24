@@ -82,6 +82,9 @@
   ignore_errors: yes
   when: deploy_type|string == 'fix_build_tag'
 
+- name: Backup latest image
+  command: "/usr/bin/docker tag sendy_app:latest sendy_app:previous"
+
 # TODO: handle different tag versions
 - name: Build sendy app image
   command: "/usr/bin/docker build -t sendy_app:v1 -f app-prod.dockerfile ."
