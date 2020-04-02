@@ -9,7 +9,7 @@ services:
       - "8743:443"
     links:
       - app
-    restart: always
+    restart: unless-stopped
     networks:
       - default
     logging:
@@ -25,7 +25,7 @@ services:
     environment:
       - DB_HOST=${DB_HOST}
       - DB_PORT=27017
-    restart: always
+    restart: unless-stopped
     volumes:
       - appStorage:/var/www/storage
       - appVendor:/var/www/vendor
