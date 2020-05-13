@@ -14,14 +14,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 COPY ./custom.d /usr/local/etc/php/conf.d
 
-ADD ./ /var/www
-RUN mkdir -p /var/www/vendor
-RUN mkdir -p /var/www/node_modules
-RUN chown -R www-data:www-data /var/www
-RUN chmod 777 -R /var/www/storage
-RUN chmod 777 -R /var/www/vendor
-WORKDIR /var/www
+COPY ./ /var/www
+RUN chown -R www-data:www-data \
+    /var/www \
+    /var/www/storage \
+    /var/www/vendor
 
+WORKDIR /var/www
 USER www-data
 
 CMD ["/usr/bin/supervisord"]
