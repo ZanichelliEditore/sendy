@@ -15,7 +15,8 @@
         "jenssegers/mongodb": "^3.6",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
-        "solucionatico/laravel-passport-mongodb": "7.0.2"
+        "solucionatico/laravel-passport-mongodb": "7.0.2",
+        "zanichelli/idp-extensions": "dev-EXT-1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
