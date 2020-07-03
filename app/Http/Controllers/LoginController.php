@@ -13,15 +13,4 @@ class LoginController extends Controller
     {
         return Auth::logout();
     }
-
-    /**
-     *  Logout from idp
-     * @return void
-     */
-    public function logoutIdp(Request $request)
-    {
-        $userId = $request->input('id');
-        DB::table('sessions')->where('user_id', $userId)->delete();
-        return response()->json([], 200);
-    }
 }

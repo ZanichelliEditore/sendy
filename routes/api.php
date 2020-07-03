@@ -19,5 +19,3 @@ Route::prefix('jobs')->group(function () {
     Route::get('clean/log', 'JobController@deleteLogs');
     Route::get('clean/access-token', 'JobController@deleteTokens');
 });
-
-Route::post('/logout-idp', 'LoginController@logoutIdp')->name('logoutIdp');
