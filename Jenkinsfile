@@ -5,6 +5,29 @@ pipeline {
 
     stages {
 
+        stage('S3 download inventory file') {
+            environment {
+                bucket_name = 'public-ip-terraform-production'
+                bucket_path = 'sendy-inventory'
+            }
+            steps {
+                script() {
+                    withAWS(credentials: 'Jenkins', region: 'eu-west-1', role: 'ContinuousIntegrationAccessRole', roleAccount: '305507912930' ) {
+                        s3Download(
+                            file: "$WORKSPACE/ansible/inventory/production.inv",
+                            bucket: "${bucket_name}",
+                            path: "${bucket_path}",
+                            force: true
+                        )
+                    }
+                }
+
+                sh """
+                `more $WORKSPACE/ansible/inventory/production.inv |grep -m 1 'port' |awk '{print "ssh-keyscan -p", \$3, " -t ecdsa ", \$1, " >> ~/.ssh/known_hosts"}' |sed -n -e 's/ansible_port=//p'`
+                """
+            }
+        }
+
         stage('Start Deploy') {
 
             environment {

@@ -1,0 +1,6 @@
+[${project}]
+${public_ip} ansible_ssh_user=ubuntu ansible_port=${port} ansible_ssh_common_args=' -o StrictHostKeyChecking=no -o ProxyCommand="ssh -A -W %h:%p -q jenkins@10.10.0.18"'
+
+#this makes ansible use the group vars defines in the group_vars/local.yml file
+[${environment}:children]
+${project}
