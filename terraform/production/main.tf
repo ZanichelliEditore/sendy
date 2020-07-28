@@ -94,11 +94,21 @@ resource "aws_alb_target_group_attachment" "sendy-https-frontend" {
   port             = 443
 }
 
+resource "aws_eip" "sendy-eip" {
+  instance = module.instance-sendy.instance_id
+  vpc      = false
+  tags     = {
+    Name        = "sendy-production"
+    Created-by  = "terraform"
+    Environment = var.environment
+  }
+}
+
 module "extra-inventory-sendy" {
   project            = "sendy"
   source             = "./extra"
   bucket_inventory   = data.aws_s3_bucket.inventory-bucket.id
-  instance_public_ip = module.instance-sendy.instance_ip
+  instance_public_ip = aws_eip.sendy-eip.public_ip
   environment        = var.environment
 }
 
@@ -111,5 +121,5 @@ module "extra-hosts" {
 
 output "sendy_public_ip_address" {
   description = "The ip address of sendy machine."
-  value       = module.instance-sendy.instance_ip
+  value       = aws_eip.sendy-eip.public_ip
 }
