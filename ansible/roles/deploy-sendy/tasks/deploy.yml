@@ -17,7 +17,7 @@
     owner={{ remote_user }}
 
 - name: create .composer folder
-  become: yes
+  become: no
   file: >
     path="~/.composer"
     state=directory

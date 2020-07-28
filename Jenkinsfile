@@ -52,13 +52,14 @@ pipeline {
                     sh "cp -n \$certificate $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.crt"
                     sh "cp -n \$key $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.key"
                 }
-
-                ansiColor('xterm') {
-                    ansiblePlaybook(
-                        playbook: "${ANSIBLE_PLAYBOOK_PATH}",
-                        inventory: "${ANSIBLE_INVENTORY_PATH}",
-                        extras: '--tags "deploy-sendy"',
-                        colorized: true)
+                sshagent(credentials: ['jenkins_private_key']) {
+                    ansiColor('xterm') {
+                        ansiblePlaybook(
+                            playbook: "${ANSIBLE_PLAYBOOK_PATH}",
+                            inventory: "${ANSIBLE_INVENTORY_PATH}",
+                            extras: '--tags "deploy-sendy"',
+                            colorized: true)
+                    }
                 }
             }
         }
