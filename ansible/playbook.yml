@@ -1,6 +1,5 @@
 ---
 - hosts: sendy
-  become: yes
   remote_user: "{{ remote_user }}"
   vars_files:
     - vars/sendy.yml
