@@ -1,7 +1,6 @@
 ---
 ## Application deployment
 - name: create base deploy path folder
-  become: yes
   file: >
     path={{ deploy_path }}
     state=directory
@@ -9,7 +8,6 @@
     owner={{ remote_user }}
 
 - name: create certs folder
-  become: yes
   file: >
     path="{{ deploy_path }}/certs"
     state=directory
@@ -17,7 +15,6 @@
     owner={{ remote_user }}
 
 - name: create .composer folder
-  become: no
   file: >
     path="~/.composer"
     state=directory
