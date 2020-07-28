@@ -32,6 +32,7 @@
     archive: no
     delete: no
     recursive: yes
+    use_ssh_args: yes
     rsync_opts:
       - "-v"
       - "--exclude=*.git"
