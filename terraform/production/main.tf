@@ -34,22 +34,13 @@ data "aws_vpc" "vpc" {
 }
 
 data "aws_ami" "image-sendy" {
- most_recent = true
- owners = ["099720109477"] # Canonical
- filter {
-   name   = "name"
-   values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
- }
+  owners      = ["305507912930"]
+  most_recent = true
+  filter {
+    name   = "tag:Project"
+    values = ["sendy"]
+  }
 }
-
-# data "aws_ami" "image-sendy" {
-#   owners      = ["305507912930"]
-#   most_recent = true
-#   filter {
-#     name   = "tag:Project"
-#     values = ["sendy"]
-#   }
-# }
 
 data "aws_subnet_ids" "subnet_ids" {
   vpc_id = data.aws_vpc.vpc.id
@@ -97,7 +88,7 @@ resource "aws_alb_target_group_attachment" "sendy-https-frontend" {
 resource "aws_eip" "sendy-eip" {
   instance = module.instance-sendy.instance_id
   vpc      = false
-  tags     = {
+  tags = {
     Name        = "sendy-production"
     Created-by  = "terraform"
     Environment = var.environment
