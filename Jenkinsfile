@@ -34,7 +34,7 @@ pipeline {
 
                 ANSIBLE_PLAYBOOK_PATH = "$WORKSPACE/ansible/playbook.yml"
                 ANSIBLE_INVENTORY_PATH = "$WORKSPACE/ansible/inventory/production.inv"
-                BRANCH_NAME = "master"
+                BRANCH_NAME = "$params.deploy_branch"
 
                 MONGO_INITDB_DATABASE = "sendy"
                 MONGO_INITDB_ROOT_USERNAME = "root"
