@@ -87,7 +87,7 @@ resource "aws_alb_target_group_attachment" "sendy-https-frontend" {
 
 resource "aws_eip" "sendy-eip" {
   instance = module.instance-sendy.instance_id
-  vpc      = false
+  vpc      = true
   tags = {
     Name        = "sendy-production"
     Created-by  = "terraform"
