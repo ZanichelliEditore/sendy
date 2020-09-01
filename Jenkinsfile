@@ -43,7 +43,7 @@ pipeline {
                 MONGO_INITDB_DATABASE = "sendy"
                 MONGO_INITDB_ROOT_USERNAME = "root"
                 MONGO_INITDB_ROOT_PASSWORD = credentials("mongo_sendy_pwd")
-
+                IDP_HOST = credentials("idp_host")
             }
 
             steps {

@@ -13,11 +13,11 @@
                 </li>
             </ul>
         </div>
-        <!-- <ul class="navbar-nav ml-auto ml-md-0">
+        <ul class="navbar-nav ml-auto ml-md-0">
             <li class="nav-item active">
                 <a class="nav-link" :href=logoutRoute @click="onClick(logoutRoute)">Logout</a>
             </li>
-        </ul> -->
+        </ul>
     </nav>
 </template>
 
