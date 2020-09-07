@@ -107,6 +107,11 @@
   args:
     chdir: "{{ deploy_path }}"
 
+- name: Reload builded files
+  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
+  args:
+    chdir: "{{ deploy_path }}"
+
 - name: Run composer install
   command: "/usr/bin/docker exec sendy_app composer install"
 
