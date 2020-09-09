@@ -3,7 +3,34 @@ pipeline {
         label 'master'
     }
 
+    parameters {
+        choice(choices: ['master', 'release/deployOnAWS'], description: 'branch used to deploy file on server', name: 'deploy_branch')
+    }
+
     stages {
+
+        stage('S3 download inventory file') {
+            environment {
+                bucket_name = 'public-ip-terraform-production'
+                bucket_path = 'sendy-inventory'
+            }
+            steps {
+                script() {
+                    withAWS(credentials: 'Jenkins', region: 'eu-west-1', role: 'ContinuousIntegrationAccessRole', roleAccount: '305507912930' ) {
+                        s3Download(
+                            file: "$WORKSPACE/ansible/inventory/production.inv",
+                            bucket: "${bucket_name}",
+                            path: "${bucket_path}",
+                            force: true
+                        )
+                    }
+                }
+
+                sh """
+                `more $WORKSPACE/ansible/inventory/production.inv |grep -m 1 'port' |awk '{print "ssh-keyscan -p", \$3, " -t ecdsa ", \$1, " >> ~/.ssh/known_hosts"}' |sed -n -e 's/ansible_port=//p'`
+                """
+            }
+        }
 
         stage('Start Deploy') {
 
@@ -11,12 +38,11 @@ pipeline {
 
                 ANSIBLE_PLAYBOOK_PATH = "$WORKSPACE/ansible/playbook.yml"
                 ANSIBLE_INVENTORY_PATH = "$WORKSPACE/ansible/inventory/production.inv"
-                BRANCH_NAME = "master"
+                BRANCH_NAME = "$params.deploy_branch"
 
                 MONGO_INITDB_DATABASE = "sendy"
                 MONGO_INITDB_ROOT_USERNAME = "root"
                 MONGO_INITDB_ROOT_PASSWORD = credentials("mongo_sendy_pwd")
-                IDP_HOST = credentials("idp_host")
             }
 
             steps {
@@ -29,13 +55,14 @@ pipeline {
                     sh "cp -n \$certificate $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.crt"
                     sh "cp -n \$key $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.key"
                 }
-
-                ansiColor('xterm') {
-                    ansiblePlaybook(
-                        playbook: "${ANSIBLE_PLAYBOOK_PATH}",
-                        inventory: "${ANSIBLE_INVENTORY_PATH}",
-                        extras: '--tags "deploy-sendy"',
-                        colorized: true)
+                sshagent(credentials: ['jenkins_private_key']) {
+                    ansiColor('xterm') {
+                        ansiblePlaybook(
+                            playbook: "${ANSIBLE_PLAYBOOK_PATH}",
+                            inventory: "${ANSIBLE_INVENTORY_PATH}",
+                            extras: '--tags "deploy-sendy"',
+                            colorized: true)
+                    }
                 }
             }
         }

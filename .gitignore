@@ -18,3 +18,5 @@ public/js/app.js
 public/css/app.css
 supervisord.log
 supervisord.pid
+**/.terraform/**/
+*.tfstate

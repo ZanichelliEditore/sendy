@@ -1,7 +1,6 @@
 ---
 ## Application deployment
 - name: create base deploy path folder
-  become: yes
   file: >
     path={{ deploy_path }}
     state=directory
@@ -9,7 +8,6 @@
     owner={{ remote_user }}
 
 - name: create certs folder
-  become: yes
   file: >
     path="{{ deploy_path }}/certs"
     state=directory
@@ -17,7 +15,6 @@
     owner={{ remote_user }}
 
 - name: create .composer folder
-  become: no
   file: >
     path="~/.composer"
     state=directory
@@ -32,6 +29,7 @@
     archive: no
     delete: no
     recursive: yes
+    use_ssh_args: yes
     rsync_opts:
       - "-v"
       - "--exclude=*.git"
@@ -65,13 +63,13 @@
     name: set-deploy-type
 
 - name: Start and rebuild the containers
-  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
+  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
   args:
     chdir: "{{ deploy_path }}"
   when: count_sendy_images.stdout|int == 0 or count_sendy_images.stdout|int == 1
 
 - name: Remove the containers
-  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml down"
+  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml down"
   args:
     chdir: "{{ deploy_path }}"
   ignore_errors: yes
@@ -95,17 +93,22 @@
   command: "/usr/bin/docker tag sendy_app:v1 sendy_app:latest"
 
 - name: Recreate containers using new latest image
-  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d"
+  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d"
   args:
     chdir: "{{ deploy_path }}"
 
 - name: Install npm
-  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm install"
+  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm install"
   args:
     chdir: "{{ deploy_path }}"
 
 - name: Run npm
-  command: "/usr/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm run prod"
+  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm run prod"
+  args:
+    chdir: "{{ deploy_path }}"
+
+- name: Reload builded files
+  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
   args:
     chdir: "{{ deploy_path }}"
 

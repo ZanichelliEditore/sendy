@@ -6,7 +6,7 @@ services:
       dockerfile: web-prod.dockerfile
     container_name: sendy_web
     ports:
-      - "8743:443"
+      - "443:443"
     links:
       - app
     restart: unless-stopped
