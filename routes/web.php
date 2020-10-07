@@ -6,7 +6,7 @@ Route::group(['middleware' => 'idp'], function () {
     Route::get('/', function () {
         return redirect('failedJobs');
     });
-
+    
     Route::get('/failedJobs', function () {
         return view('failedJobs');
     })->name('failedJobs');
