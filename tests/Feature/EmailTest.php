@@ -523,4 +523,26 @@ class EmailTest extends TestCase
                 $emailInfo->getBody() === $email['body'];
         });
     }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function objectValidationTest()
+    {
+        Bus::fake();
+        Storage::fake('local');
+
+        $email = $this->getEmail();
+        $email['subject'] = Str::random(201);;
+        $response = $this->json('POST', '/api/v1/emails', $email);
+        $this->assertEquals(422, $response->status());
+        $response->assertJsonStructure([
+            "errors" => [
+                "subject"
+            ]
+        ]);
+
+        Bus::assertNotDispatched(EmailSender::class);
+    }
 }
