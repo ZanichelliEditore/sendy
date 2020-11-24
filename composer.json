@@ -14,6 +14,7 @@
     "guzzlehttp/guzzle": "^6.3",
     "jenssegers/mongodb": "^3.6",
     "laravel/framework": "5.8.*",
+    "laravel/telescope": "2.1.7",
     "laravel/tinker": "^1.0",
     "solucionatico/laravel-passport-mongodb": "7.0.2",
     "zanichelli/idp-extensions": "v1.0.3"
