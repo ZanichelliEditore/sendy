@@ -6,6 +6,7 @@
 /vendor/**/
 /vendor/*.php
 .env
+/public/vendor/*
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
