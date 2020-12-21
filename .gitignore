@@ -14,7 +14,6 @@ npm-debug.log
 yarn-error.log
 data/
 tmp/
-composer.lock
 public/js/app.js
 public/css/app.css
 supervisord.log
