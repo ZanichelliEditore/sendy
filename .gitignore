@@ -6,6 +6,7 @@
 /vendor/**/
 /vendor/*.php
 .env
+/public/vendor/*
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -13,7 +14,6 @@ npm-debug.log
 yarn-error.log
 data/
 tmp/
-composer.lock
 public/js/app.js
 public/css/app.css
 supervisord.log
