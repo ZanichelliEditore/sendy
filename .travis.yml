@@ -14,9 +14,8 @@ before_script:
   - docker exec -it sendy_app composer install
   - docker exec -it sendy_app php artisan key:generate
   - docker exec -it sendy_app bash -c "php artisan cache:clear"
-  - docker exec -it sendy_app bash -c "php artisan config:cache"
   - docker exec -it sendy_app bash -c "php artisan migrate:reset"
-  - docker exec -it sendy_app bash -c "php artisan migrate --seed --no-interaction -vv"
+  - docker exec -it sendy_app bash -c "php artisan migrate:fresh --seed --no-interaction -vv"
   - docker exec -it sendy_app bash -c "php artisan passport:install"
 
 script:
