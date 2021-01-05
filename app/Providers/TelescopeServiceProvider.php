@@ -56,12 +56,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewTelescope', function ($user) {
-            $roles = [];
-            foreach($user->roles as $role) {
-                $roles[] = $role->roleName;
-            }
-            $roles = array_unique($roles);
-            return in_array("ADMIN_IDP", $roles);
+            return in_array('VIEW_TELESCOPE', $user->permissions);
         });
     }
 }

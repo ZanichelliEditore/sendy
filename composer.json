@@ -17,7 +17,7 @@
     "laravel/telescope": "dev-z-telescope-mongodb",
     "laravel/tinker": "^1.0",
     "solucionatico/laravel-passport-mongodb": "7.0.2",
-    "zanichelli/idp-extensions": "v1.0.3"
+    "zanichelli/idp-extensions": "^1.0"
   },
   "require-dev": {
     "beyondcode/laravel-dump-server": "^1.0",
@@ -67,8 +67,8 @@
   },
   "repositories": [
     {
-        "type": "vcs",
-        "url": "https://github.com/ZanichelliEditore/telescope"
+      "type": "vcs",
+      "url": "https://github.com/ZanichelliEditore/telescope"
     }
-]
+  ]
 }
