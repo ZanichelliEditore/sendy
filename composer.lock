@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "8027051a94ebc64d7c0a05378b46f0e2",
+  "content-hash": "d9f07625b9de8062bb1bc1d4898b31c6",
   "packages": [
     {
       "name": "composer/package-versions-deprecated",
@@ -4848,16 +4848,16 @@
     },
     {
       "name": "zanichelli/idp-extensions",
-      "version": "dev-MLPR-82",
+      "version": "v1.0.5",
       "source": {
         "type": "git",
         "url": "https://github.com/ZanichelliEditore/idp-extension.git",
-        "reference": "38a68e538e6ce1595507353b5bc4398354ae1b68"
+        "reference": "4aeb8fd0d1e54ba38297061224f50cae727e0584"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/ZanichelliEditore/idp-extension/zipball/38a68e538e6ce1595507353b5bc4398354ae1b68",
-        "reference": "38a68e538e6ce1595507353b5bc4398354ae1b68",
+        "url": "https://api.github.com/repos/ZanichelliEditore/idp-extension/zipball/4aeb8fd0d1e54ba38297061224f50cae727e0584",
+        "reference": "4aeb8fd0d1e54ba38297061224f50cae727e0584",
         "shasum": ""
       },
       "require": {
@@ -4889,7 +4889,7 @@
         }
       ],
       "description": "Classes to interact with the Zanichelli identity provider",
-      "time": "2020-12-21T15:14:29+00:00"
+      "time": "2021-01-05T08:45:42+00:00"
     },
     {
       "name": "zendframework/zend-diactoros",
@@ -6679,8 +6679,7 @@
   "aliases": [],
   "minimum-stability": "dev",
   "stability-flags": {
-    "laravel/telescope": 20,
-    "zanichelli/idp-extensions": 20
+    "laravel/telescope": 20
   },
   "prefer-stable": true,
   "prefer-lowest": false,

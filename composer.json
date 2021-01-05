@@ -17,7 +17,7 @@
     "laravel/telescope": "dev-z-telescope-mongodb",
     "laravel/tinker": "^1.0",
     "solucionatico/laravel-passport-mongodb": "7.0.2",
-    "zanichelli/idp-extensions": "dev-MLPR-82#38a68e538e6ce1595507353b5bc4398354ae1b68"
+    "zanichelli/idp-extensions": "^1.0"
   },
   "require-dev": {
     "beyondcode/laravel-dump-server": "^1.0",
