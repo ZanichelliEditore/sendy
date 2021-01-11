@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "20308188ce6e6829bf62cfe431245ff3",
+    "content-hash": "2379c1a2657ff1bd4f79dac862dbfea0",
     "packages": [
         {
             "name": "brick/math",
@@ -1511,6 +1511,73 @@
                 "source": "https://github.com/laravel/passport"
             },
             "time": "2020-09-08T15:27:48+00:00"
+        },
+        {
+            "name": "laravel/telescope",
+            "version": "dev-z-telescope-mongodb-v4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZanichelliEditore/telescope.git",
+                "reference": "ef8c5b2308308a6d4dc9e6660952fa963f099e4c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZanichelliEditore/telescope/zipball/ef8c5b2308308a6d4dc9e6660952fa963f099e4c",
+                "reference": "ef8c5b2308308a6d4dc9e6660952fa963f099e4c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "laravel/framework": "^8.2",
+                "php": "^7.3|^8.0",
+                "symfony/var-dumper": "^5.0"
+            },
+            "require-dev": {
+                "ext-gd": "*",
+                "orchestra/testbench": "^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Telescope\\TelescopeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Telescope\\": "src/",
+                    "Laravel\\Telescope\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Laravel\\Telescope\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                },
+                {
+                    "name": "Mohamed Said",
+                    "email": "mohamed@laravel.com"
+                }
+            ],
+            "description": "An elegant debug assistant for the Laravel framework.",
+            "keywords": [
+                "debugging",
+                "laravel",
+                "monitoring"
+            ],
+            "support": {
+                "source": "https://github.com/ZanichelliEditore/telescope/tree/z-telescope-mongodb-v4"
+            },
+            "time": "2021-01-11T15:58:43+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -8581,7 +8648,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "laravel/telescope": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

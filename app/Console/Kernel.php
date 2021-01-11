@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('clear:accessToken')->hourly();
         $schedule->command('clear:log')->hourly();
 
-        //$schedule->command('telescope:prune')->daily();
+        $schedule->command('telescope:prune')->daily();
     }
 
     /**

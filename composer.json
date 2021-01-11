@@ -13,6 +13,7 @@
     "fideloper/proxy": "^4.0",
     "jenssegers/mongodb": "^3.6",
     "laravel/framework": "^8.0",
+    "laravel/telescope": "dev-z-telescope-mongodb-v4",
     "laravel/legacy-factories": "^1.1",
     "laravel/passport": "10.0",
     "laravel/tinker": "^2.0",
@@ -41,7 +42,7 @@
       "App\\": "app/"
     },
     "classmap": [
-      "database/seeds",
+      "database/seeders",
       "database/factories"
     ]
   },
