@@ -17,7 +17,7 @@
     "laravel/legacy-factories": "^1.1",
     "laravel/passport": "10.0",
     "laravel/tinker": "^2.0",
-    "zanichelli/idp-extensions": "1.0.5"
+    "zanichelli/idp-extensions": "dev-SND-9#a75adc820bdfae975b7117d50688ecaea54c5423"
   },
   "require-dev": {
     "beyondcode/laravel-dump-server": "^1.0",
