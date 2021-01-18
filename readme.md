@@ -54,7 +54,7 @@ Steps from 4 to 6 have to be executed inside docker app container since it repre
 
     php artisan passport:install
 
-7.  Activate queue worker
+8.  Activate queue worker
 
     php artisan queue:work
 
@@ -229,7 +229,7 @@ data = res.json # get data as object using attribute .json, or use r.content
 - **Web:**
 
   - the application server will run in http://localhost:8083
-  - the documentation will be automatically generated in http://localhost:8083/documentation
+  - the documentation will be automatically generated in http://localhost:8083/api/documentation
 
 - **Database:** sendy uses MongoDB as database to store both credentials and jobs for the email.
 
