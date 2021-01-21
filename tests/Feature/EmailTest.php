@@ -413,7 +413,7 @@ class EmailTest extends TestCase
 
         // File too big
         $email = $this->getEmail();
-        $email['attachments'] = [UploadedFile::fake()->create('test.jpg', '30600')];
+        $email['attachments'] = [UploadedFile::fake()->create('test.jpg', 30600)];
 
         $response = $this->json('POST', '/api/v1/emails', $email);
         $this->assertEquals(422, $response->status());
@@ -440,7 +440,7 @@ class EmailTest extends TestCase
 
         // More files too big
         $email = $this->getEmail();
-        $email['attachments'] = [UploadedFile::fake()->create('test.jpg', '15600'), UploadedFile::fake()->create('test.jpg', '15600')];
+        $email['attachments'] = [UploadedFile::fake()->create('test.jpg', 15600), UploadedFile::fake()->create('test.jpg', 15600)];
 
         $response = $this->json('POST', '/api/v1/emails', $email);
         $this->assertEquals(422, $response->status());
