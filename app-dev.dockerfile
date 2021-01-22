@@ -4,8 +4,7 @@ ARG USER
 ARG UID
 
 RUN apt-get update && apt-get install -y procps libmcrypt-dev openssl zip unzip git libfreetype6-dev libjpeg62-turbo-dev libgd-dev libpng-dev apt-utils libcurl4-openssl-dev pkg-config libssl-dev vim \
-    # && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd \
     && pecl install xdebug\
     && docker-php-ext-enable xdebug \
