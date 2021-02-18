@@ -48,6 +48,14 @@
   template: src=star_certificate.key
     dest={{ deploy_path }}/certs/star_certificate.key
 
+- name: Copy across oauth_public.key
+  template: src=oauth-public.key
+    dest={{ deploy_path }}/storage/oauth-public.key
+
+- name: Copy across oauth_private.key
+  template: src=oauth-private.key
+    dest={{ deploy_path }}/storage/oauth-private.key
+
 - name: adding existing user 'root' to group docker
   become: yes
   user:

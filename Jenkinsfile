@@ -50,10 +50,14 @@ pipeline {
 
                 withCredentials([
                     file(credentialsId: 'certificate_zanichelli', variable: 'certificate'),
-                    file(credentialsId: 'key_zanichelli', variable: 'key')
+                    file(credentialsId: 'key_zanichelli', variable: 'key'),
+                    file(credentialsId: 'OAUTH_PRIVATE_KEY_SENDY_PROD', variable: 'private_key'),
+                    file(credentialsId: 'OAUTH_PUBLIC_KEY_SENDY_PROD', variable: 'public_key')
                 ]) {
                     sh "cp -n \$certificate $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.crt"
                     sh "cp -n \$key $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.key"
+                    sh "cp -n \$public_key $WORKSPACE/ansible/roles/deploy-sendy/templates/oauth-public.key"
+                    sh "cp -n \$private_key $WORKSPACE/ansible/roles/deploy-sendy/templates/oauth-private.key"
                 }
                 sshagent(credentials: ['jenkins_private_key']) {
                     ansiColor('xterm') {
