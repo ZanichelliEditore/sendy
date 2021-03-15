@@ -40,6 +40,7 @@ services:
         max-file: "3"
   mongodb:
     image: mongo:latest
+    restart: unless-stopped
     container_name: sendy_mongo
     environment:
       - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
