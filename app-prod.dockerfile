@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y procps libmcrypt-dev openssl zip unzip 
     # && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
-    && pecl install mongodb \
+    && pecl install mongodb-1.9.0 \
     && docker-php-ext-enable mongodb
 
 RUN apt-get install -y supervisor
