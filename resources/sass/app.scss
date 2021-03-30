@@ -12,3 +12,43 @@
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+
+.dialog-unauthorized {
+    background-color: white;
+    width: 100%;
+    max-width: 600px;
+    max-height: 400px;
+    padding: 15px;
+    margin: 0 auto;
+    margin-top: 2rem;
+}
+
+.unauthorized {
+    font-weight: bolder;
+    font-size: 2rem;
+    text-align: center;
+    color: red;
+}
+.box-lemma {
+    padding: 5rem;
+    font-size: 2rem;
+    border: 3px;
+    border-style: double;
+    border-color: #95999c;
+}
+
+.lemma {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #004085
+}
+.verb {
+    font-size: 1rem;
+    color: #1b1e21;
+    font-style: italic;
+}
+
+.definition {
+    font-size: 1rem;
+    color: black;
+}
