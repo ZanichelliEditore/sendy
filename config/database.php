@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mongodb'),
+    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -33,17 +33,17 @@ return [
 
     'connections' => [
 
-        'mongodb' => [
-            'driver' => 'mongodb',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('MONGO_INITDB_DATABASE', 'forge'),
-            'username' => env('MONGO_INITDB_ROOT_USERNAME', 'forge'),
-            'password' => env('MONGO_INITDB_ROOT_PASSWORD', ''),
-            'options' => array(
-                'sendy' => env('DB_AUTH_DATABASE', '') // sets the authentication database required by mongo 3
-            )
-        ],
+        // 'mongodb' => [
+        //     'driver' => 'mongodb',
+        //     'host' => env('DB_HOST', '127.0.0.1'),
+        //     'port' => env('DB_PORT', '3306'),
+        //     'database' => env('MONGO_INITDB_DATABASE', 'forge'),
+        //     'username' => env('MONGO_INITDB_ROOT_USERNAME', 'forge'),
+        //     'password' => env('MONGO_INITDB_ROOT_PASSWORD', ''),
+        //     'options' => array(
+        //         'sendy' => env('DB_AUTH_DATABASE', '') // sets the authentication database required by mongo 3
+        //     )
+        // ],
 
         'sqlite' => [
             'driver' => 'sqlite',

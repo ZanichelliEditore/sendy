@@ -161,8 +161,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Jenssegers\Mongodb\MongodbServiceProvider::class,
-        DesignMyNight\Mongodb\MongodbPassportServiceProvider::class,
+        // Jenssegers\Mongodb\MongodbServiceProvider::class,
+        // DesignMyNight\Mongodb\MongodbPassportServiceProvider::class,
 
         /*
          * Package Service Providers...

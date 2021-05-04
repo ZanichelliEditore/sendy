@@ -10,13 +10,12 @@
   "require": {
     "php": "^7.2",
     "darkaonline/l5-swagger": "6.*",
-    "designmynight/laravel-mongodb-passport": "1.2.*",
     "fideloper/proxy": "^4.0",
     "guzzlehttp/guzzle": "^6.3",
-    "jenssegers/mongodb": "^3.6",
     "laravel/framework": "^6.0",
+    "laravel/passport": "^7.5.1",
     "laravel/helpers": "^1.4",
-    "laravel/telescope": "dev-z-telescope-mongodb",
+    "laravel/telescope": "^3.0",
     "lcobucci/jwt": "3.3.3",
     "zanichelli/idp-extensions": "^1.0"
   },

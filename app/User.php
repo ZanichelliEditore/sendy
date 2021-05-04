@@ -4,13 +4,13 @@ namespace App;
 
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
-use DesignMyNight\Mongodb\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
 
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
-    protected $connection = "mongodb";
     /**
      * The attributes that are mass assignable.
      *

@@ -23,13 +23,13 @@ services:
       - ./:/var/www
       - ./custom.d:/usr/local/etc/php/custom.d
     environment:
-      - "DB_HOST=mongodb"
-      - "DB_PORT=27017"
+      - "DB_HOST=pgsql"
+      - "DB_PORT=5432"
       - "PHP_INI_SCAN_DIR=/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
     links:
-      - mongodb
+      - pgsql
     depends_on:
-      - mongodb
+      - pgsql
   nodejs:
     build:
       context: images/node
@@ -38,14 +38,14 @@ services:
     container_name: sendy_nodejs
     volumes:
       - ./:/var/www/
-  mongodb:
-    image: mongo:latest
-    container_name: sendy_mongo
+  pgsql:
+    image: postgres:latest
+    container_name: sendy_psql
     environment:
-      - "MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}"
-      - "MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}"
-      - "MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}"
+      - "POSTGRES_DB=${DB_DATABASE}"
+      - "POSTGRES_USER=${DB_USERNAME}"
+      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
     volumes:
       - ./data/db:/data/db
     ports:
-      - "27017:27017"
+      - "5432:5432"
