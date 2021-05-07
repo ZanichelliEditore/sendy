@@ -42,7 +42,7 @@ services:
     image: mysql:5.7
     container_name: sendy_db
     environment:
-      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_ROOT_PASSWORD=${DB_PASSWORD}"
       - "MYSQL_DATABASE=${DB_DATABASE}"
     ports:
       - "33064:3306"

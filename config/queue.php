@@ -35,7 +35,7 @@ return [
         ],
 
         'database' => [
-            'driver' => 'pgsql',
+            'driver' => 'database',
             'table' => 'jobs',
             'queue' => 'default,emails',
             'retry_after' => 180,

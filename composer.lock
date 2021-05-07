@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f9b3bed03a32e222cd2e1d16984a5838",
+    "content-hash": "4da6c5b1afc10c82831182c4252c77da",
     "packages": [
         {
             "name": "darkaonline/l5-swagger",
@@ -1125,12 +1125,12 @@
             "version": "v3.5.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ZanichelliEditore/telescope.git",
+                "url": "https://github.com/laravel/telescope.git",
                 "reference": "a8d2e1106ba655006fde47a0b7ed53851c6398f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZanichelliEditore/telescope/zipball/a8d2e1106ba655006fde47a0b7ed53851c6398f5",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/a8d2e1106ba655006fde47a0b7ed53851c6398f5",
                 "reference": "a8d2e1106ba655006fde47a0b7ed53851c6398f5",
                 "shasum": ""
             },
@@ -1161,11 +1161,7 @@
                     "Laravel\\Telescope\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Laravel\\Telescope\\Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1186,7 +1182,8 @@
                 "monitoring"
             ],
             "support": {
-                "source": "https://github.com/ZanichelliEditore/telescope/tree/v3.5.1"
+                "issues": "https://github.com/laravel/telescope/issues",
+                "source": "https://github.com/laravel/telescope/tree/v3.5.1"
             },
             "time": "2020-07-28T19:12:33+00:00"
         },
