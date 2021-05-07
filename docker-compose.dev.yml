@@ -23,13 +23,13 @@ services:
       - ./:/var/www
       - ./custom.d:/usr/local/etc/php/custom.d
     environment:
-      - "DB_HOST=pgsql"
-      - "DB_PORT=5432"
+      - "DB_HOST=database"
+      - "DB_PORT=3306"
       - "PHP_INI_SCAN_DIR=/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
     links:
-      - pgsql
+      - database
     depends_on:
-      - pgsql
+      - database
   nodejs:
     build:
       context: images/node
@@ -38,14 +38,22 @@ services:
     container_name: sendy_nodejs
     volumes:
       - ./:/var/www/
-  pgsql:
-    image: postgres:latest
-    container_name: sendy_psql
+  database:
+    image: mysql:5.7
+    container_name: sendy_db
     environment:
-      - "POSTGRES_DB=${DB_DATABASE}"
-      - "POSTGRES_USER=${DB_USERNAME}"
-      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
-    volumes:
-      - ./data/db:/data/db
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_DATABASE=${DB_DATABASE}"
     ports:
-      - "5432:5432"
+      - "33064:3306"
+  phpmyadmin:
+    image: "phpmyadmin/phpmyadmin"
+    container_name: sendy_phpmyadmin
+    links:
+      - database
+    ports:
+      - "8084:80"
+    environment:
+      - "PMA_HOST=${DB_HOST}"
+      - "PMA_USER=${DB_USERNAME}"
+      - "PMA_PASSWORD=${DB_PASSWORD}"
