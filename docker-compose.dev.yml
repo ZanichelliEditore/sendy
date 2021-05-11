@@ -23,8 +23,6 @@ services:
       - ./:/var/www
       - ./custom.d:/usr/local/etc/php/custom.d
     environment:
-      - "DB_HOST=database"
-      - "DB_PORT=3306"
       - "PHP_INI_SCAN_DIR=/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
     links:
       - database
