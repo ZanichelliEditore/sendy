@@ -18,7 +18,7 @@ See deployment for notes on how to deploy the project on a live system.
 - [Testing](#testing)
 - [Deployment](#deployment)
 - [Usage](#usage)
-- [Appendix](#appendix)
+- [Appendix](#appendix) 
 
 ## Prerequisites
 
@@ -42,7 +42,7 @@ Steps from 4 to 6 have to be executed inside docker app container since it repre
     docker-compose --file docker-compose.dev.yml up -d
     docker exec -it sendy_app bash
 
-4.  Install the required dependencies with composer
+4.  Install the required dependencies with composer.
 
     composer install
 
