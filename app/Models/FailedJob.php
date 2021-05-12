@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Jenssegers\Mongodb\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
+
 
 class FailedJob extends Model
 {
-    protected $collection = 'failed_jobs';
+    protected $table = 'failed_jobs';
 }

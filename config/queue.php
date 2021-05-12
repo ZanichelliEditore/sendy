@@ -35,7 +35,7 @@ return [
         ],
 
         'database' => [
-            'driver' => 'mongodb',
+            'driver' => 'database',
             'table' => 'jobs',
             'queue' => 'default,emails',
             'retry_after' => 180,

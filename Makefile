@@ -23,8 +23,6 @@ npm_install:                      ## Execute npm install package [use PACKAGE=<p
 	docker-compose --file docker-compose.$(ENV).yml run --rm nodejs npm install $(PACKAGE)
 shell:                            ## Open a shell con container app
 	docker exec -it $(PROJECT)_app bash
-shell_mongo:                      ## Open a shell con container app
-	docker exec -it $(PROJECT)_mongo bash
 composer_install:                 ## Execute composer install
 	docker exec -it $(PROJECT)_app composer install
 composer_update:                  ## Execute composer update

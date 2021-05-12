@@ -17,9 +17,15 @@ class Email
     private $body;
     private $attachmentsDirectory;
 
-    public function __construct(string $from, array $to, array $cc = [], array $bcc = [], string $subject = null,
-                                string $body = null, string $attachmentsDirectory = null)
-    {
+    public function __construct(
+        string $from,
+        array $to,
+        array $cc = [],
+        array $bcc = [],
+        string $subject = null,
+        string $body = null,
+        string $attachmentsDirectory = null
+    ) {
         $this->from = $from;
         $this->to = $to;
         $this->cc = $cc;
