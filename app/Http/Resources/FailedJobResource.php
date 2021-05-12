@@ -18,7 +18,7 @@ class FailedJobResource extends JsonResource
             'id' => $this->id,
             'payload' => $this->payload,
             'exception' => $this->exception,
-            'failed_at' => date('Y-m-d H:i:s', $this->failed_at),
+            'failed_at' => $this->failed_at,
         ];
     }
 }
