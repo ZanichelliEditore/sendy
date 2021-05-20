@@ -18,7 +18,7 @@ See deployment for notes on how to deploy the project on a live system.
 - [Testing](#testing)
 - [Deployment](#deployment)
 - [Usage](#usage)
-- [Appendix](#appendix) 
+- [Appendix](#appendix)
 
 ## Prerequisites
 
@@ -52,7 +52,7 @@ Steps from 4 to 6 have to be executed inside docker app container since it repre
 
 6.  Generate passport credentials
 
-    php artisan passport:install
+    php artisan passport:install --uuids
 
 7.  Activate queue worker
 
