@@ -1,6 +1,7 @@
+db_host: "{{lookup('env','DB_HOST_SENDY_PRODUCTION')}}"
 db_name: "sendy"
-db_username: "{{lookup('env','MONGO_INITDB_ROOT_USERNAME')}}"
-db_password: "{{lookup('env','MONGO_INITDB_ROOT_PASSWORD')}}"
+db_username: "{{lookup('env','DB_USERNAME_SENDY_PRODUCTION')}}"
+db_password: "{{lookup('env','DB_PASSWORD_SENDY_PRODUCTION')}}"
 
 idp_host: idp.zanichelli.it
 
