@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 0.13"
   backend "s3" {
     profile        = "zanichelli-ced-terraform"
     bucket         = "terraform-zanichelli-ced"
@@ -6,9 +7,15 @@ terraform {
     region         = "eu-west-1"
     dynamodb_table = "app-state"
   }
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 2.13"
+    }
+  }
 }
-provider "aws" {
-  version             = "~> 2.13" // Recommended
+  provider "aws" {
   profile             = var.profile
   region              = var.region
   allowed_account_ids = ["305507912930"] // Optional
