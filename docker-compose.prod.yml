@@ -22,34 +22,10 @@ services:
       context: ./
       dockerfile: app-prod.dockerfile
     container_name: sendy_app
-    environment:
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=27017
     restart: unless-stopped
     volumes:
       - appStorage:/var/www/storage
       - appVendor:/var/www/vendor
-    networks:
-      - default
-    depends_on:
-      - mongodb
-    logging:
-      driver: "json-file"
-      options:
-        max-size: 5m
-        max-file: "3"
-  mongodb:
-    image: mongo:latest
-    restart: unless-stopped
-    container_name: sendy_mongo
-    environment:
-      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-    volumes:
-      - appMongo:/data/db
-    ports:
-      - "27017:27017"
     networks:
       - default
     logging:
@@ -66,7 +42,6 @@ services:
 volumes:
   appStorage:
   appVendor:
-  appMongo:
 
 networks:
   default:
