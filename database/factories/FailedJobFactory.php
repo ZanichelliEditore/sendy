@@ -1,14 +1,32 @@
 <?php
 
-use App\Models\FailedJob;
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(FailedJob::class, function (Faker $faker) {
-    return [
-        'connection' => $faker->text(),
-        'queue' => $faker->text(),
-        'payload' => $faker->text(),
-        'exception' => $faker->text(),
-        'failed_at' => $faker->unixTime()
-    ];
-});
+use App\Models\FailedJob;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class FailedJobFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = FailedJob::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'connection' => $this->faker->text(),
+            'queue' => $this->faker->text(),
+            'payload' => $this->faker->text(),
+            'exception' => $this->faker->text(),
+            'failed_at' => $this->faker->unixTime()
+        ];
+    }
+}
