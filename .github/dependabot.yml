@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    target-branch: "develop"  
+    target-branch: "SND-14"  
     directory: "/"
     schedule:
       interval: "weekly"
@@ -10,7 +10,7 @@ updates:
       - "dependencies"
 
   - package-ecosystem: "composer"
-    target-branch: "develop"
+    target-branch: "SND-14"
     directory: "/"
     schedule:
       interval: "weekly"
