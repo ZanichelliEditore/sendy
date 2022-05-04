@@ -1,6 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
+    target-branch: "develop"  
     directory: "/"
     schedule:
       interval: "weekly"
@@ -8,6 +9,7 @@ updates:
       - "npm dependencies"
 
   - package-ecosystem: "Composer"
+    target-branch: "develop"
     directory: "/"
     schedule:
       interval: "weekly"
