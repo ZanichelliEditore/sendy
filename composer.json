@@ -17,7 +17,8 @@
     "laravel/passport": "^10.0",
     "laravel/telescope": "^4.0",
     "lcobucci/jwt": "3.3.3",
-    "zanichelli/idp-extensions": "^1.0"
+    "zanichelli/idp-extensions": "^1.0",
+    "zircote/swagger-php": "3.*"
   },
   "require-dev": {
     "beyondcode/laravel-dump-server": "^1.0",

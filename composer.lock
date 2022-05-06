@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "85698f7a2e92eba96b5c553472895f5d",
+    "content-hash": "a9fe25f2303d49326c0ee7a0e67ef277",
     "packages": [
         {
             "name": "brick/math",
@@ -5980,41 +5980,39 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "4.3.0",
+            "version": "3.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "24b23371ee962ac201fac33292034ae099c8d4a0"
+                "reference": "7313ff7d1991d00e52d0e852087693d4482df631"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/24b23371ee962ac201fac33292034ae099c8d4a0",
-                "reference": "24b23371ee962ac201fac33292034ae099c8d4a0",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/7313ff7d1991d00e52d0e852087693d4482df631",
+                "reference": "7313ff7d1991d00e52d0e852087693d4482df631",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1.7",
                 "ext-json": "*",
                 "php": ">=7.2",
-                "psr/log": "^1.1 || ^2.0 || 3.0",
+                "psr/log": "^1.1 || ^2.0 || ^3.0",
                 "symfony/finder": ">=2.2",
                 "symfony/yaml": ">=3.3"
             },
             "require-dev": {
-                "composer/package-versions-deprecated": "^1.11",
+                "composer/package-versions-deprecated": "1.11.99.2",
                 "friendsofphp/php-cs-fixer": "^2.17 || ^3.0",
-                "phpunit/phpunit": ">=8"
+                "phpunit/phpunit": ">=8.5.14"
             },
             "bin": [
                 "bin/openapi"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.x-dev"
-                }
-            },
             "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
                 "psr-4": {
                     "OpenApi\\": "src"
                 }
@@ -6049,9 +6047,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/4.3.0"
+                "source": "https://github.com/zircote/swagger-php/tree/3.3.4"
             },
-            "time": "2022-04-17T01:42:30+00:00"
+            "time": "2022-02-22T21:09:06+00:00"
         }
     ],
     "packages-dev": [
