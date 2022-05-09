@@ -14,7 +14,7 @@
         "bootstrap": "^4.6.1",
         "cross-env": "^5.1",
         "jquery": "^3.6",
-        "laravel-mix": "^4.0.7",
+        "laravel-mix": "^6.0.43",
         "lodash": "^4.17.21",
         "popper.js": "^1.12",
         "resolve-url-loader": "^5.0.0",
