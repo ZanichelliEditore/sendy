@@ -1,17 +1,16 @@
-FROM node:10.16-alpine
+FROM node:16-alpine
 
 RUN npm config set unsafe-perm true
-RUN npm install -g yarn
 RUN npm install -g nodemon
 RUN npm install -g lodash-cli
 RUN npm install -g moment
 
 RUN apk add --update \
-    python \
-    python-dev \
-    py-pip \
+    python3 \
+    python3-dev \
+    py3-pip \
     build-base \
-    && pip install virtualenv \
+    && pip3 install virtualenv \
     && rm -rf /var/cache/apk/*
 
 WORKDIR /app
@@ -21,4 +20,3 @@ ONBUILD RUN virtualenv /env && /env/bin/pip install -r /app/requirements.txt
 
 RUN mkdir -p /var/www
 WORKDIR /var/www
-
