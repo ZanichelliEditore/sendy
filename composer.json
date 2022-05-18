@@ -17,7 +17,7 @@
     "laravel/passport": "^10.0",
     "laravel/telescope": "^4.0",
     "lcobucci/jwt": "3.4.6",
-    "zanichelli/idp-extensions": "^1.0",
+    "zanichelli/idp-extensions": "^3.1",
     "zircote/swagger-php": "4.*"
   },
   "require-dev": {
