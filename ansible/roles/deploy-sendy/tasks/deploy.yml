@@ -66,17 +66,44 @@
 - name: reset connection for user ubuntu
   meta: reset_connection
 
-- name: Remove the containers
-  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml down"
-  ignore_errors: yes
-  args:
-    chdir: "{{ deploy_path }}"
+- name: Evaluate deploy type
+  include_role:
+    name: set-deploy-type
 
-- name: Start and build the containers
+- name: Start and rebuild the containers
   command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
   args:
     chdir: "{{ deploy_path }}"
+  when: count_sendy_images.stdout|int == 0 or count_sendy_images.stdout|int == 1
 
+- name: Remove the containers
+  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml down"
+  args:
+    chdir: "{{ deploy_path }}"
+  ignore_errors: yes
+  when: deploy_type|string == 'fix_build_tag'
+
+- name: Remove app volume
+  command: "/usr/bin/docker volume rm sendy_app"
+  ignore_errors: yes
+  when: deploy_type|string == 'fix_build_tag'
+
+- name: Backup latest image
+  command: "/usr/bin/docker tag sendy_app:latest sendy_app:previous"
+
+# TODO: handle different tag versions
+- name: Build sendy app image
+  command: "/usr/bin/docker build -t sendy_app:v1 -f app-prod.dockerfile ."
+  args:
+    chdir: "{{ deploy_path }}"
+
+- name: Update latest image
+  command: "/usr/bin/docker tag sendy_app:v1 sendy_app:latest"
+
+- name: Recreate containers using new latest image
+  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d"
+  args:
+    chdir: "{{ deploy_path }}"
 
 - name: Install npm
   command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm install"
@@ -88,29 +115,16 @@
   args:
     chdir: "{{ deploy_path }}"
 
+- name: Reload builded files
+  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
+  args:
+    chdir: "{{ deploy_path }}"
+
 - name: Run composer install
   command: "/usr/bin/docker exec sendy_app composer install"
 
 - name: Run migrations
   command: "/usr/bin/docker exec sendy_app php artisan migrate --force"
 
-- name: Copy public files into nginx container
-  command: "docker cp sendy_app:/var/www/public/. ./public/"
-  become: yes
-  args:
-    chdir: "{{ deploy_path }}"
-
-- name: Copy public folder into sendy_web public folder
-  command: "docker cp ./public/. sendy_web:/var/www/public/"
-  args:
-    chdir: "{{ deploy_path }}"
-
-- name: Copy public files into sendy_app container
-  command: "docker cp ./public/. sendy_app:/var/www/public/"
-  args:
-    chdir: "{{ deploy_path }}"
-
-- name: Reload builded files
-  command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
-  args:
-    chdir: "{{ deploy_path }}"
+- name: Publish telescope
+  command: "docker exec sendy_app php artisan telescope:publish"
