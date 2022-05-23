@@ -38,6 +38,7 @@
         const ui = SwaggerUIBundle({
             dom_id: '#swagger-ui',
             url: "{!! $urlToDocs !!}",
+            supportedSubmitMethods: "[]",
             operationsSorter: {!! isset($operationsSorter) ? '"' . $operationsSorter . '"' : 'null' !!},
             configUrl: {!! isset($configUrl) ? '"' . $configUrl . '"' : 'null' !!},
             validatorUrl: {!! isset($validatorUrl) ? '"' . $validatorUrl . '"' : 'null' !!},
