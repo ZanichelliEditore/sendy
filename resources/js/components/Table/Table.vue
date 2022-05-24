@@ -25,7 +25,6 @@
       <div class="d-flex justify-content-end mb-4">
         <div>
           <form class="form-inline mr-2">
-            <label class="sr-only" for="inputQuery">Query</label>
             <input
               id="inputQuery"
               type="text"
@@ -52,7 +51,7 @@
       </div>
       <div class="table-responsive">
         <table class="table table-bordered table-hover">
-          <thead class="thead-dark">
+          <thead class="table-dark">
             <tr>
               <th
                 v-for="(column, index) in columns"

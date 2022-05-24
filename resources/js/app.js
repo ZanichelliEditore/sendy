@@ -6,7 +6,7 @@
 
 require("./bootstrap");
 
-window.Vue = require("vue");
+window.Vue = require("vue").default;
 import BootstrapVue from "bootstrap-vue";
 
 Vue.use(BootstrapVue);
