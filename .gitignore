@@ -2,7 +2,7 @@
 /public/storage
 /storage/*.key
 /storage/api-docs/*
-/node_modules/**/
+/node_modules
 /vendor/**/
 /vendor/*.php
 .env

@@ -71,13 +71,12 @@ module "instance-sendy" {
 }
 
 module "alb-listener-rule-sendy-https" {
-  source = "git::ssh://git@bitbucket.org/zanichelli/terraform-alb-listener-rule.git?ref=v0.0.5"
+  source = "git::ssh://git@bitbucket.org/zanichelli/terraform-alb-listener-rule.git?ref=v0.0.8"
   //source = "../../../../terraform-alb-listener-rule"
   project                       = "sendy"
   environment                   = var.environment
   listener_arn                  = data.aws_lb_listener.alb_listener.arn
-  alb_condition_field           = "host-header"
-  alb_condition_value           = "sendy.zanichelli.it"
+  alb_host_header_values        = ["sendy.zanichelli.it"]
   target_group_name             = "sendy-https-target-group"
   alb_target_port               = "443"
   alb_target_protocol           = "HTTPS"
