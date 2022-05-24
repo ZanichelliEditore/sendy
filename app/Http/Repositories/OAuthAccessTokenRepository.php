@@ -14,6 +14,6 @@ class OAuthAccessTokenRepository
      */
     public function deleteOlder($dateTime)
     {        
-        return OAuthAccessToken::where('created_at.date', '<', $dateTime)->delete();
+        return OAuthAccessToken::where('created_at', '<', $dateTime)->delete();
     }
 }

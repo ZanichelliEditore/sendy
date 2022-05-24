@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Jenssegers\Mongodb\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
+
 
 class OAuthAccessToken extends Model
 {
-    protected $collection = 'oauth_access_tokens';
+    protected $table = 'oauth_access_tokens';
 }

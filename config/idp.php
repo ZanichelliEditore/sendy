@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'connection' => env("DB_CONNECTION", 'mongodb')
+    'connection' => env("DB_CONNECTION", 'mysql')
 ];

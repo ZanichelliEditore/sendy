@@ -1,11 +1,10 @@
-FROM php:7.3-fpm
+FROM php:7.4.2-fpm
 
-RUN apt-get update && apt-get install -y procps libmcrypt-dev openssl zip unzip git libfreetype6-dev libjpeg62-turbo-dev libgd-dev libpng-dev apt-utils libcurl4-openssl-dev pkg-config libssl-dev vim \
+RUN apt-get update && apt-get install -y procps libmcrypt-dev openssl zip unzip git libfreetype6-dev  mariadb-client libjpeg62-turbo-dev libgd-dev libpng-dev apt-utils libcurl4-openssl-dev pkg-config libssl-dev vim \
     # && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install gd \
-    && pecl install mongodb-1.9.0 \
-    && docker-php-ext-enable mongodb
+    && docker-php-ext-install pdo_mysql
 
 RUN apt-get install -y supervisor
 COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf

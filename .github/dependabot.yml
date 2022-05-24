@@ -1,16 +1,15 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    target-branch: "SND-14"  
+    target-branch: "master"  
     directory: "/"
     schedule:
       interval: "weekly"
     labels:
       - "npm"
       - "dependencies"
-
   - package-ecosystem: "composer"
-    target-branch: "SND-14"
+    target-branch: "master"
     directory: "/"
     schedule:
       interval: "weekly"

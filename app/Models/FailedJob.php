@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
-use Jenssegers\Mongodb\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FailedJob extends Model
-{
-    protected $collection = 'failed_jobs';
+{   
+    use HasFactory;
+    
+    protected $table = 'failed_jobs';
 }

@@ -4,7 +4,7 @@ pipeline {
     }
 
     parameters {
-        choice(choices: ['master', 'release/deployOnAWS'], description: 'branch used to deploy file on server', name: 'deploy_branch')
+        choice(choices: ['master'], description: 'branch used to deploy file on server', name: 'deploy_branch')
     }
 
     stages {
@@ -40,9 +40,9 @@ pipeline {
                 ANSIBLE_INVENTORY_PATH = "$WORKSPACE/ansible/inventory/production.inv"
                 BRANCH_NAME = "$params.deploy_branch"
 
-                MONGO_INITDB_DATABASE = "sendy"
-                MONGO_INITDB_ROOT_USERNAME = "root"
-                MONGO_INITDB_ROOT_PASSWORD = credentials("mongo_sendy_pwd")
+                DB_HOST_SENDY_PRODUCTION = credentials("db_host_sendy_production")
+                DB_USERNAME_SENDY_PRODUCTION = credentials("db_username_sendy_production")
+                DB_PASSWORD_SENDY_PRODUCTION = credentials("db_password_sendy_production")
             }
 
             steps {

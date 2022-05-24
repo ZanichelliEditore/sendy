@@ -35,7 +35,7 @@ class FailedJobTest extends TestCase
     */
     public function testSuccesfullyListFailedJob()
     {
-        $failedJob = factory(FailedJob::class)->make();
+        $failedJob = FailedJob::factory()->make();
 
         $paginator = new Paginator([$failedJob], 12, 1);
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()

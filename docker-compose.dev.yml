@@ -23,13 +23,11 @@ services:
       - ./:/var/www
       - ./custom.d:/usr/local/etc/php/custom.d
     environment:
-      - "DB_HOST=mongodb"
-      - "DB_PORT=27017"
       - "PHP_INI_SCAN_DIR=/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
     links:
-      - mongodb
+      - database
     depends_on:
-      - mongodb
+      - database
   nodejs:
     build:
       context: images/node
@@ -38,14 +36,22 @@ services:
     container_name: sendy_nodejs
     volumes:
       - ./:/var/www/
-  mongodb:
-    image: mongo:latest
-    container_name: sendy_mongo
+  database:
+    image: mysql:5.7
+    container_name: sendy_db
     environment:
-      - "MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}"
-      - "MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}"
-      - "MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}"
-    volumes:
-      - ./data/db:/data/db
+      - "MYSQL_ROOT_PASSWORD=${DB_PASSWORD}"
+      - "MYSQL_DATABASE=${DB_DATABASE}"
     ports:
-      - "27017:27017"
+      - "33064:3306"
+  phpmyadmin:
+    image: "phpmyadmin/phpmyadmin"
+    container_name: sendy_phpmyadmin
+    links:
+      - database
+    ports:
+      - "8084:80"
+    environment:
+      - "PMA_HOST=${DB_HOST}"
+      - "PMA_USER=${DB_USERNAME}"
+      - "PMA_PASSWORD=${DB_PASSWORD}"

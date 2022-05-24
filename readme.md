@@ -42,7 +42,7 @@ Steps from 4 to 6 have to be executed inside docker app container since it repre
     docker-compose --file docker-compose.dev.yml up -d
     docker exec -it sendy_app bash
 
-4.  Install the required dependencies with composer
+4.  Install the required dependencies with composer.
 
     composer install
 
@@ -52,7 +52,7 @@ Steps from 4 to 6 have to be executed inside docker app container since it repre
 
 6.  Generate passport credentials
 
-    php artisan passport:install
+    php artisan passport:install --uuids
 
 7.  Activate queue worker
 
@@ -107,9 +107,9 @@ In production environment has to be set ssl certificates and the environment you
 - [jenkinsfile](Jenkinsfile), set environment credentials; edit lines 16-19 and 26-28:
 
 ```php
-    MONGO_INITDB_DATABASE = "sendy"
-    MONGO_INITDB_ROOT_USERNAME = <username>
-    MONGO_INITDB_ROOT_PASSWORD = credentials(<mongo_pwd>)
+    DB_DATABASE = "sendy"
+    DB_USERNAME = <username>
+    DB_PASSWORD = credentials(<db_pwd>)
     ...
     ..credentialsId: <certificate>..
     ..credentialsId: <certificate_key>..
@@ -231,28 +231,15 @@ data = res.json # get data as object using attribute .json, or use r.content
   - the application server will run in http://localhost:8083
   - the documentation will be automatically generated in http://localhost:8083/documentation
 
-- **Database:** sendy uses MongoDB as database to store both credentials and jobs for the email.
+- **Database:** sendy uses mysql as database to store both credentials and jobs for the email.
 
-  You can query the database using the container of mongo and enter as verified user:
-
-        docker exec -it sendy_mongo bash
-        mongo -u "user" -p
+  You can query the database using phpmyadmin
 
   credentials to use are in .env file:
 
   ```php
-  MONGO_INITDB_ROOT_USERNAME=
-  MONGO_INITDB_ROOT_PASSWORD=
-  ```
-
-  Other mongo utils commands:
-
-  ```php
-  show dbs # show existing databases
-  use DBNAME # select database
-
-  show collections # show db collections
-  db.emails.find() # select all documents in email collection
+  DB_USERNAME=
+  DB_PASSWORD=
   ```
 
 - **Docker:** the project provides useful shortcut commands to interact with docker.
