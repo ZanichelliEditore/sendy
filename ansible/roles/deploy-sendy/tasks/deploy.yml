@@ -77,7 +77,6 @@
   args:
     chdir: "{{ deploy_path }}"
 
-
 - name: Install npm
   command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm install"
   args:
