@@ -8,6 +8,7 @@ use App\Jobs\EmailSender;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
@@ -210,6 +211,29 @@ class EmailTest extends TestCase
         Bus::assertNotDispatched(EmailSender::class);
     }
 
+
+    /**
+     * @test
+     * return void
+     */
+    public function senderFieldErrorValidationTest()
+    {
+
+        Bus::fake();
+
+        $requestBody = $this->getEmail();
+        $requestBody['sender'] = UploadedFile::fake()->create('test.jpg', '10600');
+        $response = $this->json('POST', '/api/v1/emails', $requestBody);
+        $this->assertEquals(422, $response->status());
+        $response->assertJsonStructure([
+            "errors" => [
+                "sender"
+            ]
+        ]);
+
+        Bus::assertNotDispatched(EmailSender::class);
+    }
+
     /**
      * @test
      * @return void
@@ -235,7 +259,7 @@ class EmailTest extends TestCase
      * @test
      * @return void
      */
-    public function sendPostSuccessSaveTest()
+    public function sendPostSuccessSaveTestWithOutSenderParam()
     {
         Bus::fake();
         Storage::fake('local');
@@ -250,8 +274,35 @@ class EmailTest extends TestCase
                 $emailInfo->getCc() === $email['cc'] &&
                 $emailInfo->getBcc() === $email['bcc'] &&
                 $emailInfo->getFrom() === $email['from'] &&
+                $emailInfo->getSender() === null &&
                 $emailInfo->getSubject() === $email['subject'] &&
                 $emailInfo->getBody() === $email['body'];
+        });
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function successEmailSendWithSenderParamTest()
+    {
+        Bus::fake();
+        Storage::fake('local');
+
+        $requestBody = $this->getEmail();
+        $requestBody['sender'] = 'testSender';
+        $response = $this->json('POST', '/api/v1/emails', $requestBody);
+        $this->assertEquals(200, $response->status());
+
+        Bus::assertDispatched(EmailSender::class, function (EmailSender $job) use ($requestBody) {
+            $emailInfo = $job->getMailable()->getEmail();
+            return $emailInfo->getTo() === $requestBody['to'] &&
+                $emailInfo->getCc() === $requestBody['cc'] &&
+                $emailInfo->getBcc() === $requestBody['bcc'] &&
+                $emailInfo->getFrom() === $requestBody['from'] &&
+                $emailInfo->getSender() === $requestBody['sender'] &&
+                $emailInfo->getSubject() === $requestBody['subject'] &&
+                $emailInfo->getBody() === $requestBody['body'];
         });
     }
 

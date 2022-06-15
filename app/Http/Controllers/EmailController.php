@@ -50,6 +50,7 @@ class EmailController extends Controller
     public function send(EmailRequest $request)
     {
         $from = $request->input('from');
+        $sender = $request->input('sender');
         $to = $request->input('to');
         $cc = $request->input('cc', []);
         $bcc = $request->input('bcc', []);
@@ -70,7 +71,7 @@ class EmailController extends Controller
         }
 
 
-        $email = new Email($from, $to, $cc, $bcc, $subject, $body, $attachmentsDirectory);
+        $email = new Email($from, $sender, $to, $cc, $bcc, $subject, $body, $attachmentsDirectory);
 
         $mailable = new CustomEmail($email);
 
