@@ -32,7 +32,7 @@ class EmailRequest extends FormRequest
             'bcc' => 'sometimes|array|nullable',
             'bcc.*' => ['email', $formatEmail, 'max:320'],
             'from' => 'required|email',
-            'sender' => 'sometimes|string',
+            'sender' => 'sometimes|string|max:200',
             'subject' => 'sometimes|string|max:200|nullable',
             'body' => 'sometimes|string|nullable',
             "attachments" => 'sometimes|array',

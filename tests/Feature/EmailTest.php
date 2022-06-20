@@ -211,17 +211,29 @@ class EmailTest extends TestCase
     }
 
 
+    public function wrongSenderValues()
+    {
+        return [
+            // Not a string
+            [UploadedFile::fake()->create('test.jpg', '10600')],
+            // More than 200 characters
+            ['Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qua']
+        ];
+    }
+
+
     /**
      * @test
+     * @dataProvider wrongSenderValues
      * return void
      */
-    public function senderFieldErrorValidationTest()
+    public function senderFieldErrorValidationTest($wrongSenderValue)
     {
 
         Bus::fake();
 
         $requestBody = $this->getEmail();
-        $requestBody['sender'] = UploadedFile::fake()->create('test.jpg', '10600');
+        $requestBody['sender'] = $wrongSenderValue;
         $response = $this->json('POST', '/api/v1/emails', $requestBody);
         $this->assertEquals(422, $response->status());
         $response->assertJsonStructure([
@@ -253,7 +265,6 @@ class EmailTest extends TestCase
 
         Bus::assertNotDispatched(EmailSender::class);
     }
-
     /**
      * @test
      * @return void
@@ -279,17 +290,27 @@ class EmailTest extends TestCase
         });
     }
 
+    public function sampleSenders()
+    {
+        return [
+            ['asdasd asdasd'],
+            ['@@@@@@@@'],
+            ['^^^@#]èà342 °°° ♥♥♥']
+        ];
+    }
+
     /**
      * @test
+     * @dataProvider sampleSenders
      * @return void
      */
-    public function successEmailSendWithSenderParamTest()
+    public function successEmailSendWithSenderParamTest($sender)
     {
         Bus::fake();
         Storage::fake('local');
 
         $requestBody = $this->getEmail();
-        $requestBody['sender'] = 'testSender';
+        $requestBody['sender'] = $sender;
         $response = $this->json('POST', '/api/v1/emails', $requestBody);
         $this->assertEquals(200, $response->status());
 
