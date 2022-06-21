@@ -11,16 +11,17 @@ use Illuminate\Support\Facades\Storage;
 
 class EmailTest extends TestCase
 {
-    private function createEmail(bool $file = false)
+    private function createEmail(bool $file = false, bool $withSender = false)
     {
         return new Email(
-            'sender@example.com',
+            'from@example.com',
+            $withSender ? "sender" : null,
             ['receiver1@example.com', 'receiver2@example.com'],
             ['receiverCC@example.com'],
             ['receiverBCC@example.com'],
             'Subject',
             'Fake body',
-            ($file ? 'Fake_directory' : null)
+            $file ? 'Fake_directory' : null
         );
     }
 
