@@ -13,14 +13,12 @@ class Email
     private $cc;
     private $bcc;
     private $from;
-    private $sender;
     private $subject;
     private $body;
     private $attachmentsDirectory;
 
     public function __construct(
         string $from,
-        string $sender = null,
         array $to,
         array $cc = [],
         array $bcc = [],
@@ -29,7 +27,6 @@ class Email
         string $attachmentsDirectory = null
     ) {
         $this->from = $from;
-        $this->sender = $sender;
         $this->to = $to;
         $this->cc = $cc;
         $this->bcc = $bcc;
@@ -68,14 +65,6 @@ class Email
     public function getFrom(): string
     {
         return $this->from;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getSender()
-    {
-        return $this->sender;
     }
 
     /**
