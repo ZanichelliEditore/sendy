@@ -210,6 +210,41 @@ class EmailTest extends TestCase
         Bus::assertNotDispatched(EmailSender::class);
     }
 
+
+    public function wrongSenderValues()
+    {
+        return [
+            // Not a string
+            [UploadedFile::fake()->create('test.jpg', '10600')],
+            // More than 200 characters
+            ['Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qua']
+        ];
+    }
+
+
+    /**
+     * @test
+     * @dataProvider wrongSenderValues
+     * return void
+     */
+    public function senderFieldErrorValidationTest($wrongSenderValue)
+    {
+
+        Bus::fake();
+
+        $requestBody = $this->getEmail();
+        $requestBody['sender'] = $wrongSenderValue;
+        $response = $this->json('POST', '/api/v1/emails', $requestBody);
+        $this->assertEquals(422, $response->status());
+        $response->assertJsonStructure([
+            "errors" => [
+                "sender"
+            ]
+        ]);
+
+        Bus::assertNotDispatched(EmailSender::class);
+    }
+
     /**
      * @test
      * @return void
@@ -230,12 +265,11 @@ class EmailTest extends TestCase
 
         Bus::assertNotDispatched(EmailSender::class);
     }
-
     /**
      * @test
      * @return void
      */
-    public function sendPostSuccessSaveTest()
+    public function sendPostSuccessSaveTestWithOutSenderParam()
     {
         Bus::fake();
         Storage::fake('local');
@@ -250,8 +284,45 @@ class EmailTest extends TestCase
                 $emailInfo->getCc() === $email['cc'] &&
                 $emailInfo->getBcc() === $email['bcc'] &&
                 $emailInfo->getFrom() === $email['from'] &&
+                $emailInfo->getSender() === null &&
                 $emailInfo->getSubject() === $email['subject'] &&
                 $emailInfo->getBody() === $email['body'];
+        });
+    }
+
+    public function sampleSenders()
+    {
+        return [
+            ['asdasd asdasd'],
+            ['@@@@@@@@'],
+            ['^^^@#]èà342 °°° ♥♥♥']
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider sampleSenders
+     * @return void
+     */
+    public function successEmailSendWithSenderParamTest($sender)
+    {
+        Bus::fake();
+        Storage::fake('local');
+
+        $requestBody = $this->getEmail();
+        $requestBody['sender'] = $sender;
+        $response = $this->json('POST', '/api/v1/emails', $requestBody);
+        $this->assertEquals(200, $response->status());
+
+        Bus::assertDispatched(EmailSender::class, function (EmailSender $job) use ($requestBody) {
+            $emailInfo = $job->getMailable()->getEmail();
+            return $emailInfo->getTo() === $requestBody['to'] &&
+                $emailInfo->getCc() === $requestBody['cc'] &&
+                $emailInfo->getBcc() === $requestBody['bcc'] &&
+                $emailInfo->getFrom() === $requestBody['from'] &&
+                $emailInfo->getSender() === $requestBody['sender'] &&
+                $emailInfo->getSubject() === $requestBody['subject'] &&
+                $emailInfo->getBody() === $requestBody['body'];
         });
     }
 
