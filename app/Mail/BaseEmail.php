@@ -23,7 +23,7 @@ abstract class BaseEmail extends Mailable
      */
     public function build()
     {
-        $builder = $this->from($this->email->getFrom(), $this->email->getSender())
+        $builder = $this->from($this->email->getFrom())
             ->to($this->email->getTo())
             ->cc($this->email->getCc())
             ->bcc($this->email->getBcc())
