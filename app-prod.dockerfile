@@ -19,8 +19,6 @@ RUN chown -R www-data:www-data \
     /var/www/storage \
     /var/www/vendor
 
-RUN chmod 777 /var/www/root/.npm/_logs
-
 WORKDIR /var/www
 USER www-data
 
