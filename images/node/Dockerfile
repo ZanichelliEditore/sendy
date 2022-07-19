@@ -4,6 +4,7 @@ RUN npm config set unsafe-perm true
 RUN npm install -g nodemon
 RUN npm install -g lodash-cli
 RUN npm install -g moment
+RUN npm config set cache /tmp --global
 
 RUN apk add --update \
     python3 \
