@@ -56,7 +56,7 @@
   template: src=oauth-private.key
     dest={{ deploy_path }}/storage/oauth-private.key
 
-- name: adding existing user 'root' to group docker
+- name: adding existing user 'user' to group docker
   become: yes
   user:
     name: "{{ remote_user }}"
@@ -71,17 +71,11 @@
   ignore_errors: yes
   args:
     chdir: "{{ deploy_path }}"
- 
+
+- name: Start and build the containers
   command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
   args:
     chdir: "{{ deploy_path }}"
-
-- name: Make npm log folder
-  file: >
-    path="/root/.npm"
-    state=directory
-    group={{ remote_user }}
-    owner={{ remote_user }}
 
 - name: Install npm
   command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm install"
