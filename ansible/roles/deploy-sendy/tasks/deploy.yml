@@ -82,9 +82,11 @@
   args:
     chdir: "{{ deploy_path }}"
 
+- name: Fix Laravel Mix permissions issue
+  command: "chmod -R 0777 public"
+
 - name: Run npm
   command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml run --rm nodejs npm run prod"
-  ignore_errors: yes
   args:
     chdir: "{{ deploy_path }}"
 
