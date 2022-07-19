@@ -26,7 +26,6 @@ services:
     volumes:
       - appStorage:/var/www/storage
       - appVendor:/var/www/vendor
-      - appLogs:/var/www/storage/logs
     networks:
       - default
     logging:
@@ -40,18 +39,9 @@ services:
     container_name: sendy_nodejs
     volumes:
       - ./:/var/www/
-    working_dir: /var/www
-    networks:
-      - default
-    logging:
-      driver: "json-file"
-      options:
-        max-size: 5m
-        max-file: "3"
 volumes:
   appStorage:
   appVendor:
-  appLogs:
 
 networks:
   default:
