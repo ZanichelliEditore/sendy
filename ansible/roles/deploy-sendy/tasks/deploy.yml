@@ -72,11 +72,6 @@
   args:
     chdir: "{{ deploy_path }}"
 
-- name: Change file ownership, group and permissions
-  ansible.builtin.file:
-    path: "{{ document_root }}/mix-manifest.json"
-    mode: '0664'
-
 - name: Start and build the containers
   command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
   args:
