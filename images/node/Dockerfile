@@ -19,7 +19,6 @@ WORKDIR /app
 
 ONBUILD COPY . /app
 ONBUILD RUN virtualenv /env && /env/bin/pip install -r /app/requirements.txt
-RUN chown ubuntu:ubuntu public/mix-manifest.json
 
 RUN mkdir -p /var/www
 WORKDIR /var/www

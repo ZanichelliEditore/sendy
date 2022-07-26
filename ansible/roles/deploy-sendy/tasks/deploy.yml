@@ -72,6 +72,12 @@
   args:
     chdir: "{{ deploy_path }}"
 
+- name: adding existing user 'www-data' to group www-data
+  user:
+    name: "{{ remote_user }}"
+    groups: www-data
+    append: yes
+
 - name: Start and build the containers
   command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
   args:
