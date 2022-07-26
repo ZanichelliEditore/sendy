@@ -6,5 +6,4 @@ ADD ./certs/star_certificate.crt /etc/nginx/star_certificate.crt
 ADD ./certs/star_certificate.key /etc/nginx/star_certificate.key
 
 COPY public /var/www/public
-
 WORKDIR /var/www
