@@ -22,6 +22,3 @@ ONBUILD RUN virtualenv /env && /env/bin/pip install -r /app/requirements.txt
 
 RUN mkdir -p /var/www
 WORKDIR /var/www
-
-RUN chmod 664 -R /var/www/public/
-USER $USER
