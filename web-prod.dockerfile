@@ -8,10 +8,4 @@ ADD ./certs/star_certificate.key /etc/nginx/star_certificate.key
 COPY public /var/www/public
 RUN chown -R www-data:www-data /var/www/public
 
-RUN chmod 664 -R public
-USER $USER
-
-RUN chmod 664 -R /var/www/public
-USER $USER
-
 WORKDIR /var/www
