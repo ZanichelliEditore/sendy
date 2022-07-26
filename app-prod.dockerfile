@@ -17,8 +17,7 @@ COPY ./ /var/www
 RUN chown -R www-data:www-data \
     /var/www \
     /var/www/storage \
-    /var/www/vendor \
-    /var/www/public
+    /var/www/vendor
 
 WORKDIR /var/www
 USER www-data
