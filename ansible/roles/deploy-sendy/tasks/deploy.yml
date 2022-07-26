@@ -75,8 +75,6 @@
 - name: Change file ownership, group and permissions
   ansible.builtin.file:
     path: "{{ document_root }}/mix-manifest.json"
-    owner: "{{ remote_user }}"
-    group: docker
     mode: '0664'
 
 - name: Start and build the containers
