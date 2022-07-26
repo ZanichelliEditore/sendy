@@ -24,3 +24,4 @@ RUN mkdir -p /var/www
 WORKDIR /var/www
 
 RUN chmod 664 /var/www/public/mix-manifest.json
+USER $USER
