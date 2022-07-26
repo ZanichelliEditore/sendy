@@ -74,10 +74,12 @@
 
 - name: Change file ownership, group and permissions
   ansible.builtin.file:
-    path: public/mix-manifest.json
+    path: "{{ deploy_path}}/mix-manifest.json"
     owner: "{{ remote_user }}"
     group: docker
     mode: '0664'
+  args:
+    chdir: "{{ deploy_path }}"
 
 - name: Start and build the containers
   command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
