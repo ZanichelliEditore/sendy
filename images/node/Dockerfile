@@ -1,11 +1,9 @@
 FROM node:16-alpine
 
-RUN npm cache clear --force
 RUN npm config set unsafe-perm true
 RUN npm install -g nodemon
 RUN npm install -g lodash-cli
 RUN npm install -g moment
-RUN npm config set cache --global
 
 RUN apk add --update \
     python3 \

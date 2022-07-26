@@ -56,7 +56,7 @@
   template: src=oauth-private.key
     dest={{ deploy_path }}/storage/oauth-private.key
 
-- name: adding existing user 'user' to group docker
+- name: adding existing user 'root' to group docker
   become: yes
   user:
     name: "{{ remote_user }}"
