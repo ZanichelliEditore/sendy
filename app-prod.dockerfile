@@ -1,7 +1,5 @@
 FROM php:7.4.2-fpm
 
-ARG USER
-
 RUN apt-get update && apt-get install -y procps libmcrypt-dev openssl zip unzip git libfreetype6-dev  mariadb-client libjpeg62-turbo-dev libgd-dev libpng-dev apt-utils libcurl4-openssl-dev pkg-config libssl-dev vim \
     # && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
@@ -15,17 +13,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 COPY ./custom.d /usr/local/etc/php/conf.d
 
-RUN groupadd -g docker $USER
 COPY ./ /var/www
-RUN chown -R $USER:$USER \
+RUN chown -R www-data:www-data \
     /var/www \
     /var/www/storage \
     /var/www/vendor
 
 WORKDIR /var/www
-USER $USER
+USER www-data
 
 CMD ["/usr/bin/supervisord"]
-
-
-
