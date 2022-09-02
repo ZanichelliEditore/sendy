@@ -15,6 +15,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 COPY ./custom.d /usr/local/etc/php/conf.d
 
+RUN groupadd -g docker $USER
 COPY ./ /var/www
 RUN chown -R $USER:$USER \
     /var/www \
@@ -25,3 +26,6 @@ WORKDIR /var/www
 USER $USER
 
 CMD ["/usr/bin/supervisord"]
+
+
+
