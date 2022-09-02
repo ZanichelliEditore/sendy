@@ -21,6 +21,8 @@ services:
     build:
       context: ./
       dockerfile: app-prod.dockerfile
+      args:
+        -USER=${USER}
     container_name: sendy_app
     restart: unless-stopped
     volumes:
