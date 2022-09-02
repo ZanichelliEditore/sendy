@@ -22,7 +22,7 @@ services:
       context: ./
       dockerfile: app-prod.dockerfile
       args:
-        -USER=${USER}
+        - USER=${USER}
     container_name: sendy_app
     restart: unless-stopped
     volumes:
