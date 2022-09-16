@@ -26,6 +26,7 @@ services:
     volumes:
       - appStorage:/var/www/storage
       - appVendor:/var/www/vendor
+      - appLogs:/var/www/storage/logs
     networks:
       - default
     logging:
@@ -39,9 +40,28 @@ services:
     container_name: sendy_nodejs
     volumes:
       - ./:/var/www/
+  filebeat:
+    build:
+      context: ./
+      dockerfile: filebeat.dockerfile
+    container_name: sendy_filebeat
+    environment:
+      - strict.perms=false
+      - "LOGSTASH_HOST=${LOGSTASH_HOST}"
+    volumes:
+      - appLogs:/app/log/
+    restart: always
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 5m
+        max-file: "3"
 volumes:
   appStorage:
   appVendor:
+  appLogs:
 
 networks:
   default:
