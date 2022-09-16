@@ -89,6 +89,12 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+
+        'logstash' => [
+            'driver' => 'stack',
+            'channels' => ['daily'],
+            'tap' => [App\Logging\LogstashLogger::class],
+        ],
     ],
 
 ];

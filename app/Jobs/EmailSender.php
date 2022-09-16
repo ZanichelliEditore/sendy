@@ -5,7 +5,6 @@ namespace App\Jobs;
 use Exception;
 use App\Mail\BaseEmail;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
@@ -19,15 +18,20 @@ class EmailSender implements ShouldQueue
 
     private const QUEUE_NAME = 'emails';
 
+
     /**
-     * Determine the time at which the job should timeout.
+     * The number of times the job may be attempted.
      *
-     * @return \DateTime
+     * @var int
      */
-    public function retryUntil()
-    {
-        return now()->addSeconds(120);
-    }
+    public $tries = 5;
+
+    /**
+     * The number of seconds to wait before retrying the job.
+     *
+     * @var int
+     */
+    public $backoff = 60;
 
     private $mailable;
     /**
@@ -57,17 +61,6 @@ class EmailSender implements ShouldQueue
         if ($attachmentsDirectory = $emailInfo->getAttachmentsDirectory()) {
             Storage::deleteDirectory('attachments/' . $attachmentsDirectory);
         }
-    }
-
-    /**
-     * The job failed to process.
-     *
-     * @param  Exception  $exception
-     * @return void
-     */
-    public function failed(Exception $exception)
-    {
-        Log::error("CUSTOM-ERROR: Error on processing job " . $exception->getMessage());
     }
 
     public function getMailable()

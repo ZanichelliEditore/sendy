@@ -11,6 +11,8 @@ services:
       - "8083:80"
     links:
       - app
+    networks:
+      - default
   app:
     container_name: sendy_app
     build:
@@ -28,6 +30,8 @@ services:
       - database
     depends_on:
       - database
+    networks:
+      - default
   nodejs:
     build:
       context: images/node
@@ -36,6 +40,8 @@ services:
     container_name: sendy_nodejs
     volumes:
       - ./:/var/www/
+    networks:
+      - default
   database:
     image: mysql:5.7
     container_name: sendy_db
@@ -44,6 +50,8 @@ services:
       - "MYSQL_DATABASE=${DB_DATABASE}"
     ports:
       - "33064:3306"
+    networks:
+      - default
   phpmyadmin:
     image: "phpmyadmin/phpmyadmin"
     container_name: sendy_phpmyadmin
@@ -55,3 +63,23 @@ services:
       - "PMA_HOST=${DB_HOST}"
       - "PMA_USER=${DB_USERNAME}"
       - "PMA_PASSWORD=${DB_PASSWORD}"
+    networks:
+      - default
+  # filebeat:
+  #   build:
+  #     context: ./
+  #     dockerfile: filebeat.dockerfile
+  #   container_name: sendy_filebeat
+  #   environment:
+  #     - strict.perms=false
+  #     - "LOGSTASH_HOST=${LOGSTASH_HOST}"
+  #   volumes:
+  #     - ./storage/logs/:/app/log/
+  #   networks:
+  #     - default
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
