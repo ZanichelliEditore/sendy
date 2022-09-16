@@ -1,28 +1,26 @@
 {
-    "private": true,
-    "scripts": {
-        "dev": "npm run development",
-        "development": "npx mix",
-        "watch": "npx mix watch",
-        "prod": "npm run production",
-        "production": "npx mix -p"
-    },
-    "devDependencies": {
-        "axios": "^0.27.2",
-        "bootstrap": "^5.1.3",
-        "cross-env": "^7.0",
-        "jquery": "^3.6",
-        "laravel-mix": "^6.0.43",
-        "lodash": "^4.17.21",
-        "popper.js": "^1.12",
-        "resolve-url-loader": "^5.0.0",
-        "sass": "^1.51.0",
-        "sass-loader": "^12.6.0",
-        "vue": "^2.5.17",
-        "vue-loader": "^15.9.8",
-        "vue-template-compiler": "^2.6.11"
-    },
-    "dependencies": {
-        "bootstrap-vue": "^2.22.0"
-    }
+  "private": true,
+  "scripts": {
+    "dev": "npx mix",
+    "watch": "npx mix watch",
+    "prod": "npx mix -p"
+  },
+  "devDependencies": {
+    "axios": "^0.27.2",
+    "bootstrap": "^5.1.3",
+    "cross-env": "^7.0",
+    "jquery": "^3.6",
+    "laravel-mix": "^6.0.43",
+    "lodash": "^4.17.21",
+    "popper.js": "^1.12",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.51.0",
+    "sass-loader": "^12.6.0",
+    "vue": "^2.5.17",
+    "vue-loader": "^15.9.8",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "dependencies": {
+    "bootstrap-vue": "^2.22.0"
+  }
 }
