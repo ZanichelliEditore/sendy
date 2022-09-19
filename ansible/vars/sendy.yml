@@ -10,3 +10,5 @@ project_url: sendy.zanichelli.it
 app_docker: "sendy_app"
 
 logstash_host: "{{lookup('env','LOGSTASH_HOST')}}"
+
+redis_cluster_host: "{{lookup('env', 'REDIS_HOST')}}"

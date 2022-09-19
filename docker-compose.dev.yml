@@ -26,8 +26,10 @@ services:
       - ./custom.d:/usr/local/etc/php/custom.d
     environment:
       - "PHP_INI_SCAN_DIR=/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
+      - "REDIS_HOST=redis"
     links:
       - database
+      - redis
     depends_on:
       - database
     networks:
@@ -63,6 +65,13 @@ services:
       - "PMA_HOST=${DB_HOST}"
       - "PMA_USER=${DB_USERNAME}"
       - "PMA_PASSWORD=${DB_PASSWORD}"
+    networks:
+      - default
+  redis:
+    container_name: sendy_redis
+    image: redis:5.0.5
+    ports:
+      - "6380:6379"
     networks:
       - default
   # filebeat:

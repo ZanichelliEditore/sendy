@@ -16,9 +16,6 @@ class EmailSender implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private const QUEUE_NAME = 'emails';
-
-
     /**
      * The number of times the job may be attempted.
      *
@@ -42,7 +39,7 @@ class EmailSender implements ShouldQueue
     public function __construct(BaseEmail $mailable)
     {
         $this->mailable = $mailable;
-        $this->onQueue(self::QUEUE_NAME);
+        $this->onQueue(env('QUEUE_DEFAULT', "emails"));
     }
 
     /**
