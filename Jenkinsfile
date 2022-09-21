@@ -43,7 +43,9 @@ pipeline {
                 DB_HOST_SENDY_PRODUCTION = credentials("db_host_sendy_production")
                 DB_USERNAME_SENDY_PRODUCTION = credentials("db_username_sendy_production")
                 DB_PASSWORD_SENDY_PRODUCTION = credentials("db_password_sendy_production")
-                REDIS_HOST = credentials('sendy_redis_host_production') // TODO: aggiungere
+                REDIS_HOST = credentials('sendy_redis_host_production')
+                LOGSTASH_HOST = credentials('logstash_host')
+
             }
 
             steps {
