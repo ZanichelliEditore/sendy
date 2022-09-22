@@ -35,11 +35,18 @@ services:
         max-size: 5m
         max-file: "3"
   nodejs:
-    build:
-      context: images/node
+    image: node:12-alpine
     container_name: sendy_nodejs
     volumes:
       - ./:/var/www/
+    working_dir: /var/www
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 5m
+        max-file: "3"
   filebeat:
     build:
       context: ./
