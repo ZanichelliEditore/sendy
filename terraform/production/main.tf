@@ -114,7 +114,7 @@ data "aws_security_group" "sendy-security-group" {
   }
 }
 resource "aws_security_group_rule" "frontend-spot" {
-  description       = "allow connection to elastic cache from idp"  
+  description       = "allow connection to elastic cache from sendy"  
   type              = "ingress"
   from_port         = 6379
   to_port           = 6379
