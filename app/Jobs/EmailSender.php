@@ -2,9 +2,9 @@
 
 namespace App\Jobs;
 
-use Exception;
 use App\Mail\BaseEmail;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
@@ -50,13 +50,19 @@ class EmailSender implements ShouldQueue
     public function handle()
     {
         // Send email
-        Mail::send($this->mailable);
+        try {
+            Mail::send($this->mailable);
 
-        // Delete attachments
-        $emailInfo = $this->mailable->getEmail();
+            // Delete attachments
+            $emailInfo = $this->mailable->getEmail();
 
-        if ($attachmentsDirectory = $emailInfo->getAttachmentsDirectory()) {
-            Storage::deleteDirectory('attachments/' . $attachmentsDirectory);
+            if ($attachmentsDirectory = $emailInfo->getAttachmentsDirectory()) {
+                Storage::deleteDirectory('attachments/' . $attachmentsDirectory);
+            }
+        } catch (\Swift_SwiftException $e) {
+            Log::error("Swift_SwiftException catched - " . $e->getMessage() . " - Restarting connection");
+            Mail::mailer()->forceReconnection();
+            throw $e;
         }
     }
 
