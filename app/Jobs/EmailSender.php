@@ -64,8 +64,6 @@ class EmailSender implements ShouldQueue
                 Log::channel("slack")->error(":poop: Errore in fase di invio mail: " . $e->getMessage());
             } catch (\Exception $e) {
             }
-            Log::error("Swift_SwiftException catched - " . $e->getMessage() . " - Restarting connection");
-            Mail::mailer()->forceReconnection();
             throw $e;
         }
     }
