@@ -21,7 +21,7 @@ class JobController extends Controller
      */
     public function getFile()
     {
-        $contentFile = $this->tail(storage_path('logs/worker.log'));
+        $contentFile = $this->tail(storage_path('logs/worker.txt'));
         if (empty($contentFile)) {
             return response()->json([], 204);
         }

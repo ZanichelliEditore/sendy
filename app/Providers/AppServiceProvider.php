@@ -26,8 +26,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Queue::failing(function (JobFailed $job) {
-            Log::error("Event execution error");
+        Queue::failing(function (JobFailed $failedJob) {
+            Log::error("Job " . $failedJob->job->uuid() . " failed", [
+                "payload" => $failedJob->job->payload(),
+                "exceptionMessage" => optional($failedJob->exception)->getMessage()
+            ]);
         });
     }
 }

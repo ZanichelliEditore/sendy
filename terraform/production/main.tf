@@ -101,6 +101,28 @@ resource "aws_eip" "sendy-eip" {
   }
 }
 
+data "aws_security_group" "redis-security-group" {
+  filter {
+    name   = "tag:Name"
+    values = [var.redis_sg_tag_name]
+  }
+}
+data "aws_security_group" "sendy-security-group" {
+  filter {
+    name   = "tag:Name"
+    values = [var.sendy_sg_tag_name]
+  }
+}
+resource "aws_security_group_rule" "frontend-spot" {
+  description       = "allow connection to elastic cache from sendy"  
+  type              = "ingress"
+  from_port         = 6379
+  to_port           = 6379
+  protocol          = "tcp"
+  security_group_id = data.aws_security_group.redis-security-group.id
+  source_security_group_id = data.aws_security_group.sendy-security-group.id
+}
+
 module "extra-inventory-sendy" {
   project            = "sendy"
   source             = "./extra"

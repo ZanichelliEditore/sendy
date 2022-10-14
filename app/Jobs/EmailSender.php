@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use Exception;
 use App\Mail\BaseEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Log;
@@ -17,17 +16,19 @@ class EmailSender implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private const QUEUE_NAME = 'emails';
+    /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 5;
 
     /**
-     * Determine the time at which the job should timeout.
+     * The number of seconds to wait before retrying the job.
      *
-     * @return \DateTime
+     * @var int
      */
-    public function retryUntil()
-    {
-        return now()->addSeconds(120);
-    }
+    public $backoff = 60;
 
     private $mailable;
     /**
@@ -38,7 +39,7 @@ class EmailSender implements ShouldQueue
     public function __construct(BaseEmail $mailable)
     {
         $this->mailable = $mailable;
-        $this->onQueue(self::QUEUE_NAME);
+        $this->onQueue(env('QUEUE_DEFAULT', "emails"));
     }
 
     /**
@@ -49,25 +50,22 @@ class EmailSender implements ShouldQueue
     public function handle()
     {
         // Send email
-        Mail::send($this->mailable);
+        try {
+            Mail::send($this->mailable);
 
-        // Delete attachments
-        $emailInfo = $this->mailable->getEmail();
+            // Delete attachments
+            $emailInfo = $this->mailable->getEmail();
 
-        if ($attachmentsDirectory = $emailInfo->getAttachmentsDirectory()) {
-            Storage::deleteDirectory('attachments/' . $attachmentsDirectory);
+            if ($attachmentsDirectory = $emailInfo->getAttachmentsDirectory()) {
+                Storage::deleteDirectory('attachments/' . $attachmentsDirectory);
+            }
+        } catch (\Swift_SwiftException $e) {
+            try {
+                Log::channel("slack")->error(":poop: Errore in fase di invio mail: " . $e->getMessage());
+            } catch (\Exception $e) {
+            }
+            throw $e;
         }
-    }
-
-    /**
-     * The job failed to process.
-     *
-     * @param  Exception  $exception
-     * @return void
-     */
-    public function failed(Exception $exception)
-    {
-        Log::error("CUSTOM-ERROR: Error on processing job " . $exception->getMessage());
     }
 
     public function getMailable()

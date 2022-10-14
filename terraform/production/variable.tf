@@ -18,3 +18,15 @@ variable "environment" {
   type        = string
   default     = "production"
 }
+
+variable "redis_sg_tag_name" {
+  description = "The tag name of security group linked to  redis cluster"
+  type        = string
+  default     = "security-group-elasticache-idp"
+}
+
+variable "sendy_sg_tag_name" {
+  description = "The tag name of security group linked to sendy"
+  type        = string
+  default     = "sendy-production"
+}
