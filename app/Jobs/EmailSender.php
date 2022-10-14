@@ -60,8 +60,10 @@ class EmailSender implements ShouldQueue
                 Storage::deleteDirectory('attachments/' . $attachmentsDirectory);
             }
         } catch (\Swift_SwiftException $e) {
-            Log::error("Swift_SwiftException catched - " . $e->getMessage() . " - Restarting connection");
-            Mail::mailer()->forceReconnection();
+            try {
+                Log::channel("slack")->error(":poop: Errore in fase di invio mail: " . $e->getMessage());
+            } catch (\Exception $e) {
+            }
             throw $e;
         }
     }
