@@ -4,7 +4,7 @@ pipeline {
     }
 
     parameters {
-        choice(choices: ['master', 'SND-21-bis'], description: 'branch used to deploy file on server', name: 'deploy_branch')
+        choice(choices: ['master', 'SND-21'], description: 'branch used to deploy file on server', name: 'deploy_branch')
     }
 
     stages {
