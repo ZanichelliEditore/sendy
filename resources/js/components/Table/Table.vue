@@ -1,64 +1,72 @@
 <template>
   <div class="row">
     <div class="col-12 pt-3 pb-5">
-      <div v-if="this.buttons" class="form-group mb-4 position-absolute" style="z-index: 1;">
-        <h2 class="d-inline-flex align-items-center">Failed Jobs</h2>
-        <button
-          id="retry-button"
-          @click="retryAllJobs()"
-          class="ml-2 mb-2 btn btn-success"
-          :disabled="objects.length == 0"
-        >
-          Riprova tutti
-          <i class="fa fa-recycle"></i>
-        </button>
-        <button
-          id="delete-button"
-          @click="showDeleteAll()"
-          class="ml-1 mb-2 btn btn-danger"
-          :disabled="objects.length == 0"
-        >
-          Cancella tutti
-          <i class="fa fa-trash-o"></i>
-        </button>
-      </div>
-      <div class="d-flex justify-content-end mb-4">
+      <div
+        v-if="this.buttons"
+        class="d-flex justify-content-between align-items-center mb-2"
+        style="z-index: 1"
+      >
+        <h2 class="d-inline-flex align-items-center m-0">Failed Jobs</h2>
         <div>
-          <form class="form-inline mr-2">
-            <input
-              id="inputQuery"
-              type="text"
-              class="form-control"
-              v-model="query.q"
-              placeholder="Cerca"
-              @input="search"
-            />
-          </form>
-        </div>
-
-        <div>
-          <select
-            class="form-control"
-            id="inputLimitPage"
-            @change="changeElementsPerPage()"
-            v-model="query.limit"
+          <button
+            id="retry-button"
+            @click="retryAllJobs()"
+            class="ml-2 btn btn-success"
+            :disabled="objects.length == 0"
           >
-            <option>10</option>
-            <option>15</option>
-            <option>20</option>
-          </select>
+            Riprova tutti
+            <i class="fa fa-recycle"></i>
+          </button>
+          <button
+            id="delete-button"
+            @click="showDeleteAll()"
+            class="ml-1 btn btn-danger"
+            :disabled="objects.length == 0"
+          >
+            Cancella tutti
+            <i class="fa fa-trash-o"></i>
+          </button>
+        </div>
+        <div class="d-flex justify-content-end">
+          <div>
+            <form class="form-inline mr-2">
+              <input
+                id="inputQuery"
+                type="text"
+                class="form-control"
+                v-model="query.q"
+                placeholder="Cerca"
+                @input="search"
+              />
+            </form>
+          </div>
+          <div>
+            <select
+              class="form-control"
+              id="inputLimitPage"
+              @change="changeElementsPerPage()"
+              v-model="query.limit"
+            >
+              <option>10</option>
+              <option>15</option>
+              <option>20</option>
+            </select>
+          </div>
         </div>
       </div>
+
       <div class="table-responsive">
         <table class="table table-bordered table-hover">
           <thead class="table-dark">
             <tr>
               <th
                 v-for="(column, index) in columns"
-                :class="{ pointer: column.orderby,
-                                    'small_column': column.dimension == 'small',
-                                    'medium_column' : column.dimension == 'medium',
-                                    'large_column' : column.dimension == 'large'}"
+                :class="{
+                  pointer: column.orderby,
+                  small_column: column.dimension == 'small',
+                  medium_column: column.dimension == 'medium',
+                  large_column: column.dimension == 'large',
+                }"
                 :key="index"
                 data-sortable="true"
                 scope="col"
@@ -66,9 +74,18 @@
               >
                 {{ column.label }}
                 <i
-                  :class="{'fa fa-fw fa-sort-desc': column.orderby && column.orderby === query.orderBy && query.order === 'DESC',
-                                                  'fa fa-fw fa-sort-asc': column.orderby && column.orderby === query.orderBy && query.order === 'ASC',
-                                                  'fa fa-fw fa-sort': column.orderby && column.orderby !== query.orderBy }"
+                  :class="{
+                    'fa fa-fw fa-sort-desc':
+                      column.orderby &&
+                      column.orderby === query.orderBy &&
+                      query.order === 'DESC',
+                    'fa fa-fw fa-sort-asc':
+                      column.orderby &&
+                      column.orderby === query.orderBy &&
+                      query.order === 'ASC',
+                    'fa fa-fw fa-sort':
+                      column.orderby && column.orderby !== query.orderBy,
+                  }"
                 ></i>
               </th>
             </tr>
@@ -82,24 +99,38 @@
             </tr>
             <tr
               v-if="!loadingObject"
-              :class="{'cell' : detail}"
+              :class="{ cell: detail }"
               v-for="object in objects"
               :key="object.id"
               @click="showObject(object.id)"
             >
               <td
                 v-for="(column, index) in columns"
-                :class="{ 'text-center': column.type === 'alert' || column.type === 'status-badge', 'text-truncate': column.type === 'text' }"
+                :class="{
+                  'text-center':
+                    column.type === 'alert' || column.type === 'status-badge',
+                  'text-truncate': column.type === 'text',
+                }"
                 scope="row"
                 :key="index"
               >
                 <span
                   v-if="column.type == 'text'"
                   :title="object[column.field]"
-                >{{ object[column.field] }}</span>
-                <status-badge v-if="column.type === 'status-badge'" :status="object[column.field]"></status-badge>
-                <span class="col-md-1" v-if="column.type == 'alert' && object[column.field]">
-                  <i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i>
+                  >{{ object[column.field] }}</span
+                >
+                <status-badge
+                  v-if="column.type === 'status-badge'"
+                  :status="object[column.field]"
+                ></status-badge>
+                <span
+                  class="col-md-1"
+                  v-if="column.type == 'alert' && object[column.field]"
+                >
+                  <i
+                    class="fa fa-exclamation-triangle fa-2x"
+                    aria-hidden="true"
+                  ></i>
                 </span>
                 <button
                   v-if="column.type === 'buttonRetry'"
@@ -123,10 +154,17 @@
         </table>
       </div>
       <div v-if="objects.length > 0" class="d-flex justify-content-between">
-        <div>{{ this.title }} dal {{ (pagination.currentPage - 1) * query.limit + 1 }} al {{ ((pagination.currentPage - 1) * query.limit) + objects.length }}</div>
+        <div>
+          {{ this.title }} dal
+          {{ (pagination.currentPage - 1) * query.limit + 1 }} al
+          {{ (pagination.currentPage - 1) * query.limit + objects.length }}
+        </div>
         <nav aria-label="Page navigation example">
           <ul class="pagination">
-            <li :class="[{disabled: !pagination.prevPageUrl}]" class="page-item">
+            <li
+              :class="[{ disabled: !pagination.prevPageUrl }]"
+              class="page-item"
+            >
               <a
                 class="page-link"
                 href="#"
@@ -141,11 +179,21 @@
               v-for="ele in pagination.pagesToRender"
               :key="ele"
               class="page-item"
-              :class="{'font-weight-bold disabled': ele === pagination.currentPage}"
+              :class="{
+                'font-weight-bold disabled': ele === pagination.currentPage,
+              }"
             >
-              <a class="page-link" href="#" @click.stop.prevent="changePage(ele)">{{ele}}</a>
+              <a
+                class="page-link"
+                href="#"
+                @click.stop.prevent="changePage(ele)"
+                >{{ ele }}</a
+              >
             </li>
-            <li :class="[{disabled: !pagination.nextPageUrl}]" class="page-item">
+            <li
+              :class="[{ disabled: !pagination.nextPageUrl }]"
+              class="page-item"
+            >
               <a
                 class="page-link"
                 href="#"
@@ -202,24 +250,24 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     url: {
       type: String,
-      required: true
+      required: true,
     },
     detail: {
       type: String,
-      required: false
+      required: false,
     },
     columns: {
       type: Array,
-      required: true
+      required: true,
     },
     buttons: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
@@ -228,14 +276,14 @@ export default {
         orderBy: "failed_at",
         order: null,
         page: 1,
-        limit: 10
+        limit: 10,
       },
       baseRedirectUrl: "/failedJobs",
       baseUrl: null,
       timeout: null,
       objects: [],
       pagination: {
-        currentPage: 1
+        currentPage: 1,
       },
       showDeleteModal: false,
       showDeleteAllModal: false,
@@ -244,7 +292,7 @@ export default {
       outcome: { data: { message: "Si è verificato un errore imprevisto" } },
       errorFound: false,
       showAlert: false,
-      errorCallback: null
+      errorCallback: null,
     };
   },
 
@@ -262,15 +310,15 @@ export default {
       vm.loadingObject = true;
       axios
         .get(vm.url, {
-          params: vm.query
+          params: vm.query,
         })
-        .then(res => {
+        .then((res) => {
           const { data, links, meta } = res.data;
           vm.objects = data;
           vm.makePagination(meta, links);
           vm.loadingObject = false;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           vm.loadingObject = false;
         });
     },
@@ -302,7 +350,7 @@ export default {
         lastPage: meta.last_page,
         nextPageUrl: links.next,
         prevPageUrl: links.prev,
-        pagesToRender: pageToRender
+        pagesToRender: pageToRender,
       };
 
       this.pagination = pagination;
@@ -363,7 +411,7 @@ export default {
         page: parseInt(page),
         orderBy: orderBy,
         order: order,
-        limit: parseInt(limit)
+        limit: parseInt(limit),
       };
 
       this.fetchObjects();
@@ -391,14 +439,14 @@ export default {
       this.showDeleteModal = false;
       axios
         .delete(this.url + this.jobId)
-        .then(res => {
+        .then((res) => {
           EventBus.$emit("newNotification", {
             message: "Job cancellato correttamente",
-            type: "SUCCESS"
+            type: "SUCCESS",
           });
           this.fetchObjects();
         })
-        .catch(err => {
+        .catch((err) => {
           this.openAlertModal(err.response, true);
         });
     },
@@ -406,14 +454,14 @@ export default {
       this.showDeleteAllModal = false;
       axios
         .delete(this.url + "all/")
-        .then(res => {
+        .then((res) => {
           EventBus.$emit("newNotification", {
             message: "Job cancellati correttamente",
-            type: "SUCCESS"
+            type: "SUCCESS",
           });
           this.fetchObjects();
         })
-        .catch(err => {
+        .catch((err) => {
           this.openAlertModal(err.response, true);
         });
     },
@@ -432,32 +480,32 @@ export default {
     retryJob(id) {
       axios
         .get(this.url + "retry/" + id)
-        .then(res => {
+        .then((res) => {
           EventBus.$emit("newNotification", {
             message: "Job reinviato correttamente",
-            type: "SUCCESS"
+            type: "SUCCESS",
           });
           this.fetchObjects();
         })
-        .catch(err => {
+        .catch((err) => {
           this.openAlertModal(err.response, true);
         });
     },
     retryAllJobs() {
       axios
         .get(this.url + "retry/all")
-        .then(res => {
+        .then((res) => {
           EventBus.$emit("newNotification", {
-            message: "Job reinviati correttamente",
-            type: "SUCCESS"
+            message: "I job falliti saranno gradualmente reinseriti in coda",
+            type: "SUCCESS",
           });
           this.fetchObjects();
         })
-        .catch(err => {
+        .catch((err) => {
           this.openAlertModal(err.response, true);
         });
-    }
-  }
+    },
+  },
 };
 </script>
-<style src="./Table.css"/>
+<style src="./Table.css" />
