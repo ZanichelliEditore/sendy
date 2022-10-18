@@ -1,10 +1,9 @@
-FROM php:7.4.2-fpm
+FROM php:8.1-fpm
 
 ARG USER
 ARG UID
 
 RUN apt-get update && apt-get install -y procps libmcrypt-dev mariadb-client openssl zip unzip git libfreetype6-dev libjpeg62-turbo-dev libgd-dev libpng-dev apt-utils libcurl4-openssl-dev pkg-config libssl-dev vim \
-    # && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install gd \
     && pecl install xdebug\

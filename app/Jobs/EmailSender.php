@@ -50,21 +50,13 @@ class EmailSender implements ShouldQueue
     public function handle()
     {
         // Send email
-        try {
-            Mail::send($this->mailable);
+        Mail::send($this->mailable);
 
-            // Delete attachments
-            $emailInfo = $this->mailable->getEmail();
+        // Delete attachments
+        $emailInfo = $this->mailable->getEmail();
 
-            if ($attachmentsDirectory = $emailInfo->getAttachmentsDirectory()) {
-                Storage::deleteDirectory('attachments/' . $attachmentsDirectory);
-            }
-        } catch (\Swift_SwiftException $e) {
-            try {
-                Log::channel("slack")->error(":poop: Errore in fase di invio mail: " . $e->getMessage());
-            } catch (\Exception $e) {
-            }
-            throw $e;
+        if ($attachmentsDirectory = $emailInfo->getAttachmentsDirectory()) {
+            Storage::deleteDirectory('attachments/' . $attachmentsDirectory);
         }
     }
 

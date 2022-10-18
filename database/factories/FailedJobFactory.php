@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\FailedJob;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FailedJobFactory extends Factory
@@ -22,10 +23,10 @@ class FailedJobFactory extends Factory
     public function definition()
     {
         return [
-            'connection' => $this->faker->text(),
-            'queue' => $this->faker->text(),
-            'payload' => $this->faker->text(),
-            'exception' => $this->faker->text(),
+            'connection' => Str::random(),
+            'queue' => Str::random(),
+            'payload' => Str::random(),
+            'exception' => Str::random(),
             'failed_at' => $this->faker->unixTime()
         ];
     }
