@@ -20,9 +20,9 @@
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.51.0",
         "sass-loader": "^12.6.0",
-        "vue": "^2.7.13",
+        "vue": "^2.7.14",
         "vue-loader": "^15.9.8",
-        "vue-template-compiler": "^2.7.13"
+        "vue-template-compiler": "^2.7.14"
     },
     "dependencies": {
         "@popperjs/core": "^2.11.6",
