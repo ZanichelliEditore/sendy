@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('clear:log')->hourly();
 
         $schedule->command('telescope:prune')->daily();
+        $schedule->command('passport:purge')->dailyAt('3:10');
     }
 
     /**
