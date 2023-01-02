@@ -113,3 +113,8 @@
   command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml up -d --build"
   args:
     chdir: "{{ deploy_path }}"
+
+- name: Create crontab job to run laravel scheduler
+  ansible.builtin.cron:
+    name: "Run laravel scheduler"
+    job: "/usr/bin/docker exec {{ app_docker }} php artisan schedule:run"
