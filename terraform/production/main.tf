@@ -15,7 +15,7 @@ terraform {
     }
   }
 }
-  provider "aws" {
+provider "aws" {
   profile             = var.profile
   region              = var.region
   allowed_account_ids = ["305507912930"] // Optional
@@ -58,7 +58,7 @@ data "aws_s3_bucket" "inventory-bucket" {
 }
 
 module "instance-sendy" {
-  source = "git::ssh://git@bitbucket.org/zanichelli/terraform-instance-frontend.git?ref=v0.0.10"
+  source = "git::ssh://git@bitbucket.org/zanichelli/terraform-instance-frontend.git?ref=v0.1.0"
   #source = "../../../terraform-instance-frontend"
   project         = "sendy"
   environment     = var.environment
@@ -68,6 +68,31 @@ module "instance-sendy" {
   subnet_ids      = data.aws_subnet_ids.subnet_ids
   ami_id          = data.aws_ami.image-sendy.id
   volume_size     = "20"
+  security_group_ports = {
+    bastion_ssh = {
+      from_port   = "30022"
+      to_port     = "30022"
+      protocol    = "tcp"
+      cidr_blocks = ["52.215.148.103/32"]
+    }
+  }
+}
+
+data "aws_security_group" "redis-security-group" {
+  filter {
+    name   = "tag:Name"
+    values = ["security-group-elasticache-idp"]
+  }
+}
+
+resource "aws_security_group_rule" "frontend-spot" {
+  description              = "allow connection to elasticache from sendy"
+  type                     = "ingress"
+  from_port                = 6379
+  to_port                  = 6379
+  protocol                 = "tcp"
+  security_group_id        = data.aws_security_group.redis-security-group.id
+  source_security_group_id = module.instance-sendy.security_group_id
 }
 
 module "alb-listener-rule-sendy-https" {
