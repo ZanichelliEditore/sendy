@@ -53,10 +53,6 @@ data "aws_subnet_ids" "subnet_ids" {
   vpc_id = data.aws_vpc.vpc.id
 }
 
-data "aws_s3_bucket" "inventory-bucket" {
-  bucket = "public-ip-terraform-${var.environment}"
-}
-
 module "instance-sendy" {
   source = "git::ssh://git@bitbucket.org/zanichelli/terraform-instance-frontend.git?ref=v0.1.0"
   #source = "../../../terraform-instance-frontend"
@@ -124,21 +120,6 @@ resource "aws_eip" "sendy-eip" {
     Created-by  = "terraform"
     Environment = var.environment
   }
-}
-
-module "extra-inventory-sendy" {
-  project            = "sendy"
-  source             = "./extra"
-  bucket_inventory   = data.aws_s3_bucket.inventory-bucket.id
-  instance_public_ip = aws_eip.sendy-eip.public_ip
-  environment        = var.environment
-}
-
-module "extra-hosts" {
-  source           = "./extra-hosts"
-  bucket_inventory = data.aws_s3_bucket.inventory-bucket.id
-  environment      = var.environment
-  instance         = module.instance-sendy
 }
 
 output "sendy_public_ip_address" {

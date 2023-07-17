@@ -1,8 +1,0 @@
-[webservers]
-%{ for public_ip in compact(split(",",public_ips)) ~}
-${public_ip} ansible_ssh_user=ubuntu ansible_port=30022 ansible_ssh_common_args=' -o StrictHostKeyChecking=no -o ProxyCommand="ssh -W %h:%p -q bastion"'
-%{ endfor ~}
-
-#this makes ansible use the group vars defines in the group_vars/local.yml file
-[${environment}:children]
-webservers
