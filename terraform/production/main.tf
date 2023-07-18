@@ -54,8 +54,8 @@ data "aws_subnet_ids" "subnet_ids" {
 }
 
 module "instance-sendy" {
-  source = "git::ssh://git@bitbucket.org/zanichelli/terraform-instance-frontend.git?ref=v0.1.0"
-  #source = "../../../terraform-instance-frontend"
+  source = "git::ssh://git@bitbucket.org/zanichelli/terraform-instance-frontend.git?ref=v1.0.0"
+  #source = "../../../../terraform-instance-frontend"
   project         = "sendy"
   environment     = var.environment
   public_key_file = file("${path.module}/${var.public_key_file}")
@@ -64,14 +64,6 @@ module "instance-sendy" {
   subnet_ids      = data.aws_subnet_ids.subnet_ids
   ami_id          = data.aws_ami.image-sendy.id
   volume_size     = "20"
-  security_group_ports = {
-    bastion_ssh = {
-      from_port   = "30022"
-      to_port     = "30022"
-      protocol    = "tcp"
-      cidr_blocks = ["52.215.148.103/32"]
-    }
-  }
 }
 
 data "aws_security_group" "redis-security-group" {
