@@ -66,20 +66,20 @@ module "instance-sendy" {
   volume_size     = "20"
 }
 
-data "aws_security_group" "redis-security-group" {
+data "aws_security_group" "redis-security-group-sad" {
   filter {
     name   = "tag:Name"
-    values = ["security-group-elasticache-idp"]
+    values = ["security-group-elasticache-sad"]
   }
 }
 
-resource "aws_security_group_rule" "frontend-spot" {
+resource "aws_security_group_rule" "frontend-spot-sad" {
   description              = "allow connection to elasticache from sendy"
   type                     = "ingress"
   from_port                = 6379
   to_port                  = 6379
   protocol                 = "tcp"
-  security_group_id        = data.aws_security_group.redis-security-group.id
+  security_group_id        = data.aws_security_group.redis-security-group-sad.id
   source_security_group_id = module.instance-sendy.security_group_id
 }
 
