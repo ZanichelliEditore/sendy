@@ -1,0 +1,13 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+filebeat.inputs:
+  - type: filestream
+    id: sendy-logs
+    paths:
+      - /app/log/*.log
+
+output.logstash:
+  hosts: ["${LOGSTASH_HOST}"]
+  index: sendy

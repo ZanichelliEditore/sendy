@@ -11,6 +11,8 @@ services:
       - "8083:80"
     links:
       - app
+    networks:
+      - default
   app:
     container_name: sendy_app
     build:
@@ -24,18 +26,28 @@ services:
       - ./custom.d:/usr/local/etc/php/custom.d
     environment:
       - "PHP_INI_SCAN_DIR=/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
+      - "REDIS_HOST=redis"
     links:
       - database
+      - redis
     depends_on:
       - database
+    networks:
+      - default
   nodejs:
-    build:
-      context: images/node
-      args:
-        - USER=${USER}
+    image: node:12-alpine
     container_name: sendy_nodejs
     volumes:
       - ./:/var/www/
+    working_dir: /var/www
+    networks:
+      - default
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 5m
+        max-file: "3"
+
   database:
     image: mysql:5.7
     container_name: sendy_db
@@ -44,6 +56,8 @@ services:
       - "MYSQL_DATABASE=${DB_DATABASE}"
     ports:
       - "33064:3306"
+    networks:
+      - default
   phpmyadmin:
     image: "phpmyadmin/phpmyadmin"
     container_name: sendy_phpmyadmin
@@ -55,3 +69,30 @@ services:
       - "PMA_HOST=${DB_HOST}"
       - "PMA_USER=${DB_USERNAME}"
       - "PMA_PASSWORD=${DB_PASSWORD}"
+    networks:
+      - default
+  redis:
+    container_name: sendy_redis
+    image: redis:5.0.5
+    ports:
+      - "6380:6379"
+    networks:
+      - default
+  # filebeat:
+  #   build:
+  #     context: ./
+  #     dockerfile: filebeat.dockerfile
+  #   container_name: sendy_filebeat
+  #   environment:
+  #     - strict.perms=false
+  #     - "LOGSTASH_HOST=${LOGSTASH_HOST}"
+  #   volumes:
+  #     - ./storage/logs/:/app/log/
+  #   networks:
+  #     - default
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16

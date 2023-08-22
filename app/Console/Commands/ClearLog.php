@@ -46,7 +46,7 @@ class ClearLog extends Command
                 foreach ($dir_logs as $log) {
                     $logFile = storage_path('logs') . '/' . $log;
                     if (pathinfo($log, PATHINFO_EXTENSION) == 'log') {
-                        if ($log == "worker.log") {
+                        if ($log == "worker.txt") {
                             exec('echo "" > ' . $logFile);
                         } else {
                             exec('rm ' . $logFile);

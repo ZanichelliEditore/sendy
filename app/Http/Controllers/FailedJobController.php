@@ -91,7 +91,7 @@ class FailedJobController extends Controller
         $limit = (int) $request->input('limit', self::PAGINATION);
         $order = $request->input('order', 'ASC');
         $orderBy = $request->input('orderBy', 'id');
-        $retriviedFailedJobs = $this->failedJobRepository->all($query, $orderBy, $order, $limit);
+        $retriviedFailedJobs = $this->failedJobRepository->allPaginated($query, $orderBy, $order, $limit);
         return FailedJobResource::collection($retriviedFailedJobs);
     }
 
@@ -247,7 +247,7 @@ class FailedJobController extends Controller
      */
     public function retryAll()
     {
-        $result = Artisan::call('queue:retry', ['id' => 'all']);
+        $result = Artisan::call('queue:lazy-retry');
         if ($result != 0) {
             return response()->error500(__('messages.RetryError') . $result);
         }

@@ -6,9 +6,21 @@ use App\Models\FailedJob;
 
 class FailedJobRepository
 {
-
     /**
      * Find all the failed jobs
+     *
+     * @param  String  $orderBy
+     * @param  String  $order
+     * @return \Illuminate\Database\Eloquent\Collection
+     *
+     */
+    public function all($orderBy = "id", $order = "ASC")
+    {
+        return FailedJob::orderBy($orderBy, $order)->get();
+    }
+
+    /**
+     * Find all the failed jobs paginated
      *
      * @param  String  $query
      * @param  String  $orderBy
@@ -17,7 +29,7 @@ class FailedJobRepository
      * @return App\Models\FailedJob
      *
      */
-    public function all($query, $orderBy, $order, $limit)
+    public function allPaginated($query, $orderBy, $order, $limit)
     {
         if (!$query) {
             return FailedJob::orderBy($orderBy, $order)
@@ -28,6 +40,7 @@ class FailedJobRepository
             ->orderBy($orderBy, $order)
             ->paginate($limit);
     }
+
     /**
      * Find a failed job by id
      *

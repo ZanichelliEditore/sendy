@@ -8,3 +8,9 @@ idp_host: idp.zanichelli.it
 project_url: sendy.zanichelli.it
 
 app_docker: "sendy_app"
+
+logstash_host: "{{lookup('env','LOGSTASH_HOST')}}"
+
+redis_cluster_host: "{{lookup('env', 'REDIS_HOST')}}"
+
+log_slack_webhook_url: "{{lookup('env', 'LOG_SLACK_WEBHOOK_URL')}}"
