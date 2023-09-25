@@ -54,7 +54,7 @@ data "aws_subnet_ids" "subnet_ids" {
 }
 
 module "instance-sendy" {
-  source = "git::ssh://git@bitbucket.org/zanichelli/terraform-instance-frontend.git?ref=MLPR-236"
+  source = "git::ssh://git@bitbucket.org/zanichelli/terraform-instance-frontend.git?ref=v1.0.2"
   #source = "../../../../terraform-instance-frontend"
   project         = "sendy"
   environment     = var.environment
