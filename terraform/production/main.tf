@@ -71,7 +71,7 @@ module "instance-sendy" {
 data "aws_security_group" "redis-security-group-sad" {
   filter {
     name   = "tag:Name"
-    values = [var.redis_sg_tag_name]
+    values = ["security-group-elasticache-sad"]
   }
 }
 
