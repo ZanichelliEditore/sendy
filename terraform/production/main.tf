@@ -54,7 +54,7 @@ data "aws_subnet_ids" "subnet_ids" {
 }
 
 module "instance-sendy" {
-  source = "git::ssh://git@bitbucket.org/zanichelli/terraform-instance-frontend.git?ref=v1.0.0"
+  source = "git::ssh://git@bitbucket.org/zanichelli/terraform-instance-frontend.git?ref=v1.0.2"
   #source = "../../../../terraform-instance-frontend"
   project         = "sendy"
   environment     = var.environment
@@ -64,6 +64,8 @@ module "instance-sendy" {
   subnet_ids      = data.aws_subnet_ids.subnet_ids
   ami_id          = data.aws_ami.image-sendy.id
   volume_size     = "20"
+  cost_center_tag = var.cost_center_tag
+  owner           = var.owner
 }
 
 data "aws_security_group" "redis-security-group-sad" {
@@ -114,12 +116,6 @@ resource "aws_eip" "sendy-eip" {
   }
 }
 
-data "aws_security_group" "redis-security-group" {
-  filter {
-    name   = "tag:Name"
-    values = [var.redis_sg_tag_name]
-  }
-}
 data "aws_security_group" "sendy-security-group" {
   filter {
     name   = "tag:Name"
@@ -127,12 +123,12 @@ data "aws_security_group" "sendy-security-group" {
   }
 }
 resource "aws_security_group_rule" "frontend-spot" {
-  description       = "allow connection to elastic cache from sendy"  
-  type              = "ingress"
-  from_port         = 6379
-  to_port           = 6379
-  protocol          = "tcp"
-  security_group_id = data.aws_security_group.redis-security-group.id
+  description              = "allow connection to elastic cache from sendy"
+  type                     = "ingress"
+  from_port                = 6379
+  to_port                  = 6379
+  protocol                 = "tcp"
+  security_group_id        = data.aws_security_group.redis-security-group-sad.id
   source_security_group_id = data.aws_security_group.sendy-security-group.id
 }
 
