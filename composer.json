@@ -16,6 +16,7 @@
     "laravel/framework": "^9.0",
     "laravel/helpers": "^1.4",
     "laravel/passport": "^11.2.1",
+    "laravel/slack-notification-channel": "^3.2",
     "laravel/telescope": "^4.0",
     "lcobucci/jwt": "^4.2.1",
     "predis/predis": "^2.0",
