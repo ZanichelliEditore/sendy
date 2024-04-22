@@ -10,10 +10,10 @@ use Illuminate\Notifications\Slack\SlackMessage;
 
 class SlackNotification extends Notification
 {
-
-    private string $notificationText;
     use Queueable;
     use Notifiable;
+
+    private string $notificationText;
 
     /**
      * Create a new notification instance.
@@ -44,7 +44,7 @@ class SlackNotification extends Notification
      */
     public function toSlack($notifiable)
     {
-        return (new SlackMessage)->to("#prove")
+        return (new SlackMessage)->to(env('SLACK_CHANNEL_NAME'))
             ->text($this->notificationText);
     }
 
