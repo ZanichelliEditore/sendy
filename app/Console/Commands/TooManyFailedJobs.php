@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Notifications\Slack;
+use App\Notifications\SlackNotification;
 use Illuminate\Console\Command;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Notification;
@@ -50,7 +50,7 @@ class TooManyFailedJobs extends Command
         $failedJobsCount = $this->failedJobRepository->count();
         if ($failedJobsCount > 0) {
             Notification::route('slack', config('notifications.SLACK_BOT_USER_DEFAULT_CHANNEL'))
-                ->notify(new Slack("Tick Tick BOOM"));
+                ->notify(new SlackNotification("There are failed jobs on SENDY"));
         }
 
         return 0;

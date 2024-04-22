@@ -2,36 +2,59 @@
 
 namespace App\Notifications;
 
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Slack\SlackChannel;
+use Illuminate\Notifications\Slack\SlackMessage;
 
 class SlackNotification extends Notification
 {
 
+    private string $notificationText;
+    use Queueable;
+    use Notifiable;
+
     /**
-     * Get the notification channels.
+     * Create a new notification instance.
+     *
+     * @return void
+     */
+    public function __construct(string $notificationText)
+    {
+        $this->notificationText = $notificationText;
+    }
+
+    /**
+     * Get the notification's delivery channels.
      *
      * @param  mixed  $notifiable
-     * @return array|string
+     * @return array
      */
     public function via($notifiable)
     {
-        return ['slack'];
+        return [SlackChannel::class];
     }
 
     /**
-     * Get the Slack representation of the notification.
+     * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return SlackMessage
+     * @return \Illuminate\Notifications\Slack\SlackMessage
      */
     public function toSlack($notifiable)
     {
-        return (new SlackMessage)
-            ->content('sono brutto')->to('#prove');
+        return (new SlackMessage)->to("#prove")
+            ->text($this->notificationText);
     }
 
-    public function toArray(object $notifiable): array
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toArray($notifiable)
     {
         return [
             //
