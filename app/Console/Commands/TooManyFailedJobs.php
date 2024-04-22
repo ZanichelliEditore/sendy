@@ -24,7 +24,7 @@ class TooManyFailedJobs extends Command
      *
      * @var string
      */
-    protected $description = 'Check if failedJobs are more than 100 and send email to developers';
+    protected $description = 'Check if failedJobs are more than 100 and send a slack message';
 
     private $failedJobRepository;
 

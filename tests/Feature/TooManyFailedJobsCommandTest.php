@@ -28,11 +28,9 @@ class TooManyFailedJobsCommandTest extends TestCase
                 ->getMock()
         );
 
-
         $this->artisan('check:failed-jobs')->assertExitCode(0);
         Notification::assertCount($emailSended);
     }
-
 
     static function tooManyFailedJobsProvider()
     {
