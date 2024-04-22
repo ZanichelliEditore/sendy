@@ -27,7 +27,6 @@ class TooManyFailedJobs extends Command
     protected $description = 'Check if failedJobs are more than 100 and send email to developers';
 
     private $failedJobRepository;
-    private $mailer;
 
     /**
      * Create a new command instance.
@@ -48,7 +47,7 @@ class TooManyFailedJobs extends Command
     public function handle()
     {
         $failedJobsCount = $this->failedJobRepository->count();
-        if ($failedJobsCount > 0) {
+        if ($failedJobsCount >= 100) {
             Notification::route('slack', config('notifications.SLACK_BOT_USER_DEFAULT_CHANNEL'))
                 ->notify(new SlackNotification("There are failed jobs on SENDY"));
         }
