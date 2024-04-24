@@ -93,6 +93,9 @@
 - name: Run migrations
   command: "/usr/bin/docker exec sendy_app php artisan migrate --force"
 
+  - name: Run generate documentation
+  command: "docker exec sendy_app php artisan l5-swagger:generate"
+
 - name: Copy public files into nginx container
   command: "docker cp sendy_app:/var/www/public/. ./public/"
   become: yes
