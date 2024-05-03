@@ -47,7 +47,7 @@ class TooManyFailedJobs extends Command
     public function handle()
     {
         $failedJobsCount = $this->failedJobRepository->count();
-        if ($failedJobsCount >= 100) {
+        if ($failedJobsCount >= 1) {
             Notification::route('slack', config('notifications.SLACK_BOT_USER_DEFAULT_CHANNEL'))
                 ->notify(new SlackNotification("There are failed jobs on SENDY"));
         }
