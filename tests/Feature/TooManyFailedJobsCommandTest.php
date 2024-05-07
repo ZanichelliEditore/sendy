@@ -35,8 +35,8 @@ class TooManyFailedJobsCommandTest extends TestCase
     static function tooManyFailedJobsProvider()
     {
         return [
-            [99, 0],
-            [101, 1],
+            [0, 0],
+            [1, 1],
         ];
     }
 }
