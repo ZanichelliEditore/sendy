@@ -14,7 +14,7 @@ class TooManyFailedJobsCommandTest extends TestCase
      * @test
      * @dataProvider tooManyFailedJobsProvider
      */
-    public function tooManyFailedJobsTest($failedJobsCount, $emailSended)
+    public function tooManyFailedJobsTest($failedJobsCount, $notificationSended)
     {
         Notification::fake();
 
@@ -29,7 +29,7 @@ class TooManyFailedJobsCommandTest extends TestCase
         );
 
         $this->artisan('check:failed-jobs')->assertExitCode(0);
-        Notification::assertCount($emailSended);
+        Notification::assertCount($notificationSended);
     }
 
     static function tooManyFailedJobsProvider()
