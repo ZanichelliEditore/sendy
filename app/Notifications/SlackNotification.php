@@ -2,16 +2,12 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Slack\SlackChannel;
 use Illuminate\Notifications\Slack\SlackMessage;
 
 class SlackNotification extends Notification
 {
-    use Queueable;
-    use Notifiable;
 
     private string $notificationText;
 
@@ -46,18 +42,5 @@ class SlackNotification extends Notification
     {
         return (new SlackMessage)->to(env('SLACK_CHANNEL_NAME'))
             ->text($this->notificationText);
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
     }
 }
