@@ -4,8 +4,7 @@ namespace Tests\Feature;
 
 use Mockery;
 use Tests\TestCase;
-use App\Notifications\SlackNotification;
-use Illuminate\Support\Facades\Notification;
+use GuzzleHttp\Client;
 use App\Http\Repositories\FailedJobRepository;
 
 class TooManyFailedJobsCommandTest extends TestCase
@@ -14,9 +13,15 @@ class TooManyFailedJobsCommandTest extends TestCase
      * @test
      * @dataProvider tooManyFailedJobsProvider
      */
-    public function tooManyFailedJobsTest($failedJobsCount, $notificationSended)
+    public function tooManyFailedJobsTest($failedJobsCount, $times)
     {
-        Notification::fake();
+        $this->app->instance(
+            Client::class,
+            Mockery::mock(Client::class)
+                ->shouldReceive('post')
+                ->times($times)
+                ->getMock()
+        );
 
         $this->app->instance(
             'App\Http\Repositories\FailedJobRepository',
@@ -29,7 +34,6 @@ class TooManyFailedJobsCommandTest extends TestCase
         );
 
         $this->artisan('check:failed-jobs')->assertExitCode(0);
-        Notification::assertCount($notificationSended);
     }
 
     static function tooManyFailedJobsProvider()
