@@ -47,7 +47,7 @@ class TooManyFailedJobs extends Command
      */
     public function handle()
     {
-        if (!config('services.slackk.notifications'))
+        if (!config('services.slack.notifications'))
             return 0;
         try {
             $failedJobsCount = $this->failedJobRepository->count();
