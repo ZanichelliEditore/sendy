@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Mockery;
 use Tests\TestCase;
-use GuzzleHttp\Client;
 use App\Http\Repositories\FailedJobRepository;
 
 class TooManyFailedJobsCommandTest extends TestCase
@@ -13,16 +12,8 @@ class TooManyFailedJobsCommandTest extends TestCase
      * @test
      * @dataProvider tooManyFailedJobsProvider
      */
-    public function tooManyFailedJobsTest($failedJobsCount, $times)
+    public function tooManyFailedJobsTest($failedJobsCount, $message)
     {
-        $this->app->instance(
-            Client::class,
-            Mockery::mock(Client::class)
-                ->shouldReceive('post')
-                ->times($times)
-                ->getMock()
-        );
-
         $this->app->instance(
             'App\Http\Repositories\FailedJobRepository',
             Mockery::mock(FailedJobRepository::class)->makePartial()
@@ -33,14 +24,14 @@ class TooManyFailedJobsCommandTest extends TestCase
                 ->getMock()
         );
 
-        $this->artisan('check:failed-jobs')->assertExitCode(0);
+        $this->artisan('check:failed-jobs')->expectsOutput($message)->assertExitCode(0);
     }
 
     static function tooManyFailedJobsProvider()
     {
         return [
-            [0, 0],
-            [1, 1],
+            [0, "It'a all right"],
+            [1, "Notification on slack sent"],
         ];
     }
 }

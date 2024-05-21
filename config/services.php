@@ -42,13 +42,5 @@ return [
             'secret' => env('STRIPE_WEBHOOK_SECRET'),
             'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),
         ],
-    ],
-    'slack' => [
-        'notifications' => [
-            'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
-            'channel_name' => env('SLACK_CHANNEL_NAME'),
-            'channel_username' => env('SLACK_CHANNEL_USERNAME'),
-        ],
-    ],
-
+    ]
 ];
