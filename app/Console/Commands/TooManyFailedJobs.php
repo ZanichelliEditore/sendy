@@ -47,23 +47,25 @@ class TooManyFailedJobs extends Command
      */
     public function handle()
     {
-        $failedJobsCount = $this->failedJobRepository->count();
-        if ($failedJobsCount >= 1) {
-
-            try {
+        if (!config('services.slackk.notifications'))
+            return 0;
+        try {
+            $failedJobsCount = $this->failedJobRepository->count();
+            if ($failedJobsCount >= 1) {
+                $message = $failedJobsCount == 1 ? "C'è una mail non spedita su Sendy" : "Ci sono $failedJobsCount email non spedite su Sendy";
                 $this->client->post(
-                    env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
+                    config('services.slack.notifications.channel'),
                     [
                         'body' => json_encode([
-                            'channel' => env('SLACK_CHANNEL_NAME'),
-                            'username' => env('SLACK_CHANNEL_USERNAME'),
-                            'text' => $failedJobsCount == 1 ? ":alert_siren: c'e' " . $failedJobsCount . " email non spedita su Sendy :alert_siren: " : ":alert_siren: Ci sono " . $failedJobsCount . " email non spedite su Sendy :alert_siren: "
+                            'channel' => config('services.slack.notifications.channel_name'),
+                            'username' => config('services.slack.notifications.channel_username'),
+                            'text' => ":alert_siren: $message :alert_siren:"
                         ])
                     ]
                 );
-            } catch (ClientException $e) {
-                Log::warning("MyZanichelliService login exception: " . $e->getCode() . " " . $e->getResponse()->getBody()->getContents());
             }
+        } catch (ClientException $e) {
+            Log::warning("Check failed jobs exception: " . $e->getCode() . " " . $e->getResponse()->getBody()->getContents());
         }
 
         return 0;

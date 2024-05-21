@@ -45,8 +45,9 @@ return [
     ],
     'slack' => [
         'notifications' => [
-            'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
+            'channel_name' => env('SLACK_CHANNEL_NAME'),
+            'channel_username' => env('SLACK_CHANNEL_USERNAME'),
         ],
     ],
 
