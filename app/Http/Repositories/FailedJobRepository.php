@@ -64,4 +64,15 @@ class FailedJobRepository
     {
         return $failedJob->delete();
     }
+
+    /**
+     * Count all failed job from the database
+     *
+     * @return int
+     *
+     */
+    public function count()
+    {
+        return FailedJob::count();
+    }
 }
