@@ -22,6 +22,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('check:failed-jobs')->everyFifteenMinutes();
         $schedule->command('clear:accessToken')->hourly();
         $schedule->command('clear:log')->hourly();
 

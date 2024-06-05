@@ -251,3 +251,11 @@ data = res.json # get data as object using attribute .json, or use r.content
   By default the make command will launch development environment; anyway you can overwrite the env setting using production:
 
         make build ENV=prod
+
+- **Slack:** sendy uses slack to send alerts in case of malfunctions.
+
+  Parameters to use are in .env file:
+
+  ```php
+  LOG_SLACK_WEBHOOK_URL= <slack_hook>
+  ```
