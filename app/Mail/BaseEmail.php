@@ -4,6 +4,8 @@ namespace App\Mail;
 
 use App\Models\Email;
 use Illuminate\Mail\Mailable;
+use GuzzleHttp\Client as Guzzle;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 abstract class BaseEmail extends Mailable
@@ -38,7 +40,7 @@ abstract class BaseEmail extends Mailable
         $directory = $this->email->getAttachmentsDirectory();
 
         if (!empty($directory)) {
-            foreach (Storage::files('attachments/' . $directory) as $file) {
+            foreach (Storage::files('attachments/' . $directory, true) as $file) {
                 $builder->attachFromStorage($file);
             }
         }
@@ -116,16 +118,45 @@ abstract class BaseEmail extends Mailable
         foreach ($matches[0] as $match) {
             $filename = str_replace('"', '', explode('src="', $match))[1];
 
-            //INFO: get image size info
-            extract(
-                getimagesize($filename),
-                EXTR_PREFIX_INVALID,
-                'dimension'
-            );
-
-            //INFO: size = (width * height * BPP) / bit per byte
-            $size += ($dimension_0 * $dimension_1 * $bits) / 8;
+            if (str_starts_with($filename, 'http')) {
+                $imgSize = $this->getRemoteImageSize($filename);
+            } else {
+                $imgSize = $this->getLocalImageSize($filename);
+            }
+            if ($imgSize) $size += $imgSize;
         }
         return $size;
+    }
+
+    private function getRemoteImageSize(string $url)
+    {
+        try {
+            $client = new Guzzle();
+            $response = $client->head($url);
+            $headers = $response->getHeaders();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+
+        if (!empty($headers['Content-Length'])) return $headers['Content-Length'][0];
+    }
+
+    private function getLocalImageSize(string $path)
+    {
+        try {
+            if ($imgSizeInfo = getimagesize($path)) {
+
+                extract(
+                    $imgSizeInfo,
+                    EXTR_PREFIX_INVALID,
+                    'dimension'
+                );
+
+                //INFO: imageSize = (width * height * BPP) / bit per byte
+                return ($dimension_0 * $dimension_1 * $bits) / 8;
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
     }
 }
