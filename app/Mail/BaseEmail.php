@@ -40,7 +40,7 @@ abstract class BaseEmail extends Mailable
         $directory = $this->email->getAttachmentsDirectory();
 
         if (!empty($directory)) {
-            foreach (Storage::files('attachments/' . $directory, true) as $file) {
+            foreach (Storage::files('attachments/' . $directory) as $file) {
                 $builder->attachFromStorage($file);
             }
         }
