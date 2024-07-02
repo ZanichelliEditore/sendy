@@ -36,7 +36,7 @@ class EmailRequest extends FormRequest
             'subject' => 'sometimes|string|max:200|nullable',
             'body' => 'sometimes|string|nullable',
             "attachments" => 'sometimes|array',
-            'attachments.*' => 'required|file|max:25600'
+            'attachments.*' => 'required|file|max:' . config('mail.maxSize.kilobyte')
         ];
     }
 }

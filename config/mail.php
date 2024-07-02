@@ -115,4 +115,9 @@ return [
         ],
     ],
 
+    'maxSize' => [
+        'kilobyte' => 25600,
+        'byte' => 26214400
+    ]
+
 ];

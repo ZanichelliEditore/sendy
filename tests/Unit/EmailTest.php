@@ -38,7 +38,6 @@ class EmailTest extends TestCase
         // the listener for this event sends mail
         EmailSender::dispatch($objectMail);
 
-
         Mail::assertSent(CustomEmail::class, function ($email) use ($objectMail) {
             $email->build();
             $mailArray = $objectMail->getEmail();
@@ -61,13 +60,14 @@ class EmailTest extends TestCase
     {
         Mail::fake();
 
+        $mail = $this->createEmail(true);
+        $objectMail = new CustomEmail($mail);
+        EmailSender::dispatch($objectMail);
+
         $fakeFile = 'attachments/Fake_directory/file.txt';
         Storage::shouldReceive('files')->andReturn([$fakeFile]);
         Storage::shouldReceive('deleteDirectory');
 
-        $mail = $this->createEmail(true);
-        $objectMail = new CustomEmail($mail);
-        EmailSender::dispatch($objectMail);
         Mail::assertSent(CustomEmail::class, function ($email) use ($objectMail, $fakeFile) {
             $email->build();
 

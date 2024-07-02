@@ -15,6 +15,15 @@ class EmailTest extends TestCase
 {
     use WithoutMiddleware;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Bus::fake();
+        Storage::fake('local');
+    }
+
+
     private function createEmail()
     {
         return new Email(
@@ -24,7 +33,7 @@ class EmailTest extends TestCase
             ['receiverBCC@example.com'],
             'Subject',
             'Fake body',
-            'Fake directory'
+            Str::random(20)
         );
     }
 
@@ -52,8 +61,6 @@ class EmailTest extends TestCase
      */
     public function sendEmailSuccessfully()
     {
-        Bus::fake();
-        Storage::fake('local');
 
         $email = $this->getEmail();
 
@@ -81,8 +88,6 @@ class EmailTest extends TestCase
      */
     public function testInvalidReceiver()
     {
-        Bus::fake();
-
         $email = $this->getEmail();
         unset($email['to']);
 
@@ -104,8 +109,6 @@ class EmailTest extends TestCase
      */
     public function testInvalidSender()
     {
-        Bus::fake();
-
         $email = $this->getEmail();
         unset($email['from']);
         $response = $this->json('POST', '/api/v1/emails', $email);
@@ -126,9 +129,6 @@ class EmailTest extends TestCase
      */
     public function sendEmail()
     {
-        Bus::fake();
-        Storage::fake('local');
-
         Bus::assertNotDispatched(EmailSender::class);
 
         $response = $this->json('POST', '/api/v1/emails', $this->getEmail());
@@ -154,8 +154,6 @@ class EmailTest extends TestCase
      */
     public function postToErrorValidationTest()
     {
-        Bus::fake();
-
         $email = $this->getEmail();
         unset($email['to']);
         $response = $this->json('POST', '/api/v1/emails', $email);
@@ -229,9 +227,6 @@ class EmailTest extends TestCase
      */
     public function senderFieldErrorValidationTest($wrongSenderValue)
     {
-
-        Bus::fake();
-
         $requestBody = $this->getEmail();
         $requestBody['sender'] = $wrongSenderValue;
         $response = $this->json('POST', '/api/v1/emails', $requestBody);
@@ -251,8 +246,6 @@ class EmailTest extends TestCase
      */
     public function postFromErrorValidationTest()
     {
-        Bus::fake();
-
         $email = $this->getEmail();
         unset($email['from']);
         $response = $this->json('POST', '/api/v1/emails', $email);
@@ -271,9 +264,6 @@ class EmailTest extends TestCase
      */
     public function sendPostSuccessSaveTestWithOutSenderParam()
     {
-        Bus::fake();
-        Storage::fake('local');
-
         $response = $this->json('POST', '/api/v1/emails', $this->getEmail());
         $this->assertEquals(200, $response->status());
         $email = $this->getEmail();
@@ -306,9 +296,6 @@ class EmailTest extends TestCase
      */
     public function successEmailSendWithSenderParamTest($sender)
     {
-        Bus::fake();
-        Storage::fake('local');
-
         $requestBody = $this->getEmail();
         $requestBody['sender'] = $sender;
         $response = $this->json('POST', '/api/v1/emails', $requestBody);
@@ -332,9 +319,6 @@ class EmailTest extends TestCase
      */
     public function ccValidationTest()
     {
-        Bus::fake();
-        Storage::fake('local');
-
         $email = $this->getEmail();
         $email['cc'] = "ccOne@email.it";
         $response = $this->json('POST', '/api/v1/emails', $email);
@@ -393,9 +377,6 @@ class EmailTest extends TestCase
      */
     public function bccValidationTest()
     {
-        Bus::fake();
-        Storage::fake('local');
-
         $email = $this->getEmail();
         $email['bcc'] = "bccOne@email.it";
         $response = $this->json('POST', '/api/v1/emails', $email);
@@ -466,11 +447,9 @@ class EmailTest extends TestCase
      */
     public function sizeFileValidationTest()
     {
-        Bus::fake();
-        Storage::fake('local');
         // Array attachments
         $email = $this->getEmail();
-        $email['attachments'] = UploadedFile::fake()->create('test.jpg', '10600');
+        $email['attachments'] = UploadedFile::fake()->create('test.jpg', 10600);
 
         $response = $this->json('POST', '/api/v1/emails', $email);
         $this->assertEquals(422, $response->status());
@@ -517,7 +496,7 @@ class EmailTest extends TestCase
         $this->assertEquals(422, $response->status());
         $response->assertJsonStructure([
             "errors" => [
-                "attachments"
+                "email.size"
             ]
         ]);
         Bus::assertNotDispatched(EmailSender::class);
@@ -529,8 +508,6 @@ class EmailTest extends TestCase
      */
     public function sizeFileSuccessTest()
     {
-        Bus::fake();
-        Storage::fake('local');
         $email = $this->getEmail();
         $email['attachments'] = [UploadedFile::fake()->create('test.jpg', '15600')];
 
@@ -601,9 +578,6 @@ class EmailTest extends TestCase
      */
     public function objectValidationTest()
     {
-        Bus::fake();
-        Storage::fake('local');
-
         $email = $this->getEmail();
         $email['subject'] = Str::random(201);;
         $response = $this->json('POST', '/api/v1/emails', $email);
