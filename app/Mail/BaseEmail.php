@@ -11,12 +11,9 @@ abstract class BaseEmail extends Mailable
     protected $email;
     protected $size;
 
-    private $storage;
-
     public function __construct(Email $email)
     {
         $this->email = $email;
-        $this->storage = Storage::disk('local');
     }
 
     /**
@@ -79,8 +76,6 @@ abstract class BaseEmail extends Mailable
 
     public function calcSize(): int
     {
-        $directory = $this->email->getAttachmentsDirectory();
-
         $headers = array(
             'from' => $this->email->getFrom(),
             'sender' => $this->email->getSender(),
@@ -100,11 +95,6 @@ abstract class BaseEmail extends Mailable
             else $size += strlen($header);
         }
 
-        if ($directory) {
-            foreach (Storage::files('attachments/' . $directory, true) as $attach) {
-                $size += $this->storage->size($attach);
-            }
-        }
         return $this->size = $size;
     }
 
@@ -132,7 +122,6 @@ abstract class BaseEmail extends Mailable
                 EXTR_PREFIX_INVALID,
                 'dimension'
             );
-            var_dump($dimension_0 * $dimension_1 * $bits);
 
             //INFO: size = (width * height * BPP) / bit per byte
             $size += ($dimension_0 * $dimension_1 * $bits) / 8;
