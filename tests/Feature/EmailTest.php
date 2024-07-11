@@ -449,7 +449,7 @@ class EmailTest extends TestCase
     {
         // Array attachments
         $email = $this->getEmail();
-        $email['attachments'] = UploadedFile::fake()->create('test.jpg', 10600);
+        $email['attachments'] = UploadedFile::fake()->create('test.jpg', '10600');
 
         $response = $this->json('POST', '/api/v1/emails', $email);
         $this->assertEquals(422, $response->status());
