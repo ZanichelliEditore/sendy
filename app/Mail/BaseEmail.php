@@ -92,8 +92,6 @@ abstract class BaseEmail extends Mailable
         $body = $this->email->getBody();
         $size = strlen($body);
 
-        if ($imgesSize = $this->getImagesSize($body)) $size += $imgesSize;
-
         foreach ($headers as $header) {
             if (is_array($header)) $size += strlen(implode('', $header));
             else $size += strlen($header);
@@ -114,57 +112,4 @@ abstract class BaseEmail extends Mailable
      * @return string
      */
     protected abstract function useView();
-
-
-    private function getImagesSize(string $body): int|null
-    {
-        preg_match_all('/(<img)[[:word:][:punct:][:space:]]*(src=")[[:word:][:punct:]]*"/m', $body, $matches);
-
-        if (empty($matches)) return null;
-
-        $size = 0;
-        foreach ($matches[0] as $match) {
-            $filename = str_replace('"', '', explode('src="', $match))[1];
-
-            if (str_starts_with($filename, 'http')) {
-                $imgSize = $this->getRemoteImageSize($filename);
-            } else {
-                $imgSize = $this->getLocalImageSize($filename);
-            }
-            if ($imgSize) $size += $imgSize;
-        }
-        return $size;
-    }
-
-    private function getRemoteImageSize(string $url)
-    {
-        try {
-            $client = new Guzzle();
-            $response = $client->head($url);
-            $headers = $response->getHeaders();
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-        }
-
-        if (!empty($headers['Content-Length'])) return $headers['Content-Length'][0];
-    }
-
-    private function getLocalImageSize(string $path)
-    {
-        try {
-            if ($imgSizeInfo = getimagesize($path)) {
-
-                extract(
-                    $imgSizeInfo,
-                    EXTR_PREFIX_INVALID,
-                    'dimension'
-                );
-
-                //INFO: imageSize = (width * height * BPP) / bit per byte
-                return ($dimension_0 * $dimension_1 * $bits) / 8;
-            }
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-        }
-    }
 }

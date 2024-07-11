@@ -576,27 +576,6 @@ class EmailTest extends TestCase
      * @test
      * @return void
      */
-    public function completeEmailSizeFailureTest()
-    {
-        $email = $this->getEmail();
-
-        $imgGD = imagecreatetruecolor(2300, 340);
-        $fakePath = Storage::path('inlineImg.png');
-        imagepng($imgGD, $fakePath, 1);
-
-        $email['body'] .= '<img src="' . $fakePath  . '" />';
-        $email['attachments'] = [UploadedFile::fake()->create('test.jpg', 24900)];
-
-        $response = $this->json('POST', '/api/v1/emails', $email);
-        $this->assertEquals(422, $response->status());
-
-        Bus::assertNotDispatched(EmailSender::class);
-    }
-
-    /**
-     * @test
-     * @return void
-     */
     public function objectValidationTest()
     {
         $email = $this->getEmail();
