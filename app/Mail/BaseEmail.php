@@ -4,8 +4,6 @@ namespace App\Mail;
 
 use App\Models\Email;
 use Illuminate\Mail\Mailable;
-use GuzzleHttp\Client as Guzzle;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 abstract class BaseEmail extends Mailable

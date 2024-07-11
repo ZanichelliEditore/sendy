@@ -33,7 +33,7 @@ class EmailTest extends TestCase
             ['receiverBCC@example.com'],
             'Subject',
             'Fake body',
-            Str::random(20)
+            'Fake directory'
         );
     }
 
