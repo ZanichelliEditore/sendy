@@ -55,7 +55,7 @@ class EmailController extends Controller
         $bcc = $request->input('bcc', []);
         $subject = $request->input('subject');
         $body = $request->input('body');
-        $attachments = $request->file('attachments') ?? [];
+        $attachments = $request->file('attachments', []);
 
         $email = new Email($from, $sender, $to, $cc, $bcc, $subject, $body, Str::random(20));
         $mailable = new CustomEmail($email);
