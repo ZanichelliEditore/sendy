@@ -76,8 +76,6 @@ abstract class BaseEmail extends Mailable
 
     public function calcSize(): int
     {
-        $directory = $this->email->getAttachmentsDirectory();
-
         $headers = array(
             'from' => $this->email->getFrom(),
             'sender' => $this->email->getSender(),
@@ -95,7 +93,7 @@ abstract class BaseEmail extends Mailable
             else $size += strlen($header);
         }
 
-        if ($directory) {
+        if ($directory = $this->email->getAttachmentsDirectory()) {
             foreach (Storage::files('attachments/' . $directory, true) as $attach) {
                 $size += filesize(Storage::path($attach));
             }
