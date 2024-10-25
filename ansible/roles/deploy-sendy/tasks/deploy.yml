@@ -16,7 +16,7 @@
     owner: "{{ remote_user }}"
 
 - name: Synchronize files to Zanichelli application folder
-  synchronize:
+  ansible.posix.synchronize:
     src: src/
     dest: "{{ deploy_path }}"
     checksum: yes
