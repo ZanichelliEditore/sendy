@@ -21,4 +21,4 @@ RUN chown -R www-data:www-data \
 WORKDIR /var/www
 USER www-data
 
-CMD ["/usr/bin/supervisord"]
+CMD ["echo ciao"]
