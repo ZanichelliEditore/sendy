@@ -1,5 +1,3 @@
 ---
-
-- include: checkout-local-project.yml
-
-- include: deploy.yml
+- ansible.builtin.import_tasks: checkout-local-project.yml
+- ansible.builtin.import_tasks: deploy.yml

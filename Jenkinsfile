@@ -18,7 +18,7 @@ pipeline {
                 script() {
                     withAWS(credentials: 'Jenkins', region: 'eu-west-1', role: 'ContinuousIntegrationAccessRole', roleAccount: '305507912930' ) {
                         s3Download(
-                            file: "$WORKSPACE/ansible/inventory/production.inv",
+                            file: "${WORKSPACE}/ansible/inventory/production.inv",
                             bucket: "${bucket_name}",
                             path: "${bucket_path}",
                             force: true
@@ -27,7 +27,7 @@ pipeline {
                 }
 
                 sh """
-                `more $WORKSPACE/ansible/inventory/production.inv |grep -m 1 'port' |awk '{print "ssh-keyscan -p", \$3, " -t ecdsa ", \$1, " >> ~/.ssh/known_hosts"}' |sed -n -e 's/ansible_port=//p'`
+                more $WORKSPACE/ansible/inventory/production.inv |grep -m 1 'port' |awk '{print "ssh-keyscan -p", \$3, " -t ecdsa ", \$1, " >> ~/.ssh/known_hosts"}' |sed -n -e 's/ansible_port=//p'
                 """
             }
         }
@@ -36,9 +36,9 @@ pipeline {
 
             environment {
 
-                ANSIBLE_PLAYBOOK_PATH = "$WORKSPACE/ansible/playbook.yml"
-                ANSIBLE_INVENTORY_PATH = "$WORKSPACE/ansible/inventory/production.inv"
-                BRANCH_NAME = "$params.deploy_branch"
+                ANSIBLE_PLAYBOOK_PATH = "${WORKSPACE}/ansible/playbook.yml"
+                ANSIBLE_INVENTORY_PATH = "${WORKSPACE}/ansible/inventory/production.inv"
+                BRANCH_NAME = "${params.deploy_branch}"
 
                 DB_HOST_SENDY_PRODUCTION = credentials("db_host_sendy_production")
                 DB_USERNAME_SENDY_PRODUCTION = credentials("db_username_sendy_production")
@@ -58,10 +58,10 @@ pipeline {
                     file(credentialsId: 'OAUTH_PRIVATE_KEY_SENDY_PROD', variable: 'private_key'),
                     file(credentialsId: 'OAUTH_PUBLIC_KEY_SENDY_PROD', variable: 'public_key')
                 ]) {
-                    sh "cp -n \$certificate $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.crt"
-                    sh "cp -n \$key $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.key"
-                    sh "cp -n \$public_key $WORKSPACE/ansible/roles/deploy-sendy/templates/oauth-public.key"
-                    sh "cp -n \$private_key $WORKSPACE/ansible/roles/deploy-sendy/templates/oauth-private.key"
+                    sh('cp -n \$certificate ${WORKSPACE}/ansible/roles/deploy-sendy/templates/star_certificate.crt')
+                    sh('cp -n \$key ${WORKSPACE}/ansible/roles/deploy-sendy/templates/star_certificate.key')
+                    sh('cp -n \$public_key ${WORKSPACE}/ansible/roles/deploy-sendy/templates/oauth-public.key')
+                    sh('cp -n \$private_key ${WORKSPACE}/ansible/roles/deploy-sendy/templates/oauth-private.key')
                 }
                 sshagent(credentials: ['jenkins_private_key']) {
                     ansiColor('xterm') {

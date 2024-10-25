@@ -1,27 +1,21 @@
 ---
-## Application deployment
-- name: create base deploy path folder
-  file: >
-    path={{ deploy_path }}
-    state=directory
-    group={{ remote_user }}
-    owner={{ remote_user }}
+- name: Create base deploy path folder
+  become: true
+  ansible.builtin.file:
+    path: "{{ deploy_path }}"
+    state: directory
+    group: "{{ remote_user }}"
+    owner: "{{ remote_user }}"
 
-- name: create certs folder
-  file: >
-    path="{{ deploy_path }}/certs"
-    state=directory
-    group={{ remote_user }}
-    owner={{ remote_user }}
+- name: Create certs folder
+  become: true
+  ansible.builtin.file:
+    path: "{{ deploy_path }}/certs"
+    state: directory
+    group: "{{ remote_user }}"
+    owner: "{{ remote_user }}"
 
-- name: create .composer folder
-  file: >
-    path="~/.composer"
-    state=directory
-    group={{ remote_user }}
-    owner={{ remote_user }}
-
-- name: synchronize files to Zanichelli application folder
+- name: Synchronize files to Zanichelli application folder
   synchronize:
     src: src/
     dest: "{{ deploy_path }}"
@@ -56,8 +50,8 @@
   template: src=oauth-private.key
     dest={{ deploy_path }}/storage/oauth-private.key
 
-- name: adding existing user 'root' to group docker
-  become: yes
+- name: Adding existing user 'root' to group docker
+  become: true
   user:
     name: "{{ remote_user }}"
     groups: docker
@@ -68,7 +62,7 @@
 
 - name: Remove the containers
   command: "/usr/local/bin/docker-compose -f {{ deploy_path }}/docker-compose.prod.yml down"
-  ignore_errors: yes
+  ignore_errors: true
   args:
     chdir: "{{ deploy_path }}"
 
@@ -98,7 +92,7 @@
 
 - name: Copy public files into nginx container
   command: "docker cp sendy_app:/var/www/public/. ./public/"
-  become: yes
+  become: true
   args:
     chdir: "{{ deploy_path }}"
 

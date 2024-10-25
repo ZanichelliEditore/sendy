@@ -5,8 +5,3 @@
     - vars/sendy.yml
   roles:
     - { role: deploy-sendy, tags: ["deploy-sendy"] }
-
-- hosts: sendy
-  remote_user: "{{ remote_user }}"
-  roles:
-    - { role: revert-sendy, tags: ["revert-deploy"] }
