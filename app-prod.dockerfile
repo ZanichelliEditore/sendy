@@ -20,5 +20,3 @@ RUN chown -R www-data:www-data \
 
 WORKDIR /var/www
 USER www-data
-
-CMD ["echo ciao"]
