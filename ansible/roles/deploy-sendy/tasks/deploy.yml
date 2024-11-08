@@ -19,11 +19,11 @@
   ansible.posix.synchronize:
     src: src/
     dest: "{{ deploy_path }}"
-    checksum: yes
-    archive: no
-    delete: no
-    recursive: yes
-    use_ssh_args: yes
+    checksum: true
+    archive: false
+    delete: false
+    recursive: true
+    use_ssh_args: true
     rsync_opts:
       - "-v"
       - "--exclude=*.git"
