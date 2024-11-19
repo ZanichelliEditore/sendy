@@ -3,10 +3,6 @@ pipeline {
         label 'master'
     }
 
-    parameters {
-        choice(choices: ['master', 'SND-21'], description: 'branch used to deploy file on server', name: 'deploy_branch')
-    }
-
     stages {
 
         stage('S3 download inventory file') {
