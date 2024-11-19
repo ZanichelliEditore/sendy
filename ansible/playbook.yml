@@ -5,4 +5,4 @@
   vars_files:
     - vars/sendy.yml
   roles:
-    - { role: deploy-sendy, tags: ["deploy-sendy"] }
+    - { role: deploy-sendy, tags: ["deploy"] }
