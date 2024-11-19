@@ -82,9 +82,6 @@ pipeline {
     }
 
     post {
-        success {
-            echo "Successfully deployed app"
-        }
         failure {
             echo "There were some errors during the pipeline execution."
         }
