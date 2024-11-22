@@ -27,6 +27,7 @@ abstract class BaseEmail extends Mailable
             ->to($this->email->getTo())
             ->cc($this->email->getCc())
             ->bcc($this->email->getBcc())
+            ->replyTo($this->email->getReplyTo())
             ->subject($this->email->getSubject())
             ->view($this->useView())
             ->with([

@@ -12,6 +12,7 @@ class Email
     private $to;
     private $cc;
     private $bcc;
+    private $replyTo;
     private $from;
     private $sender;
     private $subject;
@@ -24,6 +25,7 @@ class Email
         array $to,
         array $cc = [],
         array $bcc = [],
+        string $replyTo = null,
         string $subject = null,
         string $body = null,
         string $attachmentsDirectory = null
@@ -33,6 +35,7 @@ class Email
         $this->to = $to;
         $this->cc = $cc;
         $this->bcc = $bcc;
+        $this->replyTo = $replyTo;
         $this->subject = $subject;
         $this->body = $body;
         $this->attachmentsDirectory = $attachmentsDirectory;
@@ -61,6 +64,15 @@ class Email
     {
         return $this->bcc;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getReplyTo(): ?string
+    {
+        return $this->replyTo;
+    }
+
 
     /**
      * @return string
