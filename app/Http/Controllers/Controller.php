@@ -162,6 +162,16 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
  *             ),
  *         ),
  *         @OA\Property(
+ *             property="replyTo",
+ *             type="string",
+ *             example="replyto@example.com"
+ *         ),
+ *         @OA\Property(
+ *             property="sender",
+ *             type="string",
+ *             example="Zanichelli"
+ *         ),
+ *         @OA\Property(
  *             property="subject",
  *             type="string",
  *             example="subject of one email"
