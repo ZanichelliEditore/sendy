@@ -54,6 +54,7 @@ class EmailController extends Controller
         $to = $request->input('to');
         $cc = $request->input('cc', []);
         $bcc = $request->input('bcc', []);
+        $replyTo = $request->input('replyTo');
         $subject = $request->input('subject');
         $body = $request->input('body');
         $attachments = $request->file('attachments');
@@ -71,7 +72,7 @@ class EmailController extends Controller
         }
 
 
-        $email = new Email($from, $sender, $to, $cc, $bcc, $subject, $body, $attachmentsDirectory);
+        $email = new Email($from, $sender, $to, $cc, $bcc, $replyTo, $subject, $body, $attachmentsDirectory);
 
         $mailable = new CustomEmail($email);
 

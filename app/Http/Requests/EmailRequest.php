@@ -31,6 +31,7 @@ class EmailRequest extends FormRequest
             'cc.*' => ['email', $formatEmail, 'max:320'],
             'bcc' => 'sometimes|array|nullable',
             'bcc.*' => ['email', $formatEmail, 'max:320'],
+            'replyTo' => ['sometimes', 'email', $formatEmail, 'max:320'],
             'from' => 'required|email',
             'sender' => 'sometimes|string|max:200',
             'subject' => 'sometimes|string|max:200|nullable',

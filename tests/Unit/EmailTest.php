@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class EmailTest extends TestCase
 {
-    private function createEmail(bool $file = false, bool $withSender = false)
+    private function createEmail(bool $file = false, bool $withSender = false, bool $withReplyTo = false)
     {
         return new Email(
             'from@example.com',
@@ -19,6 +19,7 @@ class EmailTest extends TestCase
             ['receiver1@example.com', 'receiver2@example.com'],
             ['receiverCC@example.com'],
             ['receiverBCC@example.com'],
+            $withReplyTo ? 'replyTo@example.com' : null,
             'Subject',
             'Fake body',
             $file ? 'Fake_directory' : null
@@ -73,6 +74,63 @@ class EmailTest extends TestCase
 
             return $email->diskAttachments[0]['path'] == $fakeFile &&
                 $email->diskAttachments[0]['name'] == basename($fakeFile);
+        });
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function sendEmailWithSender()
+    {
+        Mail::fake();
+        $mail = $this->createEmail(false, true, false);
+        $objectMail = new CustomEmail($mail);
+
+        // the listener for this event sends mail
+        EmailSender::dispatch($objectMail);
+
+
+        Mail::assertSent(CustomEmail::class, function ($email) use ($objectMail) {
+            $email->build();
+            $mailArray = $objectMail->getEmail();
+
+            return
+                $email->hasTo($mailArray->getTo()) &&
+                $email->hasCc($mailArray->getCc()) &&
+                $email->hasBcc($mailArray->getBcc()) &&
+                $email->hasFrom($mailArray->getFrom(), $mailArray->getSender()) &&
+                $email->subject == $mailArray->getSubject() &&
+                $email->viewData['body'] == $mailArray->getBody();
+        });
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function sendEmailWithReplyTo()
+    {
+        Mail::fake();
+        $mail = $this->createEmail(false, false, true);
+        $objectMail = new CustomEmail($mail);
+
+        // the listener for this event sends mail
+        EmailSender::dispatch($objectMail);
+
+
+        Mail::assertSent(CustomEmail::class, function ($email) use ($objectMail) {
+            $email->build();
+            $mailArray = $objectMail->getEmail();
+
+            return
+                $email->hasTo($mailArray->getTo()) &&
+                $email->hasCc($mailArray->getCc()) &&
+                $email->hasBcc($mailArray->getBcc()) &&
+                $email->hasFrom($mailArray->getFrom()) &&
+                $email->hasReplyTo($mailArray->getReplyTo()) &&
+                $email->subject == $mailArray->getSubject() &&
+                $email->viewData['body'] == $mailArray->getBody();
         });
     }
 }
