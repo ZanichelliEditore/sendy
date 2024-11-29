@@ -163,13 +163,14 @@ $res = $client->request('POST', 'https://sendyurl.com/api/v1/emails',
                 ],
                 'body' => json_encode(
                     [
-                        'to' => [
-                            'email@example.com'
-                        ],
+                        'to' => ['email@example.com'],
+                        'cc' => ['cc@example.com'],
+                        'bcc' => ['bcc@example.com'],
                         'from' => 'origin@example.com',
                         'subject' => 'Test',
-                        'body' => $body
-
+                        'body' => $body,
+                        'sender' => 'Zanichelli Editore',
+                        'replyTo' => 'replyto@example.com'
                     ]
                 )
             ]);
@@ -207,12 +208,14 @@ auth = OAuth2(
 )
 
 params = {
-    'to': [
-        'email@example.com'
-    ],
+    'to': ['email@example.com'],
+    'cc': ['cc@example.com'],
+    'bcc': ['bcc@example.com'],
     'from': 'origin@example.com',
     'subject': 'Test',
-    'body': body
+    'body': body,
+    'sender': 'Zanichelli Editore',
+    'replyTo': 'replyto@example.com'
 }
 headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
 res = requests.post("https://sendyurl.com/api/v1/emails", headers=headers, json=params, auth=auth)
