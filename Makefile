@@ -24,8 +24,8 @@ npm_install:                      ## Execute npm install package [use PACKAGE=<p
 shell:                            ## Open a shell con container app
 	docker exec -it $(PROJECT)_app bash
 composer_install:                 ## Execute composer install
-	docker exec -it $(PROJECT)_app composer install
-composer_update:                  ## Execute composer update
+	docker exec -it $(PROJECT)_app composer install --no-dev
+composer_update:                  ## Execute composer update 
 	docker exec -it $(PROJECT)_app composer update
 run_tests:                        ## Execute phpunit
 	docker exec -it $(PROJECT)_app vendor/bin/phpunit

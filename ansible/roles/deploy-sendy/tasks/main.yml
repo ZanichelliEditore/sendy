@@ -1,5 +1,5 @@
----
+- name: Checkout project in local folder
+  ansible.builtin.import_tasks: checkout-local-project.yml
 
-- include: checkout-local-project.yml
-
-- include: deploy.yml
+- name: Perform deploy
+  ansible.builtin.import_tasks: deploy.yml

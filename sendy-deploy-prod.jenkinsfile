@@ -3,10 +3,6 @@ pipeline {
         label 'master'
     }
 
-    parameters {
-        choice(choices: ['master', 'SND-21'], description: 'branch used to deploy file on server', name: 'deploy_branch')
-    }
-
     stages {
 
         stage('S3 download inventory file') {
@@ -18,7 +14,7 @@ pipeline {
                 script() {
                     withAWS(credentials: 'Jenkins', region: 'eu-west-1', role: 'ContinuousIntegrationAccessRole', roleAccount: '305507912930' ) {
                         s3Download(
-                            file: "$WORKSPACE/ansible/inventory/production.inv",
+                            file: "${WORKSPACE}/ansible/inventory/production.inv",
                             bucket: "${bucket_name}",
                             path: "${bucket_path}",
                             force: true
@@ -27,7 +23,7 @@ pipeline {
                 }
 
                 sh """
-                `more $WORKSPACE/ansible/inventory/production.inv |grep -m 1 'port' |awk '{print "ssh-keyscan -p", \$3, " -t ecdsa ", \$1, " >> ~/.ssh/known_hosts"}' |sed -n -e 's/ansible_port=//p'`
+                more $WORKSPACE/ansible/inventory/production.inv |grep -m 1 'port' |awk '{print "ssh-keyscan -p", \$3, " -t ecdsa ", \$1, " >> ~/.ssh/known_hosts"}' |sed -n -e 's/ansible_port=//p'
                 """
             }
         }
@@ -35,14 +31,13 @@ pipeline {
         stage('Start Deploy') {
 
             environment {
-
-                ANSIBLE_PLAYBOOK_PATH = "$WORKSPACE/ansible/playbook.yml"
-                ANSIBLE_INVENTORY_PATH = "$WORKSPACE/ansible/inventory/production.inv"
+                ANSIBLE_PLAYBOOK_PATH = '$WORKSPACE/ansible/playbook.yml'
+                ANSIBLE_INVENTORY_PATH = '$WORKSPACE/ansible/inventory/production.inv'
                 BRANCH_NAME = "$params.deploy_branch"
 
-                DB_HOST_SENDY_PRODUCTION = credentials("db_host_sendy_production")
-                DB_USERNAME_SENDY_PRODUCTION = credentials("db_username_sendy_production")
-                DB_PASSWORD_SENDY_PRODUCTION = credentials("db_password_sendy_production")
+                DB_HOST_SENDY_PRODUCTION = credentials('db_host_sendy_production')
+                DB_USERNAME_SENDY_PRODUCTION = credentials('db_username_sendy_production')
+                DB_PASSWORD_SENDY_PRODUCTION = credentials('db_password_sendy_production')
                 REDIS_HOST = credentials('sendy_redis_host_production')
                 LOGSTASH_HOST = credentials('logstash_host')
                 LOG_SLACK_WEBHOOK_URL = credentials('slack_infrastructure_notifications_webhook')
@@ -58,17 +53,17 @@ pipeline {
                     file(credentialsId: 'OAUTH_PRIVATE_KEY_SENDY_PROD', variable: 'private_key'),
                     file(credentialsId: 'OAUTH_PUBLIC_KEY_SENDY_PROD', variable: 'public_key')
                 ]) {
-                    sh "cp -n \$certificate $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.crt"
-                    sh "cp -n \$key $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.key"
-                    sh "cp -n \$public_key $WORKSPACE/ansible/roles/deploy-sendy/templates/oauth-public.key"
-                    sh "cp -n \$private_key $WORKSPACE/ansible/roles/deploy-sendy/templates/oauth-private.key"
+                    sh('cp -n \$certificate $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.crt')
+                    sh('cp -n \$key $WORKSPACE/ansible/roles/deploy-sendy/templates/star_certificate.key')
+                    sh('cp -n \$public_key $WORKSPACE/ansible/roles/deploy-sendy/templates/oauth-public.key')
+                    sh('cp -n \$private_key $WORKSPACE/ansible/roles/deploy-sendy/templates/oauth-private.key')
                 }
                 sshagent(credentials: ['jenkins_private_key']) {
                     ansiColor('xterm') {
                         ansiblePlaybook(
                             playbook: "${ANSIBLE_PLAYBOOK_PATH}",
                             inventory: "${ANSIBLE_INVENTORY_PATH}",
-                            extras: '--tags "deploy-sendy"',
+                            extras: "--tags deploy",
                             colorized: true)
                     }
                 }
@@ -87,9 +82,6 @@ pipeline {
     }
 
     post {
-        success {
-            echo "Successfully deployed app"
-        }
         failure {
             echo "There were some errors during the pipeline execution."
         }

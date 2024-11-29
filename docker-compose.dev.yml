@@ -78,18 +78,6 @@ services:
       - "6380:6379"
     networks:
       - default
-  # filebeat:
-  #   build:
-  #     context: ./
-  #     dockerfile: filebeat.dockerfile
-  #   container_name: sendy_filebeat
-  #   environment:
-  #     - strict.perms=false
-  #     - "LOGSTASH_HOST=${LOGSTASH_HOST}"
-  #   volumes:
-  #     - ./storage/logs/:/app/log/
-  #   networks:
-  #     - default
 networks:
   default:
     driver: bridge
