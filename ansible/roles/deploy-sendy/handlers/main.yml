@@ -1,12 +1,7 @@
 ---
-- name: remove local checkout
+- name: Remove local checkout
   local_action: file path=src state=absent
   become: false
 
-- name: reload apache
+- name: Reload apache
   service: name=apache2 state=reloaded
-
-- name: remove auth.json
-  file:
-     path: "{{ deploy_path }}/auth.json"
-     state: absent

@@ -1,6 +1,4 @@
-remote_user: ubuntu
-deploy_path: "/home/{{ remote_user }}/sendy"
-bitbucket_key_file: /root/.ssh/id_rsa #you need to create an ssh key for bitbucket, follow instructions on bitbucket website
+host_user: ubuntu
+deploy_path: "/home/{{ host_user }}/sendy"
 checkout_branch: "{{lookup('env','BRANCH_NAME')}}"
-
 document_root: "{{ deploy_path }}/public"
