@@ -36,7 +36,7 @@ class EmailTest extends TestCase
     public function getEmail()
     {
         return [
-            'to'        => ['prova@example.com', 'prova2@example.com'],
+            'to'        => ['prova@example.com', 'prova2@example.com', 'pr.o-và@example.com'],
             'cc'        => ['cc@example.com', 'cc2@example.com'],
             'bcc'       => ['bcc@example.com', 'bcc2@example.com'],
             'from'      => 'test@email.it',
