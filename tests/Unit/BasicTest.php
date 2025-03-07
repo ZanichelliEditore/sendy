@@ -14,7 +14,7 @@ class BasicTest extends TestCase
      */
     public function testDocumentation()
     {
-        $response = $this->get('/docs/api-docs.json');
+        $response = $this->get('/docs?api-docs.json');
         $this->assertEquals(200, $response->status());
     }
 }
