@@ -211,7 +211,7 @@ class EmailTest extends TestCase
     }
 
 
-    public function wrongSenderValues()
+    static public function wrongSenderValues()
     {
         return [
             // Not a string
@@ -290,7 +290,7 @@ class EmailTest extends TestCase
         });
     }
 
-    public function sampleSenders()
+    static public function sampleSenders()
     {
         return [
             ['asdasd asdasd'],

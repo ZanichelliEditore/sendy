@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Mockery;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Log;
 use App\Http\Repositories\FailedJobRepository;
 
 class TooManyFailedJobsCommandTest extends TestCase
@@ -14,6 +15,8 @@ class TooManyFailedJobsCommandTest extends TestCase
      */
     public function tooManyFailedJobsTest($failedJobsCount, $message)
     {
+        Log::shouldReceive('channel->error')->times($failedJobsCount);
+
         $this->app->instance(
             'App\Http\Repositories\FailedJobRepository',
             Mockery::mock(FailedJobRepository::class)->makePartial()
@@ -27,7 +30,7 @@ class TooManyFailedJobsCommandTest extends TestCase
         $this->artisan('check:failed-jobs')->expectsOutput($message)->assertOk();
     }
 
-    static function tooManyFailedJobsProvider()
+    static public function tooManyFailedJobsProvider()
     {
         return [
             [0, "It'a all right"],
