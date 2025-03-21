@@ -1,4 +1,4 @@
-FROM nginx:1.25
+FROM nginx:1.26.3
 
 ADD ./vhost.prod.conf /etc/nginx/conf.d/default.conf
 
