@@ -10,7 +10,7 @@ use App\Http\Repositories\FailedJobRepository;
 
 class FailedJobTest extends TestCase
 {
-    private function getJsonFragment(FailedJob $failedJob = null): array
+    private function getJsonFragment(?FailedJob $failedJob=null): array
     {
         if (is_null($failedJob)) {
             return [
@@ -30,10 +30,6 @@ class FailedJobTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @return void
-     */
     public function testSuccesfullyListFailedJob()
     {
         $failedJob = FailedJob::factory()->make();
@@ -50,10 +46,6 @@ class FailedJobTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /**
-     * @test
-     * @return void
-     */
     public function testListFailedJobInvalidData()
     {
         $paginator = new Paginator([], 12, 1);
@@ -72,11 +64,6 @@ class FailedJobTest extends TestCase
         $response->assertStatus(422)->assertJsonFragment(["errors" => ["order" => ["The selected order is invalid."]], "message" => "Data is invalid"]);
     }
 
-
-    /**
-     * @test
-     * @return void
-     */
     public function testListNoFailedJob()
     {
         $paginator = new Paginator([], 12, 1);
@@ -91,11 +78,6 @@ class FailedJobTest extends TestCase
         $response->assertStatus(200)->assertJsonFragment($this->getJsonFragment());
     }
 
-
-    /**
-     * @test
-     * @return void
-     */
     public function testDestroyUnrealFailedJob()
     {
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()
@@ -109,10 +91,6 @@ class FailedJobTest extends TestCase
         $response->assertStatus(404);
     }
 
-    /**
-     * @test
-     * @return void
-     */
     public function testRetryUnrealFailedJob()
     {
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()

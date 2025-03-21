@@ -26,11 +26,7 @@ class EmailTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function sendEmailSuccessfully()
+    public function testSendEmailSuccessfully()
     {
         Mail::fake();
         $mail = $this->createEmail();
@@ -54,11 +50,7 @@ class EmailTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function sendEmailWithAttachment()
+    public function testSendEmailWithAttachment()
     {
         Mail::fake();
 
@@ -77,11 +69,7 @@ class EmailTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function sendEmailWithSender()
+    public function testSendEmailWithSender()
     {
         Mail::fake();
         $mail = $this->createEmail(false, true, false);
@@ -105,11 +93,7 @@ class EmailTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function sendEmailWithReplyTo()
+    public function testSendEmailWithReplyTo()
     {
         Mail::fake();
         $mail = $this->createEmail(false, false, true);

@@ -5,15 +5,13 @@ namespace Tests\Feature;
 use Mockery;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Log;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Http\Repositories\FailedJobRepository;
 
 class TooManyFailedJobsCommandTest extends TestCase
 {
-    /**
-     * @test
-     * @dataProvider tooManyFailedJobsProvider
-     */
-    public function tooManyFailedJobsTest($failedJobsCount, $message)
+    #[DataProvider('tooManyFailedJobsProvider')]
+    public function testTooManyFailedJobsTest($failedJobsCount, $message)
     {
         Log::shouldReceive('channel->error')->times($failedJobsCount);
 

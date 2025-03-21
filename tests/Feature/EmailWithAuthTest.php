@@ -44,11 +44,7 @@ class EmailWithAuthTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function failAuthentication()
+    public function testFailAuthentication()
     {
         $response = $this->post('/api/v1/emails', $this->getEmail(), $this->createHeader('TestError'));
         $this->assertEquals(401, $response->status());
