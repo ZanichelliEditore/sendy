@@ -17,7 +17,7 @@
 		"laravel/telescope": "^5.5",
 		"lcobucci/jwt": "^4.2.1",
 		"predis/predis": "^2.0",
-		"zanichelli/idp-extensions": "dev-SND-24#d7f529b",
+		"zanichelli/idp-extensions": "dev-SND-24#7d39ea",
 		"zircote/swagger-php": "^5.0"
 	},
 	"require-dev": {

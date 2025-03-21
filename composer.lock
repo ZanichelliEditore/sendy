@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4981fc6b633a190fb45bdc2198527ca",
+    "content-hash": "66e0a5055fd64c4e6aa2f9dc2d9d13cc",
     "packages": [
         {
             "name": "brick/math",
@@ -7046,12 +7046,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZanichelliEditore/idp-extension.git",
-                "reference": "d7f529b"
+                "reference": "7d39ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZanichelliEditore/idp-extension/zipball/d7f529b",
-                "reference": "d7f529b",
+                "url": "https://api.github.com/repos/ZanichelliEditore/idp-extension/zipball/7d39ea",
+                "reference": "7d39ea",
                 "shasum": ""
             },
             "require": {
@@ -7091,7 +7091,7 @@
                 "issues": "https://github.com/ZanichelliEditore/idp-extension/issues",
                 "source": "https://github.com/ZanichelliEditore/idp-extension/tree/SND-24"
             },
-            "time": "2025-03-21T13:28:12+00:00"
+            "time": "2025-03-21T14:17:55+00:00"
         },
         {
             "name": "zircote/swagger-php",
