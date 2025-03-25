@@ -23,7 +23,7 @@ class EmailTest extends TestCase
             ['receiver1@example.com', 'receiver2@example.com'],
             ['receiverCC@example.com'],
             ['receiverBCC@example.com'],
-            sender: 'Subject',
+            subject: 'Subject',
             body: 'Fake body',
             attachmentsDirectory: 'Fake directory'
         );
