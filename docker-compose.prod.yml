@@ -35,7 +35,7 @@ services:
         max-size: 5m
         max-file: "3"
   nodejs:
-    image: node:12-alpine
+    image: node:23-alpine
     container_name: sendy_nodejs
     volumes:
       - ./:/var/www/
