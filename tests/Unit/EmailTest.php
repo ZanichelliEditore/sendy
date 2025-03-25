@@ -15,10 +15,10 @@ class EmailTest extends TestCase
     {
         return new Email(
             'from@example.com',
-            $withSender ? "sender" : null,
             ['receiver1@example.com', 'receiver2@example.com'],
             ['receiverCC@example.com'],
             ['receiverBCC@example.com'],
+            $withSender ? "sender" : null,
             $withReplyTo ? 'replyTo@example.com' : null,
             'Subject',
             'Fake body',
