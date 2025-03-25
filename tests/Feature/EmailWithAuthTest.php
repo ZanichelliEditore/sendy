@@ -2,13 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Jobs\EmailSender;
-use App\Mail\CustomEmail;
-use App\Models\Email;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class EmailWithAuthTest extends TestCase
