@@ -5,12 +5,12 @@ namespace Tests\Feature;
 use Mockery;
 use Tests\TestCase;
 use App\Models\FailedJob;
-use Illuminate\Pagination\Paginator;
 use App\Http\Repositories\FailedJobRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class FailedJobTest extends TestCase
 {
-    private function getJsonFragment(?FailedJob $failedJob=null): array
+    private function getJsonFragment(?FailedJob $failedJob = null): array
     {
         if (is_null($failedJob)) {
             return [
@@ -34,7 +34,7 @@ class FailedJobTest extends TestCase
     {
         $failedJob = FailedJob::factory()->make();
 
-        $paginator = new Paginator([$failedJob], 12, 1);
+        $paginator = new LengthAwarePaginator([$failedJob], 12, 1);
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()
             ->shouldReceive([
                 'allPaginated' => $paginator
@@ -48,7 +48,7 @@ class FailedJobTest extends TestCase
 
     public function testListFailedJobInvalidData()
     {
-        $paginator = new Paginator([], 12, 1);
+        $paginator = new LengthAwarePaginator([], 12, 1);
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()
             ->shouldReceive([
                 'allPaginated' => $paginator
@@ -66,7 +66,7 @@ class FailedJobTest extends TestCase
 
     public function testListNoFailedJob()
     {
-        $paginator = new Paginator([], 12, 1);
+        $paginator = new LengthAwarePaginator([], 12, 1);
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()
             ->shouldReceive([
                 'allPaginated' => $paginator
