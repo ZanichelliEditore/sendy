@@ -13,7 +13,7 @@ See deployment for notes on how to deploy the project on a live system.
 
 - [Prerequisites](#prerequisites)
 - [Installing](#installing)
-- [Configure](#Configure)
+- [Configure](#configure)
 - [Application Setup](#application-setup)
 - [Testing](#testing)
 - [Deployment](#deployment)
@@ -31,52 +31,52 @@ See deployment for notes on how to deploy the project on a live system.
 
 Steps from 4 to 6 have to be executed inside docker app container since it represents our project environment.
 
-1.  Git clone the repository into your folder.
+1. Git clone the repository into your folder.
 
-    git clone https://github.com/ZanichelliEditore/sendy.git
+    git clone <https://github.com/ZanichelliEditore/sendy.git>
 
-2.  Copy env.example to .env
+2. Copy env.example to .env
 
-3.  Start the containers and enter into the container app:
+3. Start the containers and enter into the container app:
 
     docker-compose --file docker-compose.dev.yml up -d
     docker exec -it sendy_app bash
 
-4.  Install the required dependencies with composer.
+4. Install the required dependencies with composer.
 
     composer install
 
-5.  Generate a random application key
+5. Generate a random application key
 
     php artisan key:generate
 
-6.  Generate passport credentials
+6. Generate passport credentials
 
     php artisan passport:install --uuids
 
-7.  Activate queue worker
+7. Activate queue worker
 
     php artisan queue:work
 
     **Note:** In production environment there is supervisord service and the queue is already activated when docker is up.
 
-8.  Activate telescope
+8. Activate telescope
 
-    Set TELESCOPE_ENABLED to true in .env file, then run the following commands:
-    
+   Set TELESCOPE_ENABLED to true in .env file, then run the following commands:
+
     docker exec -it sendy_app bash
 
     php artisan telescope:install
 
     php artisan migrate
-    
+
     php artisan telescope:publish
 
     **Note:** In production environment telescope should not be active
 
 ## Configure
 
-By default email are logged into /storage/logs/laravel-day.log. To configure your SMTP server follow this guide https://laravel.com/docs/7.x/mail
+By default email are logged into /storage/logs/laravel-day.log. To configure your SMTP server follow this guide <https://laravel.com/docs/12.x/mail>
 
 ## Docker: Starting and stopping containers
 
@@ -245,8 +245,8 @@ data = res.json # get data as object using attribute .json, or use r.content
 
 - **Web:**
 
-  - the application server will run in http://localhost:8083
-  - the documentation will be automatically generated in http://localhost:8083/documentation
+  - the application server will run in <http://localhost:8083>
+  - the documentation will be automatically generated in <http://localhost:8083/documentation>
 
 - **Database:** sendy uses mysql as database to store both credentials and jobs for the email.
 
