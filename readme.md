@@ -60,6 +60,20 @@ Steps from 4 to 6 have to be executed inside docker app container since it repre
 
     **Note:** In production environment there is supervisord service and the queue is already activated when docker is up.
 
+8.  Activate telescope
+
+    Set TELESCOPE_ENABLED to true in .env file, then run the following commands:
+    
+    docker exec -it sendy_app bash
+
+    php artisan telescope:install
+
+    php artisan migrate
+    
+    php artisan telescope:publish
+
+    **Note:** In production environment telescope should not be active
+
 ## Configure
 
 By default email are logged into /storage/logs/laravel-day.log. To configure your SMTP server follow this guide https://laravel.com/docs/7.x/mail

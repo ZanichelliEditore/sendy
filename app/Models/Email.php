@@ -21,14 +21,14 @@ class Email
 
     public function __construct(
         string $from,
-        string $sender = null,
         array $to,
         array $cc = [],
         array $bcc = [],
-        string $replyTo = null,
-        string $subject = null,
-        string $body = null,
-        string $attachmentsDirectory = null
+        ?string $sender = null,
+        ?string $replyTo = null,
+        ?string $subject = null,
+        ?string $body = null,
+        ?string $attachmentsDirectory = null
     ) {
         $this->from = $from;
         $this->sender = $sender;

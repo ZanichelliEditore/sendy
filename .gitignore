@@ -20,3 +20,4 @@ supervisord.log
 supervisord.pid
 **/.terraform/**/
 *.tfstate
+.phpunit.cache

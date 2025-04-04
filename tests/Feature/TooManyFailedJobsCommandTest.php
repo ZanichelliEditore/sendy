@@ -4,16 +4,17 @@ namespace Tests\Feature;
 
 use Mockery;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Log;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Http\Repositories\FailedJobRepository;
 
 class TooManyFailedJobsCommandTest extends TestCase
 {
-    /**
-     * @test
-     * @dataProvider tooManyFailedJobsProvider
-     */
-    public function tooManyFailedJobsTest($failedJobsCount, $message)
+    #[DataProvider('tooManyFailedJobsProvider')]
+    public function testTooManyFailedJobsTest($failedJobsCount, $message)
     {
+        Log::shouldReceive('channel->error')->times($failedJobsCount);
+
         $this->app->instance(
             'App\Http\Repositories\FailedJobRepository',
             Mockery::mock(FailedJobRepository::class)->makePartial()
@@ -24,10 +25,10 @@ class TooManyFailedJobsCommandTest extends TestCase
                 ->getMock()
         );
 
-        $this->artisan('check:failed-jobs')->expectsOutput($message)->assertExitCode(0);
+        $this->artisan('check:failed-jobs')->expectsOutput($message)->assertOk();
     }
 
-    static function tooManyFailedJobsProvider()
+    static public function tooManyFailedJobsProvider()
     {
         return [
             [0, "It'a all right"],

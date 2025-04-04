@@ -10,6 +10,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class EmailTest extends TestCase
 {
@@ -22,9 +23,9 @@ class EmailTest extends TestCase
             ['receiver1@example.com', 'receiver2@example.com'],
             ['receiverCC@example.com'],
             ['receiverBCC@example.com'],
-            'Subject',
-            'Fake body',
-            'Fake directory'
+            subject: 'Subject',
+            body: 'Fake body',
+            attachmentsDirectory: 'Fake directory'
         );
     }
 
@@ -46,11 +47,7 @@ class EmailTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function sendEmailSuccessfully()
+    public function testSendEmailSuccessfully()
     {
         Bus::fake();
         Storage::fake('local');
@@ -75,10 +72,6 @@ class EmailTest extends TestCase
         Storage::disk('local')->assertExists('attachments/' . $attachmentsDirectory . '/photo1.jpg');
     }
 
-    /**
-     * @test
-     * @return void
-     */
     public function testInvalidReceiver()
     {
         Bus::fake();
@@ -98,10 +91,6 @@ class EmailTest extends TestCase
         Bus::assertNotDispatched(EmailSender::class);
     }
 
-    /**
-     * @test
-     * @return void
-     */
     public function testInvalidSender()
     {
         Bus::fake();
@@ -120,11 +109,7 @@ class EmailTest extends TestCase
         Bus::assertNotDispatched(EmailSender::class);
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function sendEmail()
+    public function testSendEmail()
     {
         Bus::fake();
         Storage::fake('local');
@@ -148,11 +133,7 @@ class EmailTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function postToErrorValidationTest()
+    public function testPostToErrorValidationTest()
     {
         Bus::fake();
 
@@ -219,7 +200,7 @@ class EmailTest extends TestCase
     }
 
 
-    public function wrongSenderValues()
+    static public function wrongSenderValues()
     {
         return [
             // Not a string
@@ -229,13 +210,8 @@ class EmailTest extends TestCase
         ];
     }
 
-
-    /**
-     * @test
-     * @dataProvider wrongSenderValues
-     * return void
-     */
-    public function senderFieldErrorValidationTest($wrongSenderValue)
+    #[DataProvider('wrongSenderValues')]
+    public function testSenderFieldErrorValidationTest($wrongSenderValue)
     {
 
         Bus::fake();
@@ -253,11 +229,7 @@ class EmailTest extends TestCase
         Bus::assertNotDispatched(EmailSender::class);
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function postFromErrorValidationTest()
+    public function testPostFromErrorValidationTest()
     {
         Bus::fake();
 
@@ -273,11 +245,8 @@ class EmailTest extends TestCase
 
         Bus::assertNotDispatched(EmailSender::class);
     }
-    /**
-     * @test
-     * @return void
-     */
-    public function sendPostSuccessSaveTestWithOutSenderParam()
+
+    public function testSendPostSuccessSaveTestWithOutSenderParam()
     {
         Bus::fake();
         Storage::fake('local');
@@ -298,7 +267,7 @@ class EmailTest extends TestCase
         });
     }
 
-    public function sampleSenders()
+    static public function sampleSenders()
     {
         return [
             ['asdasd asdasd'],
@@ -307,12 +276,8 @@ class EmailTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider sampleSenders
-     * @return void
-     */
-    public function successEmailSendWithSenderParamTest($sender)
+    #[DataProvider('sampleSenders')]
+    public function testSuccessEmailSendWithSenderParamTest($sender)
     {
         Bus::fake();
         Storage::fake('local');
@@ -334,11 +299,7 @@ class EmailTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function ccValidationTest()
+    public function testCcValidationTest()
     {
         Bus::fake();
         Storage::fake('local');
@@ -394,12 +355,7 @@ class EmailTest extends TestCase
         });
     }
 
-
-    /**
-     * @test
-     * @return void
-     */
-    public function bccValidationTest()
+    public function testBccValidationTest()
     {
         Bus::fake();
         Storage::fake('local');
@@ -467,12 +423,7 @@ class EmailTest extends TestCase
         });
     }
 
-
-    /**
-     * @test
-     * @return void
-     */
-    public function sizeFileValidationTest()
+    public function testSizeFileValidationTest()
     {
         Bus::fake();
         Storage::fake('local');
@@ -531,11 +482,7 @@ class EmailTest extends TestCase
         Bus::assertNotDispatched(EmailSender::class);
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function sizeFileSuccessTest()
+    public function testSizeFileSuccessTest()
     {
         Bus::fake();
         Storage::fake('local');
@@ -603,11 +550,7 @@ class EmailTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function objectValidationTest()
+    public function testObjectValidationTest()
     {
         Bus::fake();
         Storage::fake('local');
