@@ -72,7 +72,7 @@ class EmailController extends Controller
         }
 
 
-        $email = new Email($from, $sender, $to, $cc, $bcc, $replyTo, $subject, $body, $attachmentsDirectory);
+        $email = new Email($from, $to, $cc, $bcc, $sender, $replyTo, $subject, $body, $attachmentsDirectory);
 
         $mailable = new CustomEmail($email);
 

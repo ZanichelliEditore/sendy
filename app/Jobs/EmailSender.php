@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Mail\BaseEmail;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;

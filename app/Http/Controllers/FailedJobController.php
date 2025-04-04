@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Resources\FailedJobResource;
 use Illuminate\Support\Facades\Validator;

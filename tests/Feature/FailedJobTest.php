@@ -5,12 +5,12 @@ namespace Tests\Feature;
 use Mockery;
 use Tests\TestCase;
 use App\Models\FailedJob;
-use Illuminate\Pagination\Paginator;
 use App\Http\Repositories\FailedJobRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class FailedJobTest extends TestCase
 {
-    private function getJsonFragment(FailedJob $failedJob = null): array
+    private function getJsonFragment(?FailedJob $failedJob = null): array
     {
         if (is_null($failedJob)) {
             return [
@@ -30,15 +30,11 @@ class FailedJobTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @return void
-     */
     public function testSuccesfullyListFailedJob()
     {
         $failedJob = FailedJob::factory()->make();
 
-        $paginator = new Paginator([$failedJob], 12, 1);
+        $paginator = new LengthAwarePaginator([$failedJob], 12, 1);
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()
             ->shouldReceive([
                 'allPaginated' => $paginator
@@ -50,13 +46,9 @@ class FailedJobTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /**
-     * @test
-     * @return void
-     */
     public function testListFailedJobInvalidData()
     {
-        $paginator = new Paginator([], 12, 1);
+        $paginator = new LengthAwarePaginator([], 12, 1);
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()
             ->shouldReceive([
                 'allPaginated' => $paginator
@@ -72,14 +64,9 @@ class FailedJobTest extends TestCase
         $response->assertStatus(422)->assertJsonFragment(["errors" => ["order" => ["The selected order is invalid."]], "message" => "Data is invalid"]);
     }
 
-
-    /**
-     * @test
-     * @return void
-     */
     public function testListNoFailedJob()
     {
-        $paginator = new Paginator([], 12, 1);
+        $paginator = new LengthAwarePaginator([], 12, 1);
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()
             ->shouldReceive([
                 'allPaginated' => $paginator
@@ -91,11 +78,6 @@ class FailedJobTest extends TestCase
         $response->assertStatus(200)->assertJsonFragment($this->getJsonFragment());
     }
 
-
-    /**
-     * @test
-     * @return void
-     */
     public function testDestroyUnrealFailedJob()
     {
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()
@@ -109,10 +91,6 @@ class FailedJobTest extends TestCase
         $response->assertStatus(404);
     }
 
-    /**
-     * @test
-     * @return void
-     */
     public function testRetryUnrealFailedJob()
     {
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()

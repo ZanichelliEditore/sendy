@@ -2,13 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Jobs\EmailSender;
-use App\Mail\CustomEmail;
-use App\Models\Email;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class EmailWithAuthTest extends TestCase
@@ -44,11 +38,7 @@ class EmailWithAuthTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @return void
-     */
-    public function failAuthentication()
+    public function testFailAuthentication()
     {
         $response = $this->post('/api/v1/emails', $this->getEmail(), $this->createHeader('TestError'));
         $this->assertEquals(401, $response->status());

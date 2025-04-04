@@ -9,8 +9,8 @@ class FailedJobRepository
     /**
      * Find all the failed jobs
      *
-     * @param  String  $orderBy
-     * @param  String  $order
+     * @param  string  $orderBy
+     * @param  string  $order
      * @return \Illuminate\Database\Eloquent\Collection
      *
      */
@@ -22,14 +22,13 @@ class FailedJobRepository
     /**
      * Find all the failed jobs paginated
      *
-     * @param  String  $query
-     * @param  String  $orderBy
-     * @param  String  $order
+     * @param  string  $query
+     * @param  string  $orderBy
+     * @param  string  $order
      * @param  int  $limit
-     * @return App\Models\FailedJob
      *
      */
-    public function allPaginated($query, $orderBy, $order, $limit)
+    public function allPaginated($query, $orderBy, $order, $limit): \Illuminate\Pagination\LengthAwarePaginator
     {
         if (!$query) {
             return FailedJob::orderBy($orderBy, $order)
@@ -45,7 +44,7 @@ class FailedJobRepository
      * Find a failed job by id
      *
      * @param  int  $id
-     * @return App\Models\FailedJob
+     * @return \App\Models\FailedJob
      *
      */
     public function find($id)
@@ -56,22 +55,18 @@ class FailedJobRepository
     /**
      * Delete a failed job from the database
      *
-     * @param  App\Models\FailedJob $failedJob
-     * @return Response
+     * @param  \App\Models\FailedJob $failedJob
      *
      */
-    public function delete($failedJob)
+    public function delete($failedJob): bool|null
     {
         return $failedJob->delete();
     }
 
     /**
      * Count all failed job from the database
-     *
-     * @return int
-     *
      */
-    public function count()
+    public function count(): int
     {
         return FailedJob::count();
     }
