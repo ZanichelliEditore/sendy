@@ -15,7 +15,7 @@
 		"laravel/helpers": "^1.7",
 		"laravel/passport": "^12.0",
 		"laravel/telescope": "^5.5",
-		"lcobucci/jwt": "^4.2.1",
+		"lcobucci/jwt": "^5.5.0",
 		"predis/predis": "^2.0",
 		"zanichelli/idp-extensions": "^3.7",
 		"zircote/swagger-php": "^5.0"
