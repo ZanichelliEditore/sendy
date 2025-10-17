@@ -48,7 +48,7 @@ services:
         max-file: "3"
 
   database:
-    image: mysql:5.7
+    image: mysql:8.4.5
     container_name: sendy_db
     environment:
       - "MYSQL_ROOT_PASSWORD=${DB_PASSWORD}"

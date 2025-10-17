@@ -4,6 +4,7 @@ db_username: "{{lookup('env','DB_USERNAME_SENDY_PRODUCTION')}}"
 db_password: "{{lookup('env','DB_PASSWORD_SENDY_PRODUCTION')}}"
 
 idp_host: idp.zanichelli.it
+idp_cookie_name: token
 
 project_url: sendy.zanichelli.it
 
