@@ -8,9 +8,12 @@ use Illuminate\Support\Facades\Artisan;
 use App\Http\Resources\FailedJobResource;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Repositories\FailedJobRepository;
+use App\Utils\FailedJobsUtils;
 
 class FailedJobController extends Controller
 {
+    use FailedJobsUtils;
+
     protected $failedJobRepository;
 
     public function __construct(FailedJobRepository $failedJobRepository)
@@ -126,6 +129,8 @@ class FailedJobController extends Controller
      */
     public function retryJob($id)
     {
+        $this->cleanFailedJobsCache();
+
         $failedJob = $this->failedJobRepository->find($id);
         if (!$failedJob) {
             return response()->error404(__('messages.FailedJob') . $id);
@@ -179,6 +184,8 @@ class FailedJobController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->cleanFailedJobsCache();
+
         $failedJob = $this->failedJobRepository->find($id);
         if (!$failedJob) {
             return response()->error404(__('messages.FailedJob') . $id);
@@ -219,6 +226,8 @@ class FailedJobController extends Controller
      */
     public function destroyAll()
     {
+        $this->cleanFailedJobsCache();
+
         $result = Artisan::call('queue:flush');
         if ($result != 0) {
             return response()->error500(__('messages.DeleteError'));

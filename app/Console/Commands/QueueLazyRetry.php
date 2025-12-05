@@ -5,9 +5,12 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Repositories\FailedJobRepository;
+use App\Utils\FailedJobsUtils;
 
 class QueueLazyRetry extends Command
 {
+    use FailedJobsUtils;
+
     /**
      * The name and signature of the console command.
      *
@@ -42,6 +45,8 @@ class QueueLazyRetry extends Command
      */
     public function handle()
     {
+        $this->cleanFailedJobsCache();
+
         $jobsBatches = $this->failedJobRepository->all()->pluck("id")->chunk(50);
         $delay = 0;
         foreach ($jobsBatches as $batch) {
