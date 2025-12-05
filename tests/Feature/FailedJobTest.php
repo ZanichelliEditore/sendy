@@ -6,7 +6,9 @@ use Mockery;
 use Tests\TestCase;
 use App\Models\FailedJob;
 use App\Http\Repositories\FailedJobRepository;
+use App\Utils\FailedJobsUtils;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 
 class FailedJobTest extends TestCase
 {
@@ -80,6 +82,7 @@ class FailedJobTest extends TestCase
 
     public function testDestroyUnrealFailedJob()
     {
+        Cache::shouldReceive("delete")->once()->with(FailedJobsUtils::$cacheKey);
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()
             ->shouldReceive([
                 'find' => null
@@ -93,6 +96,7 @@ class FailedJobTest extends TestCase
 
     public function testRetryUnrealFailedJob()
     {
+        Cache::shouldReceive("delete")->once()->with(FailedJobsUtils::$cacheKey);
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()
             ->shouldReceive([
                 'find' => null
