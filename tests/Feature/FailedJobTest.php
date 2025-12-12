@@ -82,7 +82,7 @@ class FailedJobTest extends TestCase
 
     public function testDestroyUnrealFailedJob()
     {
-        Cache::shouldReceive("delete")->once()->with(FailedJobsUtils::$cacheKey);
+        Cache::shouldReceive("forget")->once()->with(FailedJobsUtils::$cacheKey);
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()
             ->shouldReceive([
                 'find' => null
@@ -96,7 +96,7 @@ class FailedJobTest extends TestCase
 
     public function testRetryUnrealFailedJob()
     {
-        Cache::shouldReceive("delete")->once()->with(FailedJobsUtils::$cacheKey);
+        Cache::shouldReceive("forget")->once()->with(FailedJobsUtils::$cacheKey);
         $mock = Mockery::mock(FailedJobRepository::class)->makePartial()
             ->shouldReceive([
                 'find' => null

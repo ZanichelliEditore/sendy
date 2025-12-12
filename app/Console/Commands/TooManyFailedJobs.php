@@ -51,7 +51,7 @@ class TooManyFailedJobs extends Command
             $failedJobsCount = $this->failedJobRepository->count();
 
             if (!$failedJobsCount) {
-                $this->info("It'a all right");
+                $this->info("It's all right");
                 return 0;
             }
 

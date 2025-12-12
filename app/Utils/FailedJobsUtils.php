@@ -20,6 +20,6 @@ trait FailedJobsUtils
 
     protected function cleanFailedJobsCache(): void
     {
-        Cache::delete(self::$cacheKey);
+        Cache::forget(self::$cacheKey);
     }
 }

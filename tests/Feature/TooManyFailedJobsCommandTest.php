@@ -49,7 +49,7 @@ class TooManyFailedJobsCommandTest extends TestCase
     static public function tooManyFailedJobsProvider()
     {
         return [
-            [0, "It'a all right"],
+            [0, "It's all right"],
             [1, "Notification on slack sent"],
         ];
     }
