@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8829a6b1862ce1e8106fd606a2700a9e",
+    "content-hash": "d1fb606bb429fa5a1f1b119d82a93860",
     "packages": [
         {
             "name": "brick/math",
@@ -7042,19 +7042,20 @@
         },
         {
             "name": "zanichelli/idp-extensions",
-            "version": "v3.7.0",
+            "version": "v3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZanichelliEditore/idp-extension.git",
-                "reference": "3a2f8af80e041ae5ae4baf6b6b4806539df143f5"
+                "reference": "0138554bdeb4729c8f3d2afcb9d040ca1eb76c01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZanichelliEditore/idp-extension/zipball/3a2f8af80e041ae5ae4baf6b6b4806539df143f5",
-                "reference": "3a2f8af80e041ae5ae4baf6b6b4806539df143f5",
+                "url": "https://api.github.com/repos/ZanichelliEditore/idp-extension/zipball/0138554bdeb4729c8f3d2afcb9d040ca1eb76c01",
+                "reference": "0138554bdeb4729c8f3d2afcb9d040ca1eb76c01",
                 "shasum": ""
             },
             "require": {
+                "firebase/php-jwt": "^6.10",
                 "guzzlehttp/guzzle": "~7.0",
                 "laravel/framework": "^8|^9|^10|^11|^12"
             },
@@ -7088,9 +7089,9 @@
             "description": "Classes to interact with the Zanichelli identity provider",
             "support": {
                 "issues": "https://github.com/ZanichelliEditore/idp-extension/issues",
-                "source": "https://github.com/ZanichelliEditore/idp-extension/tree/v3.7.0"
+                "source": "https://github.com/ZanichelliEditore/idp-extension/tree/v3.8.0"
             },
-            "time": "2025-04-04T12:29:44+00:00"
+            "time": "2025-05-06T12:44:57+00:00"
         },
         {
             "name": "zircote/swagger-php",
