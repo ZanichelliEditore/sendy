@@ -17,6 +17,7 @@
 		"laravel/telescope": "^5.5",
 		"lcobucci/jwt": "^4.2.1",
 		"predis/predis": "^2.0",
+		"zanichelli/healthcheck": "^1.1",
 		"zanichelli/idp-extensions": "^3.8",
 		"zircote/swagger-php": "^5.0"
 	},
