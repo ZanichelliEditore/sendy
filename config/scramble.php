@@ -18,7 +18,22 @@ return [
      * Multiple includes or wildcards → server defaults to / and paths stay full (/api/users).
      * Override with `servers`, or use Scramble::registerApi() for separate bases.
      */
-    'api_path' => 'api',
+    'api_path' => [
+        'include' => [
+            'api',
+            'oauth/token'
+        ],
+        'exclude' => [
+            'api/documentation',      // l5-swagger UI
+            'api/oauth2-callback',    // l5-swagger OAuth callback
+            'docs',                   // l5-swagger docs JSON
+            'api/debug',              // Debug endpoint
+            'api/basic',              // Test endpoint
+            'api/oauth',              // Test endpoint
+            'api/none',               // Test endpoint
+            'oauth/token/refresh'
+        ],
+    ],
 
     /*
      * Your API domain. By default, app domain is used. This is also a part of the default API routes
@@ -31,38 +46,20 @@ return [
      */
     'export_path' => 'api.json',
 
-    /*
-     * Cache configuration for the generated OpenAPI document.
-     *
-     * Use `scramble:cache` to warm the cache and `scramble:clear` to invalidate it.
-     */
-    'cache' => [
-        'key' => 'scramble.openapi',
-        'store' => 'file',
-    ],
-
     'info' => [
         /*
          * API version.
          */
-        'version' => env('API_VERSION', '0.0.1'),
+        'version' => env('API_VERSION', '1.0.0'),
 
         /*
          * Description rendered on the home page of the API documentation (`/docs/api`).
          */
-        'description' => '',
+        'description' => 'Auto-generated API documentation for Sendy',
     ],
 
     'ui' => [
-        'title' => null,
-    ],
-
-    /*
-     * Load Scramble's development tools on documentation pages. An explicit
-     * SCRAMBLE_DEV_TOOLS value takes precedence over APP_DEBUG.
-     */
-    'dev_tools' => [
-        'enabled' => env('SCRAMBLE_DEV_TOOLS', env('APP_DEBUG', false)),
+        'title' => 'Sendy API - Scramble Documentation',
     ],
 
     'renderer' => 'elements',
@@ -110,7 +107,7 @@ return [
      * ],
      * ```
      */
-    'servers' => null,
+    'servers' => [],
 
     /**
      * Determines how Scramble stores the descriptions of enum cases.
@@ -149,11 +146,16 @@ return [
     'flatten_deep_query_parameters' => true,
 
     'middleware' => [
-        'web',
-        RestrictedDocsAccess::class,
+        // Empty to allow public access like l5-swagger
+        // 'web' middleware would trigger IDP authentication
     ],
 
     'extensions' => [],
+
+    /*
+     * Security schemes for the API. Defines the authentication methods available.
+     */
+    'security_schemes' => [],
 
     /*
      * Automatically document API security (OpenAPI `security` / `securitySchemes`) based on route
