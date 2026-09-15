@@ -105,6 +105,18 @@ or if you want to see the tests coverage:
 
     vendor/bin/phpunit --coverage-html tmp/coverage
 
+## API Documentation
+
+### Generate documentation
+
+This project uses Scrumble to generate API documentation.
+
+- Scrumble reference: <https://scramble.dedoc.co/usage/getting-started>
+
+### View documentation
+
+Once you've built your containers, the scrumble documentation is available at <http://localhost:8083/documentation>
+
 ## Deployment
 
 In order to define a production environment, we provide specific docker files and Ansible with Jenkins to define a process of a Continuous Deployment.
