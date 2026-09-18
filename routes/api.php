@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Dedoc\Scramble\Scramble;
 
 Route::group(['middleware' => ['client_credentials']], function () {
     Route::post('/v1/emails', 'EmailController@send');
@@ -18,4 +19,8 @@ Route::prefix('jobs')->group(function () {
     Route::get('/', 'JobController@getFile');
     Route::get('clean/log', 'JobController@deleteLogs');
     Route::get('clean/access-token', 'JobController@deleteTokens');
+});
+
+Route::middleware([])->group(function () {
+    Scramble::registerUiRoute('documentation');
 });
