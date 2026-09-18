@@ -105,6 +105,18 @@ or if you want to see the tests coverage:
 
     vendor/bin/phpunit --coverage-html tmp/coverage
 
+## API Documentation
+
+### Generate documentation
+
+This project uses Scrumble to generate API documentation.
+
+- Scrumble reference: <https://scramble.dedoc.co/usage/getting-started>
+
+### View documentation
+
+Once you've built your containers, the scrumble documentation is available at <http://localhost:8083/api/documentation>
+
 ## Deployment
 
 In order to define a production environment, we provide specific docker files and Ansible with Jenkins to define a process of a Continuous Deployment.
@@ -246,7 +258,7 @@ data = res.json # get data as object using attribute .json, or use r.content
 - **Web:**
 
   - the application server will run in <http://localhost:8083>
-  - the documentation will be automatically generated in <http://localhost:8083/documentation>
+  - the documentation will be automatically generated in <http://localhost:8083/api/documentation>
 
 - **Database:** sendy uses mysql as database to store both credentials and jobs for the email.
 

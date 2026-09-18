@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Dedoc\Scramble\Scramble;
 
 Route::group(['middleware' => 'idp'], function () {
 
@@ -24,4 +25,8 @@ Route::group(['middleware' => 'idp'], function () {
             return view('jobs');
         })->name('jobs');
     });
+});
+
+Route::middleware([])->group(function () {
+    Scramble::registerJsonSpecificationRoute('/docs/api.json');
 });

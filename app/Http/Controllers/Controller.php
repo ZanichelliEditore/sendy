@@ -6,194 +6,97 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
 
-/**
- *@OA\Info(
- *    version="1.0.0",
- *    title="API to send email",
- *    description="REST API to send email",
- *    @OA\Contact(
- *         name="DEV team"
- *    )
- *)
- *
- * @OA\Server(
- *  url=L5_APP_URL
- * )
- *
- * @OA\Tag(
- *  name="email",
- *  description="Service used to send one email"
- * )
- *
- * @OA\SecurityScheme(
- *     type="oauth2",
- *     name="passport",
- *     securityScheme="passport",
- *     in="header",
- *     scheme={"http","https"},
- *     @OA\Flow(
- *         flow="clientCredentials",
- *         tokenUrl=L5_SWAGGER_CONST_HOST,
- *         scopes={}
- *     )
- *  )
- *
- * @OA\Components(
- *      @OA\RequestBody(
- *         request="Mail",
- *         description="Mail object that needs to be send",
- *         @OA\MediaType(
- *             mediaType="multipart/form-data",
- *             @OA\Schema(ref="#/components/schemas/Mail")
- *         )
- *      ),
- *      @OA\Response(
- *         response="Error500",
- *         description="Internal Server Error",
- *         @OA\MediaType(
- *             mediaType="application/json",
- *             @OA\Schema(ref="#/components/schemas/Message500")
- *         )
- *     ),
- *     @OA\Response(
- *         response="Error404",
- *         @OA\MediaType(mediaType="application/json"),
- *         description="Not Found"
- *     ),
- *     @OA\Response(
- *         response="Success200",
- *         description="Operation successful",
- *         @OA\MediaType(
- *             mediaType="application/json",
- *             @OA\Schema(ref="#/components/schemas/Message200")
- *         )
- *     ),
- *     @OA\Response(
- *         response="Success201",
- *         @OA\MediaType(mediaType="application/json"),
- *         description="Created"
- *     ),
- *     @OA\Response(
- *         response="Error401",
- *         description="Unauthenticated",
- *         @OA\MediaType(
- *             mediaType="application/json",
- *             @OA\Schema(ref="#/components/schemas/Message401")
- *         )
- *     ),
- *     @OA\Response(
- *         response="Error413",
- *         @OA\MediaType(mediaType="application/json"),
- *         description="Request too large."
- *     ),
- *     @OA\Response(
- *         response="Error422",
- *         @OA\MediaType(mediaType="application/json"),
- *         description="Unprocessable entity: data validation error"
- *     ),
- *     @OA\Schema(
- *          schema="Message200",
- *          type="object",
- *          @OA\Property(
- *              property="message",
- *              type="string",
- *              example="Email sent with success"
- *          )
- *      ),
- *      @OA\Schema(
- *          schema="Message401",
- *          type="object",
- *          @OA\Property(
- *              property="message",
- *              type="string",
- *              default="Unauthenticated request."
- *          )
- *      ),
- *     @OA\Schema(
- *         schema="Message404",
- *         type="object",
- *         @OA\Property(
- *             property="message",
- *             type="string",
- *             default="Object not found"
- *         )
- *     ),
- *     @OA\Schema(
- *          schema="Message500",
- *          type="object",
- *          @OA\Property(
- *              property="message",
- *              type="string",
- *              default="System error"
- *          )
- *      ),
- *     @OA\Schema(
- *         schema="Mail",
- *         type="object",
- *         required={"from","to"},
- *         @OA\Property(
- *             property="from",
- *             type="string",
- *             example="noreply@email.it"
- *         ),
- *         @OA\Property(
- *             property="to",
- *             type="array",
- *             @OA\Items(
- *                type="string",
- *             ),
- *             example={"receiverOne@email.it"}
- *         ),
- *         @OA\Property(
- *             property="cc",
- *             type="array",
- *             @OA\Items(
- *                type="string",
- *                example="ccOne@email.it"
- *             ),
- *         ),
- *         @OA\Property(
- *             property="bcc",
- *             type="array",
- *             @OA\Items(
- *                type="string",
- *                example="bccOne@email.it"
- *             ),
- *         ),
- *         @OA\Property(
- *             property="replyTo",
- *             type="string",
- *             example="replyto@example.com"
- *         ),
- *         @OA\Property(
- *             property="sender",
- *             type="string",
- *             example="Zanichelli"
- *         ),
- *         @OA\Property(
- *             property="subject",
- *             type="string",
- *             example="subject of one email"
- *         ),
- *         @OA\Property(
- *             property="body",
- *             type="string",
- *             example="questo è il messaggio della email"
- *         ),
- *         @OA\Property(
- *             property="attachments",
- *             type="array",
- *             @OA\Items(
- *                type="string",
- *                format="binary"
- *             )
- *         )
- *     )
- * )
- */
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     const PAGINATION = 12;
+
+    public function success200($value = "", $params = [])
+    {
+        $params['content'] = $value;
+        Log::info('200* ' . json_encode($params));
+        if ($value) {
+            return Response::make(['message' => $value], 200);
+        }
+        return Response::make('', 200);
+    }
+
+    public function success201($value, $type, $object)
+    {
+        $response = [
+            'message' => $value,
+            $type => $object
+        ];
+        Log::info('201* ' . json_encode($response));
+        return Response::make($response, 201);
+    }
+
+    public function success204()
+    {
+        return Response::make('', 204);
+    }
+
+    public function error401($value = '')
+    {
+        $message = $value;
+        Log::error('401* ' . json_encode(['content' => $message]));
+        return Response::make(['message' => $message], 401);
+    }
+
+    public function error403($value = '', $details = [])
+    {
+        $message = ($value ? $value : __('messages.Unauthorized'));
+        Log::error('403* ' . json_encode([
+            'content' => $message,
+            'details' => $details
+        ]));
+        return Response::make(['message' => $message], 403);
+    }
+
+    public function error404($value = '')
+    {
+        $message = ($value ? $value : __('messages.Object')) . __('messages.NotFound');
+        Log::error('404* ' . json_encode(['content' => $message]));
+        return Response::make(['message' => $message], 404);
+    }
+
+    public function error409($value = '', $params = [])
+    {
+        $params['content'] = $value;
+        Log::error('409* ' . json_encode($params));
+        return Response::make(['message' => $value], 409);
+    }
+
+    public function error422($field, $error)
+    {
+        if (!$field) {
+            return Response::make(
+                [
+                    'message' => 'Data is invalid',
+                    'errors' => $error
+                ],
+                422
+            );
+        }
+
+        return Response::make(
+            [
+                'message' => 'Data is invalid',
+                'errors' => [
+                    $field =>  [$error]
+                ]
+            ],
+            422
+        );
+    }
+
+    public function error500($value = '')
+    {
+        $message = $value ? $value : __('messages.SystemError');
+        Log::error('500* ' . json_encode(['content' => $message]));
+        return Response::make(['message' => $message], 500);
+    }
 }
