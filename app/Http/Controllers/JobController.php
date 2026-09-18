@@ -9,16 +9,13 @@ use App\Http\Repositories\OAuthAccessTokenRepository;
 class JobController extends Controller
 {
 
-    private $oauthAccessTokenRepository;
+    private OAuthAccessTokenRepository $oauthAccessTokenRepository;
 
     public function __construct(OAuthAccessTokenRepository $oauthAccessTokenRepository)
     {
         $this->oauthAccessTokenRepository = $oauthAccessTokenRepository;
     }
 
-    /**
-     * @return Respone
-     */
     public function getFile()
     {
         $contentFile = $this->tail(storage_path('logs/worker.txt'));

@@ -14,7 +14,7 @@ class FailedJobController extends Controller
 {
     use FailedJobsUtils;
 
-    protected $failedJobRepository;
+    protected FailedJobRepository $failedJobRepository;
 
     public function __construct(FailedJobRepository $failedJobRepository)
     {
