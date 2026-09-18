@@ -31,7 +31,7 @@ class FailedJobController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->error422(null, $validator->errors());
+            return $this->error422(null, $validator->errors());
         }
         $query = $request->input('q');
         $limit = (int) $request->input('limit', self::PAGINATION);
@@ -47,18 +47,18 @@ class FailedJobController extends Controller
 
         $failedJob = $this->failedJobRepository->find($id);
         if (!$failedJob) {
-            return response()->error404(__('messages.FailedJob') . $id);
+            return $this->error404(__('messages.FailedJob') . $id);
         }
         try {
             $result = Artisan::call('queue:retry', ['id' => $id]);
             if ($result != 0) {
-                return response()->error500(__('messages.RetryError') . $failedJob);
+                return $this->error500(__('messages.RetryError') . $failedJob);
             }
         } catch (Exception $e) {
-            return response()->error500(__('messages.RetryError') . $failedJob);
+            return $this->error500(__('messages.RetryError') . $failedJob);
         }
 
-        return response()->success200(__('messages.RetrySuccess'), [
+        return $this->success200(__('messages.RetrySuccess'), [
             'action' => 'RETRY',
             'object_type' => 'failedJob',
             'object_id' => $id
@@ -71,19 +71,19 @@ class FailedJobController extends Controller
 
         $failedJob = $this->failedJobRepository->find($id);
         if (!$failedJob) {
-            return response()->error404(__('messages.FailedJob') . $id);
+            return $this->error404(__('messages.FailedJob') . $id);
         }
 
         try {
             $result = Artisan::call('queue:forget', ['id' => $id]);
             if ($result != 0) {
-                return response()->error500(__('messages.DeleteError') . $failedJob);
+                return $this->error500(__('messages.DeleteError') . $failedJob);
             }
         } catch (Exception $e) {
-            return response()->error500(__('messages.DeleteError') . $failedJob);
+            return $this->error500(__('messages.DeleteError') . $failedJob);
         }
 
-        return response()->success200(__('messages.DeleteSuccess'), [
+        return $this->success200(__('messages.DeleteSuccess'), [
             'action' => 'DELETE',
             'object_type' => 'failedJob',
             'object_id' => $failedJob->id
@@ -96,17 +96,17 @@ class FailedJobController extends Controller
 
         $result = Artisan::call('queue:flush');
         if ($result != 0) {
-            return response()->error500(__('messages.DeleteError'));
+            return $this->error500(__('messages.DeleteError'));
         }
-        return response()->success200(__('messages.DeleteSuccess'));
+        return $this->success200(__('messages.DeleteSuccess'));
     }
 
     public function retryAll()
     {
         $result = Artisan::call('queue:lazy-retry');
         if ($result != 0) {
-            return response()->error500(__('messages.RetryError') . $result);
+            return $this->error500(__('messages.RetryError') . $result);
         }
-        return response()->success200(__('messages.RetrySuccess'));
+        return $this->success200(__('messages.RetrySuccess'));
     }
 }
