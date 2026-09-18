@@ -115,7 +115,7 @@ This project uses Scrumble to generate API documentation.
 
 ### View documentation
 
-Once you've built your containers, the scrumble documentation is available at <http://localhost:8083/documentation>
+Once you've built your containers, the scrumble documentation is available at <http://localhost:8083/api/documentation>
 
 ## Deployment
 
@@ -258,7 +258,7 @@ data = res.json # get data as object using attribute .json, or use r.content
 - **Web:**
 
   - the application server will run in <http://localhost:8083>
-  - the documentation will be automatically generated in <http://localhost:8083/documentation>
+  - the documentation will be automatically generated in <http://localhost:8083/api/documentation>
 
 - **Database:** sendy uses mysql as database to store both credentials and jobs for the email.
 
