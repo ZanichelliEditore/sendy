@@ -23,16 +23,6 @@ return [
             'api',
             'oauth/token'
         ],
-        'exclude' => [
-            'api/documentation',      // l5-swagger UI
-            'api/oauth2-callback',    // l5-swagger OAuth callback
-            'docs',                   // l5-swagger docs JSON
-            'api/debug',              // Debug endpoint
-            'api/basic',              // Test endpoint
-            'api/oauth',              // Test endpoint
-            'api/none',               // Test endpoint
-            'oauth/token/refresh'
-        ],
     ],
 
     /*

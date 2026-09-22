@@ -24,14 +24,15 @@ class Controller extends BaseController
         return Response::make('', 200);
     }
 
-    public function success201($value, $type, $object)
+    public function success201($value, $type, $object = null)
     {
-        $response = [
-            'message' => $value,
-            $type => $object
-        ];
-        Log::info('201* ' . json_encode($response));
-        return Response::make($response, 201);
+        if ($value && $object) {
+            return Response::make([
+                'message' => $value,
+                $type => $object
+            ], 201);
+        }
+        return Response::make('', 201);
     }
 
     public function success204()
@@ -39,35 +40,11 @@ class Controller extends BaseController
         return Response::make('', 204);
     }
 
-    public function error401($value = '')
-    {
-        $message = $value;
-        Log::error('401* ' . json_encode(['content' => $message]));
-        return Response::make(['message' => $message], 401);
-    }
-
-    public function error403($value = '', $details = [])
-    {
-        $message = ($value ? $value : __('messages.Unauthorized'));
-        Log::error('403* ' . json_encode([
-            'content' => $message,
-            'details' => $details
-        ]));
-        return Response::make(['message' => $message], 403);
-    }
-
     public function error404($value = '')
     {
         $message = ($value ? $value : __('messages.Object')) . __('messages.NotFound');
         Log::error('404* ' . json_encode(['content' => $message]));
         return Response::make(['message' => $message], 404);
-    }
-
-    public function error409($value = '', $params = [])
-    {
-        $params['content'] = $value;
-        Log::error('409* ' . json_encode($params));
-        return Response::make(['message' => $value], 409);
     }
 
     public function error422($field, $error)

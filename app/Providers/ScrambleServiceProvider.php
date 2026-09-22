@@ -48,19 +48,6 @@ class ScrambleServiceProvider extends ServiceProvider
         } else {
           $operation->security = [];
         }
-
-        // INFO: improve oauth/token route doc
-        if ($operation->path == "oauth/token" && $operation->method == "post") {
-          $operation->addRequestBodyObject(RequestBodyObject::make()->setContent(
-            'application/json',
-            Schema::createFromParameters([
-              (new Parameter('grant_type', 'query'))->setSchema(Schema::fromType(new StringType))->example("client_credentials"),
-              (new Parameter('client_id', 'query'))->setSchema(Schema::fromType(new StringType))->example("1"),
-              (new Parameter('client_secret', 'query'))->setSchema(Schema::fromType(new StringType))->example("secretOAuth2Example"),
-              (new Parameter('scope', 'query'))->setSchema(Schema::fromType(new StringType))->example(""),
-            ])
-          ));
-        }
       })
     ;
   }
