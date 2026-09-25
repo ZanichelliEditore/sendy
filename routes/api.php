@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Dedoc\Scramble\Scramble;
 
 Route::group(['middleware' => ['client_credentials']], function () {
     Route::post('/v1/emails', 'EmailController@send');
