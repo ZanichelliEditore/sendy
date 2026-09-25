@@ -21,7 +21,9 @@ return [
     'api_path' => [
         'include' => [
             'api',
-            'oauth/token'
+        ],
+        'exclude' => [
+            'api/documentation',
         ],
     ],
 
@@ -52,7 +54,7 @@ return [
         'title' => 'Sendy API - Scramble Documentation',
     ],
 
-    'renderer' => 'elements',
+    'renderer' => 'scalar',
 
     'renderers' => [
         /*

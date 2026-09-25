@@ -26,7 +26,3 @@ Route::group(['middleware' => 'idp'], function () {
         })->name('jobs');
     });
 });
-
-Route::middleware([])->group(function () {
-    Scramble::registerJsonSpecificationRoute('/docs/api.json');
-});
