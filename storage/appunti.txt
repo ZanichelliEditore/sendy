@@ -1,0 +1,28 @@
+
+
+Consideriamo la possibilità di cambiare questo metodo - magari aggiungo semplicemente un timestamp
+Claudiano consiglia `{YYYY}/{MM}/{DD}/{random-20-char}/file.pdf` per rendere semplice poi applicare lifecycle policy differenziate per fascia di data.
+
+
+Provo ad usare direttamente S3, invece che mettere su un EFS dedicato. In questo modo abbiamo:
+- una maggiore semplicità d'uso 
+- non abbiamo bisogno del supporto di un vero e proprio filesystem (non abbiamo append, lock o scritture concorrenti sullo stesso file) ma dobbiamo gestire solo allegati di piccole dimensioni dalla permanenza breve, 
+  che vengono scritti e letti una sola volta, poi rimossi 
+- dovremmo spendere meno perché lo storage in EFS è più costosto (circa ~0,023$/GB per S3 e ~0,30$/GB per EFS)
+- lifecycle policy più semplici da gestire per la cancellazione di eventuali file orfani: con S3 paghiamo solo lo spazio effettivamente occupato, quindi può avere senso definire una regola di cancellazione dopo X giorni, per essere sicur3 di eliminare eventuali allegati rimasti lì per problemi durante la cancellazione mirata 
+
+Ho provato a fare un check a db sulla quantità di mail inviate nel periodo caldo (settembre) e ho visto che il picco di mail inviate in un giorno è stato nell'ordine delle 40'000, con circa 250 mail inviate al minuto - il numero di letture e scritture quindi direi che non è elevato.
+Query usata:
+select DATE_FORMAT(emailstorage_sendDate , "%m-%d-%Y %H:%i"), count(*) 
+from z_emailstorage_tbl s 
+where emailstorage_id > 15900000 -- usato per ridurre da subito la cardinalità dei dati su cui andare a lavorare (questo filtro prende le mail da agosto in avanti, quindi di fatto il filtro dopo era superfluo ma lì'ho tenuto ugualmente)
+and s.emailstorage_sendDate > '2026-09-01' 
+group by DATE_FORMAT(emailstorage_sendDate , "%m-%d-%Y %H:%i")
+order by 2 desc;
+
+Per il singolo ciclo di vita di un'email il numero di file gioca a tuo favore, quindi le performance di deleteDirectory() 
+non sono un problema; la lifecycle policy come backstop è una buona idea indipendentemente da come gestisci la cancellazione esplicita.
+- La ListObjectsV2 restituisce tutto in una singola chiamata (limite 1000 chiavi per pagina, sei ampiamente sotto)
+- La DeleteObjects cancella tutto in una singola chiamata batch
+Sulla policy di cancellazione metterei un limite lungo (tipo 3 settimane) così da non rischiare di cancellare cose non ancora spedite.
+

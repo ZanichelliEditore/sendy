@@ -71,11 +71,8 @@ class EmailController extends Controller
             }
         }
 
-
         $email = new Email($from, $to, $cc, $bcc, $sender, $replyTo, $subject, $body, $attachmentsDirectory);
-
         $mailable = new CustomEmail($email);
-
         EmailSender::dispatch($mailable);
 
         return response([
@@ -89,9 +86,7 @@ class EmailController extends Controller
      */
     private function saveAttachments($data)
     {
-
         $size = 0;
-
         foreach ($data as $file) {
             $size += $file->getSize();
         }
@@ -101,8 +96,9 @@ class EmailController extends Controller
         }
 
         $directoryName = Str::random(20);
+        Storage::disk('s3')->makeDirectory($directoryName);
         foreach ($data as $file) {
-            Storage::putFileAs('attachments/' . $directoryName, $file, $file->getClientOriginalName());
+            Storage::disk('s3')->putFileAs($directoryName, $file, $file->getClientOriginalName());
         }
 
         return $directoryName;
