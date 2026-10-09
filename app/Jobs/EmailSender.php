@@ -29,7 +29,7 @@ class EmailSender implements ShouldQueue
      */
     public $backoff = 60;
 
-    private $mailable;
+    private BaseEmail $mailable;
     /**
      * Create a new job instance.
      *
