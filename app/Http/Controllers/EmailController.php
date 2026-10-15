@@ -7,6 +7,7 @@ use App\Jobs\EmailSender;
 use App\Mail\CustomEmail;
 use Illuminate\Support\Str;
 use App\Http\Requests\EmailRequest;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class EmailController extends Controller
@@ -95,7 +96,8 @@ class EmailController extends Controller
             return false;
         }
 
-        $directoryName = Str::random(20);
+        $prefix = Carbon::now()->format('Y-m-d');
+        $directoryName = $prefix . '_' . Str::random(20);
         Storage::disk('s3')->makeDirectory($directoryName);
         foreach ($data as $file) {
             Storage::disk('s3')->putFileAs($directoryName, $file, $file->getClientOriginalName());
