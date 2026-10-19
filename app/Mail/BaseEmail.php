@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 abstract class BaseEmail extends Mailable
 {
-    protected $email;
+    protected Email $email;
 
     public function __construct(Email $email)
     {
