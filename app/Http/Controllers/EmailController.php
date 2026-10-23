@@ -11,42 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class EmailController extends Controller
 {
-    /**
-     * @OA\Post(
-     *     path="/api/v1/emails",
-     *     summary="Receive data about one email",
-     *     tags={"email"},
-     *     security={{"passport":{}}},
-     *     description="Use to send data about one email",
-     *     operationId="EmailController.send",
-     *     @OA\RequestBody(
-     *          ref="#/components/requestBodies/Mail"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         ref="#/components/responses/Error500"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         ref="#/components/responses/Error401"
-     *     ),
-     *     @OA\Response(
-     *         response=422,
-     *         ref="#/components/responses/Error422"
-     *     ),
-     *     @OA\Response(
-     *         response=413,
-     *         ref="#/components/responses/Error413"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         ref="#/components/responses/Success200"
-     *     )
-     * )
-     *
-     * @param EmailRequest $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
+    
     public function send(EmailRequest $request)
     {
         $from = $request->input('from');

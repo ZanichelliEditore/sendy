@@ -33,46 +33,46 @@ Steps from 4 to 6 have to be executed inside docker app container since it repre
 
 1. Git clone the repository into your folder.
 
-    git clone <https://github.com/ZanichelliEditore/sendy.git>
+   git clone <https://github.com/ZanichelliEditore/sendy.git>
 
 2. Copy env.example to .env
 
 3. Start the containers and enter into the container app:
 
-    docker-compose --file docker-compose.dev.yml up -d
-    docker exec -it sendy_app bash
+   docker-compose --file docker-compose.dev.yml up -d
+   docker exec -it sendy_app bash
 
 4. Install the required dependencies with composer.
 
-    composer install
+   composer install
 
 5. Generate a random application key
 
-    php artisan key:generate
+   php artisan key:generate
 
 6. Generate passport credentials
 
-    php artisan passport:install --uuids
+   php artisan passport:install --uuids
 
 7. Activate queue worker
 
-    php artisan queue:work
+   php artisan queue:work
 
-    **Note:** In production environment there is supervisord service and the queue is already activated when docker is up.
+   **Note:** In production environment there is supervisord service and the queue is already activated when docker is up.
 
 8. Activate telescope
 
    Set TELESCOPE_ENABLED to true in .env file, then run the following commands:
 
-    docker exec -it sendy_app bash
+   docker exec -it sendy_app bash
 
-    php artisan telescope:install
+   php artisan telescope:install
 
-    php artisan migrate
+   php artisan migrate
 
-    php artisan telescope:publish
+   php artisan telescope:publish
 
-    **Note:** In production environment telescope should not be active
+   **Note:** In production environment telescope should not be active
 
 ## Configure
 
@@ -104,6 +104,18 @@ Verify project integrity launching tests (inside the container):
 or if you want to see the tests coverage:
 
     vendor/bin/phpunit --coverage-html tmp/coverage
+
+## API Documentation
+
+### Generate documentation
+
+This project uses Scramble to generate API documentation.
+
+- Scramble reference: <https://scramble.dedoc.co/usage/getting-started>
+
+### View documentation
+
+Once you've built your containers, the Scramble documentation is available at <http://localhost:8083/api/documentation>
 
 ## Deployment
 
@@ -246,7 +258,7 @@ data = res.json # get data as object using attribute .json, or use r.content
 - **Web:**
 
   - the application server will run in <http://localhost:8083>
-  - the documentation will be automatically generated in <http://localhost:8083/documentation>
+  - the documentation will be automatically generated in <http://localhost:8083/api/documentation>
 
 - **Database:** sendy uses mysql as database to store both credentials and jobs for the email.
 

@@ -9,7 +9,7 @@
 	"license": "MIT",
 	"require": {
 		"php": "^8.2.0",
-		"darkaonline/l5-swagger": "^9.0",
+		"dedoc/scramble": "^0.13.43",
 		"guzzlehttp/guzzle": "^7.9.2",
 		"laravel/framework": "^12.0",
 		"laravel/helpers": "^1.7",
@@ -18,8 +18,7 @@
 		"lcobucci/jwt": "^4.2.1",
 		"predis/predis": "^2.0",
 		"zanichelli/healthcheck": "^1.1",
-		"zanichelli/idp-extensions": "^3.8",
-		"zircote/swagger-php": "^5.0"
+		"zanichelli/idp-extensions": "^3.8"
 	},
 	"require-dev": {
 		"beyondcode/laravel-dump-server": "^2.0",
