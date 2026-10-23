@@ -2,3 +2,7 @@ host_user: ubuntu
 deploy_path: "/home/{{ host_user }}/sendy"
 checkout_branch: "{{lookup('env','BRANCH_NAME')}}"
 document_root: "{{ deploy_path }}/public"
+
+sendy_bucket: sendy-attachments-production
+s3_api_key: "{{lookup('env', 'AWS_ACCESS_KEY_ID')}}"
+s3_api_secret: "{{lookup('env', 'AWS_SECRET_ACCESS_KEY')}}"
