@@ -9,16 +9,13 @@ use App\Http\Repositories\OAuthAccessTokenRepository;
 class JobController extends Controller
 {
 
-    private $oauthAccessTokenRepository;
+    private OAuthAccessTokenRepository $oauthAccessTokenRepository;
 
     public function __construct(OAuthAccessTokenRepository $oauthAccessTokenRepository)
     {
         $this->oauthAccessTokenRepository = $oauthAccessTokenRepository;
     }
 
-    /**
-     * @return Respone
-     */
     public function getFile()
     {
         $contentFile = $this->tail(storage_path('logs/worker.txt'));
@@ -34,7 +31,7 @@ class JobController extends Controller
         if ($resultCommand == 0) {
             return response()->json();
         } else {
-            return response()->error500(__('messages.DeleteLogError'));
+            return $this->error500(__('messages.DeleteLogError'));
         }
     }
 
@@ -44,7 +41,7 @@ class JobController extends Controller
         if ($result >= 0) {
             return response()->json(['cancelled' => $result]);
         }
-        return response()->error500(__('messages.DeleteAccessTokenError'));
+        return $this->error500(__('messages.DeleteAccessTokenError'));
     }
 
     /**
