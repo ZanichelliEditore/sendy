@@ -13,7 +13,9 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $driver = app('cache')->driver();
-        Cache::shouldReceive('driver')->andReturn($driver);
+        $manager = app('cache');
+        $mock = \Mockery::mock($manager)->makePartial();
+        $mock->shouldReceive('driver')->andReturn($manager->driver());
+        Cache::swap($mock);
     }
 }

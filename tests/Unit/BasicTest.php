@@ -6,9 +6,15 @@ use Tests\TestCase;
 
 class BasicTest extends TestCase
 {
-    public function testDocumentation()
+    public function testScrambleRoute()
     {
-        $response = $this->get('/docs?api-docs.json');
-        $this->assertEquals(200, $response->status());
+        $response = $this->get('api/documentation');
+        $response->assertStatus(200);
+    }
+
+    public function testScrambleJsonRoute(): void
+    {
+        $response = $this->get('docs/api.json');
+        $response->assertStatus(200);
     }
 }
