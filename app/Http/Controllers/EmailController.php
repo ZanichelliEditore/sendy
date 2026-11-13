@@ -7,6 +7,7 @@ use App\Jobs\EmailSender;
 use App\Mail\CustomEmail;
 use Illuminate\Support\Str;
 use App\Http\Requests\EmailRequest;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class EmailController extends Controller
@@ -36,11 +37,8 @@ class EmailController extends Controller
             }
         }
 
-
         $email = new Email($from, $to, $cc, $bcc, $sender, $replyTo, $subject, $body, $attachmentsDirectory);
-
         $mailable = new CustomEmail($email);
-
         EmailSender::dispatch($mailable);
 
         return response([
@@ -54,9 +52,7 @@ class EmailController extends Controller
      */
     private function saveAttachments($data)
     {
-
         $size = 0;
-
         foreach ($data as $file) {
             $size += $file->getSize();
         }
@@ -65,9 +61,11 @@ class EmailController extends Controller
             return false;
         }
 
-        $directoryName = Str::random(20);
+        $prefix = Carbon::now()->format('Y-m-d');
+        $directoryName = $prefix . '_' . Str::random(20);
+        Storage::disk('s3')->makeDirectory($directoryName);
         foreach ($data as $file) {
-            Storage::putFileAs('attachments/' . $directoryName, $file, $file->getClientOriginalName());
+            Storage::disk('s3')->putFileAs($directoryName, $file, $file->getClientOriginalName());
         }
 
         return $directoryName;

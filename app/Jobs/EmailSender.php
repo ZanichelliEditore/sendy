@@ -29,7 +29,7 @@ class EmailSender implements ShouldQueue
      */
     public $backoff = 60;
 
-    private $mailable;
+    private BaseEmail $mailable;
     /**
      * Create a new job instance.
      *
@@ -55,7 +55,7 @@ class EmailSender implements ShouldQueue
         $emailInfo = $this->mailable->getEmail();
 
         if ($attachmentsDirectory = $emailInfo->getAttachmentsDirectory()) {
-            Storage::deleteDirectory('attachments/' . $attachmentsDirectory);
+            Storage::disk('s3')->deleteDirectory($attachmentsDirectory);
         }
     }
 
