@@ -41,6 +41,8 @@ pipeline {
                 REDIS_HOST = credentials('sendy_redis_host_production')
                 LOGSTASH_HOST = credentials('logstash_host')
                 LOG_SLACK_WEBHOOK_URL = credentials('slack_infrastructure_notifications_webhook')
+                AWS_ACCESS_KEY_ID = credentials('sendy_aws_access_key_id_prod')
+                AWS_SECRET_ACCESS_KEY = credentials('sendy_aws_secret_access_key_prod')
 
             }
 
