@@ -8,6 +8,7 @@ use App\Jobs\EmailSender;
 use App\Mail\CustomEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Mockery;
 
 class EmailTest extends TestCase
 {
@@ -35,7 +36,6 @@ class EmailTest extends TestCase
         // the listener for this event sends mail
         EmailSender::dispatch($objectMail);
 
-
         Mail::assertSent(CustomEmail::class, function ($email) use ($objectMail) {
             $email->build();
             $mailArray = $objectMail->getEmail();
@@ -54,17 +54,30 @@ class EmailTest extends TestCase
     {
         Mail::fake();
 
-        $fakeFile = 'attachments/Fake_directory/file.txt';
-        Storage::shouldReceive('files')->andReturn([$fakeFile]);
-        Storage::shouldReceive('deleteDirectory');
+        $fakeDir = 'Fake_directory';
+        $fakeFile = $fakeDir . '/file.txt';
+
+        $s3Mock = Mockery::mock();
+        $s3Mock->shouldReceive(['files' => [$fakeFile]])
+            ->with($fakeDir)
+            ->once();
+
+        $s3Mock->shouldReceive('deleteDirectory')
+            ->with($fakeDir)
+            ->once();
+
+        Storage::shouldReceive('disk')
+            ->with('s3')
+            ->twice()
+            ->andReturn($s3Mock);
 
         $mail = $this->createEmail(true);
         $objectMail = new CustomEmail($mail);
         EmailSender::dispatch($objectMail);
-        Mail::assertSent(CustomEmail::class, function ($email) use ($objectMail, $fakeFile) {
+        Mail::assertSent(CustomEmail::class, function ($email) use ($fakeFile) {
             $email->build();
 
-            return $email->diskAttachments[0]['path'] == $fakeFile &&
+            return $email->diskAttachments[0]['disk'] == 's3' && $email->diskAttachments[0]['path'] == $fakeFile &&
                 $email->diskAttachments[0]['name'] == basename($fakeFile);
         });
     }

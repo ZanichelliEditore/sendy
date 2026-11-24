@@ -2,3 +2,5 @@ host_user: ubuntu
 deploy_path: "/home/{{ host_user }}/sendy"
 checkout_branch: "{{lookup('env','BRANCH_NAME')}}"
 document_root: "{{ deploy_path }}/public"
+
+sendy_bucket: sendy-attachments-production
