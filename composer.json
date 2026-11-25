@@ -13,12 +13,12 @@
 		"guzzlehttp/guzzle": "^7.9.2",
 		"laravel/framework": "^12.0",
 		"laravel/helpers": "^1.7",
-		"laravel/passport": "^12.0",
+		"laravel/passport": "^13.0",
 		"laravel/telescope": "^5.18",
-		"lcobucci/jwt": "^4.2.1",
+		"lcobucci/jwt": "^5.0",
 		"predis/predis": "^2.0",
 		"zanichelli/healthcheck": "^1.1.7",
-		"zanichelli/idp-extensions": "^3.8"
+		"zanichelli/idp-extensions": "^4.0"
 	},
 	"require-dev": {
 		"beyondcode/laravel-dump-server": "^2.0",
@@ -31,7 +31,10 @@
 	"config": {
 		"optimize-autoloader": true,
 		"preferred-install": "dist",
-		"sort-packages": true
+		"sort-packages": true,
+		"allow-plugins": {
+			"php-http/discovery": true
+		}
 	},
 	"extra": {
 		"laravel": {
