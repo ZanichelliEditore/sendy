@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c032fbda227dc31cbf2e2524a195eed8",
+    "content-hash": "be246c354a2c4980e00a23b61146507f",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -295,16 +295,16 @@
         },
         {
             "name": "dedoc/scramble",
-            "version": "0.13.43",
+            "version": "v0.13.55",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dedoc/scramble.git",
-                "reference": "2226e6664b88b3af1e5c10693f8e63a07ffd8fc0"
+                "reference": "e698d00c77a620cf05200102695a0d4107be804d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dedoc/scramble/zipball/2226e6664b88b3af1e5c10693f8e63a07ffd8fc0",
-                "reference": "2226e6664b88b3af1e5c10693f8e63a07ffd8fc0",
+                "url": "https://api.github.com/repos/dedoc/scramble/zipball/e698d00c77a620cf05200102695a0d4107be804d",
+                "reference": "e698d00c77a620cf05200102695a0d4107be804d",
                 "shasum": ""
             },
             "require": {
@@ -364,7 +364,7 @@
             ],
             "support": {
                 "issues": "https://github.com/dedoc/scramble/issues",
-                "source": "https://github.com/dedoc/scramble/tree/0.13.43"
+                "source": "https://github.com/dedoc/scramble/tree/v0.13.55"
             },
             "funding": [
                 {
@@ -372,7 +372,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-08T18:27:41+00:00"
+            "time": "2026-11-16T14:41:39+00:00",
+            "published-time": "2026-11-16T14:56:16+00:00"
         },
         {
             "name": "defuse/php-encryption",
