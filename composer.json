@@ -15,7 +15,6 @@
 		"laravel/helpers": "^1.7",
 		"laravel/passport": "^13.0",
 		"laravel/telescope": "^5.18",
-		"lcobucci/jwt": "^5.0",
 		"predis/predis": "^2.0",
 		"zanichelli/healthcheck": "^1.1.7",
 		"zanichelli/idp-extensions": "^4.0"
