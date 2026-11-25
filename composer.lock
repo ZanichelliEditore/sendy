@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e6e6c2933b6f8481429c996bdd1723ef",
+    "content-hash": "7195bf6b5789d36c4eed7bf0538de511",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -7345,7 +7345,8 @@
                 "issues": "https://github.com/ZanichelliEditore/health-check/issues",
                 "source": "https://github.com/ZanichelliEditore/health-check/tree/v1.1.7"
             },
-            "time": "2026-05-28T06:43:37+00:00"
+            "time": "2026-05-28T06:43:37+00:00",
+            "published-time": "2026-05-28T06:44:52+00:00"
         },
         {
             "name": "zanichelli/idp-extensions",
