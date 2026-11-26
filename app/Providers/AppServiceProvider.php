@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
 use Dedoc\Scramble\Scramble;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Passport::$validateKeyPermissions = false;
+
         Queue::failing(function (JobFailed $failedJob) {
             Log::error("Job " . $failedJob->job->uuid() . " failed", [
                 "payload" => $failedJob->job->payload(),
