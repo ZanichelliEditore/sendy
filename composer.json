@@ -12,7 +12,6 @@
 		"dedoc/scramble": "^0.13",
 		"guzzlehttp/guzzle": "^7.9.2",
 		"laravel/framework": "^13.0",
-		"laravel/helpers": "^1.10",
 		"laravel/passport": "^13.0",
 		"laravel/telescope": "^5.18",
 		"predis/predis": "^2.0",

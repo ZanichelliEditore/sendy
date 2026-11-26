@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be246c354a2c4980e00a23b61146507f",
+    "content-hash": "412315873474c80bb7246fefe95cd628",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1683,64 +1683,6 @@
             },
             "time": "2026-11-24T16:10:06+00:00",
             "published-time": "2026-11-24T16:10:17+00:00"
-        },
-        {
-            "name": "laravel/helpers",
-            "version": "v1.10.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/helpers.git",
-                "reference": "b38daa16ea8d963635cb6a1ff09a5aa54abcdfab"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/helpers/zipball/b38daa16ea8d963635cb6a1ff09a5aa54abcdfab",
-                "reference": "b38daa16ea8d963635cb6a1ff09a5aa54abcdfab",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "^12.0|^13.0",
-                "php": "^8.2"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^11.5.50|^12.5.8"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylor@laravel.com"
-                },
-                {
-                    "name": "Dries Vints",
-                    "email": "dries@laravel.com"
-                }
-            ],
-            "description": "Provides backwards compatibility for helpers in the latest Laravel release.",
-            "keywords": [
-                "helpers",
-                "laravel"
-            ],
-            "support": {
-                "source": "https://github.com/laravel/helpers/tree/v1.10.0"
-            },
-            "time": "2026-11-11T14:11:53+00:00",
-            "published-time": "2026-11-17T15:16:22+00:00"
         },
         {
             "name": "laravel/passport",
